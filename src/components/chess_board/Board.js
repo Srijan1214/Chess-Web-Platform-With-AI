@@ -4,8 +4,8 @@ class Board extends React.Component {
 	constructor() {
 		super()
 		this.state = {
-			canvas_width: 1200,
-			canvas_height: 1200,
+			canvas_width: 600,
+			canvas_height: 600,
 			img_dict: {},
 			are_images_loaded: false,
 			first_load: 0,
@@ -114,6 +114,7 @@ class Board extends React.Component {
 
 		const loadImage = (piece) => new Promise(resolve => {
 			let img = new Image();
+			// img.src = "https://3ad579acbe8e.ngrok.io/resources/image/piece/" + piece;
 			img.src = "http://localhost:3001/resources/image/piece/" + piece;
 			img.draggable = "true"
 			img.name = piece
@@ -168,12 +169,10 @@ class Board extends React.Component {
 				let y = event.clientY - rect.top;
 
 				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.width
+				let canvas_height = event.currentTarget.height
 
-				//Duck
-				/////Need to change the constant
-				x = x * canvas_width / 1200
-				y = y * canvas_height / 1200
+				x = x * canvas_width / this.state.canvas_width
+				y = y * canvas_height / this.state.canvas_height
 
 				let r = parseInt((x / (canvas_width - 1)) * 8)
 				let c = parseInt((y / (canvas_height - 1)) * 8)
@@ -207,12 +206,12 @@ class Board extends React.Component {
 				let y = event.clientY - rect.top;
 
 				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.width
+				let canvas_height = event.currentTarget.height
 
 				//Duck
 				/////Need to change the constant
-				x = x * canvas_width / 1200
-				y = y * canvas_height / 1200
+				x = x * canvas_width / this.state.canvas_width
+				y = y * canvas_height / this.state.canvas_height
 
 				this.setState((prevState) => {
 					let newState = prevState
@@ -233,12 +232,12 @@ class Board extends React.Component {
 				let y = event.clientY - rect.top;
 
 				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.width
+				let canvas_height = event.currentTarget.height
 
 				//Duck
 				/////Need to change the constant
-				x = x * canvas_width / 1200
-				y = y * canvas_height / 1200
+				x = x * canvas_width / this.state.canvas_width
+				y = y * canvas_height / this.state.canvas_height
 
 				let r = parseInt((x / (canvas_width - 1)) * 8)
 				let c = parseInt((y / (canvas_height - 1)) * 8)
