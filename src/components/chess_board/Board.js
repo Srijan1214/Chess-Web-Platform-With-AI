@@ -1,30 +1,26 @@
 import React from "react"
+import _ from "lodash"
 
 class Board extends React.Component {
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
+		const startPosition =[
+		[15, 13, 13.5, 19, 14, 13.5, 13, 15],
+		[11, 11, 11, 11, 11, 11, 11, 11],
+		[0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0, 0, 0, 0],
+		[1, 1, 1, 1, 1, 1, 1, 1],
+		[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
 		this.state = {
-			canvas_width: 600,
-			canvas_height: 600,
+			canvas_width: props.width,
+			canvas_height: props.height,
 			img_dict: {},
 			are_images_loaded: false,
 			first_load: 0,
-			curPosition: [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-			[11, 11, 11, 11, 11, 11, 11, 11],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[1, 1, 1, 1, 1, 1, 1, 1],
-			[5, 3, 3.5, 9, 4, 3.5, 3, 5]],
-			positions: [[[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-			[11, 11, 11, 11, 11, 11, 11, 11],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[1, 1, 1, 1, 1, 1, 1, 1],
-			[5, 3, 3.5, 9, 4, 3.5, 3, 5]]],
+			curPosition:startPosition,
+			positions: [startPosition],
 			position_index: 0,
 			dragging: false,
 			image_list: [],
@@ -131,12 +127,11 @@ class Board extends React.Component {
 			images.forEach(image => {
 				img_dict[image.name] = image
 			});
-			this.setState(prevState => {
-				let newState = prevState
-				newState.img_dict = img_dict
-				newState.are_images_loaded = true
-				newState.first_load += 1
-				return newState
+
+			this.setState({
+				img_dict: img_dict,
+				are_images_loaded : true,
+				first_load: this.state.first_load + 1
 			})
 		}))
 	}
@@ -177,23 +172,24 @@ class Board extends React.Component {
 				let r = parseInt((x / (canvas_width - 1)) * 8)
 				let c = parseInt((y / (canvas_height - 1)) * 8)
 
-				this.setState((prevState) => {
-					let newState = prevState
-					newState.dragging = true
-					newState.first_load += 1
-					if (this.state.curPosition[c][r] !== 0) {
-						newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[c][r]]]
-						newState.old_image_value = newState.curPosition[c][r]
-						newState.curPosition[c][r] = 0
-						newState.old_image_position[0] = c
-						newState.old_image_position[1] = r
-					}
-					newState.current_image_position[0] = x
-					newState.current_image_position[1] = y
-					return newState
-				})
+				const newState = {}
+				newState.dragging = true
+				newState.first_load = this.state.first_load + 1
+				if (this.state.curPosition[c][r] !== 0) {
+					newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[c][r]]]
+					newState.old_image_value = this.state.curPosition[c][r]
+					// clone deep is important as we do not wish to manipulate the previous reference. 
+					// i.e we will alter the positions array as this.state.curPosition exists inside positions
+					newState.curPosition = _.cloneDeep(this.state.curPosition)
+					newState.curPosition[c][r] = 0
+					newState.old_image_position = [c,r]
+				}
+				newState.current_image_position = [x, y]
+				this.setState(newState)
 			} else if (event.buttons === 3) {
-				this.cancelMove()
+				const newState = {}
+				this.cancelMove(newState)
+				this.setState(newState)
 			}
 		}
 	}
@@ -208,18 +204,12 @@ class Board extends React.Component {
 				let canvas_width = event.currentTarget.width
 				let canvas_height = event.currentTarget.height
 
-				//Duck
-				/////Need to change the constant
 				x = x * canvas_width / this.state.canvas_width
 				y = y * canvas_height / this.state.canvas_height
 
-				this.setState((prevState) => {
-					let newState = prevState
-					newState.current_image_position[0] = x
-					newState.current_image_position[1] = y
-					return newState
-				})
-
+				const newState = {}
+				newState.current_image_position = [x,y]
+				this.setState(newState)
 			}
 		}
 	}
@@ -234,76 +224,36 @@ class Board extends React.Component {
 				let canvas_width = event.currentTarget.width
 				let canvas_height = event.currentTarget.height
 
-				//Duck
-				/////Need to change the constant
 				x = x * canvas_width / this.state.canvas_width
 				y = y * canvas_height / this.state.canvas_height
 
 				let r = parseInt((x / (canvas_width - 1)) * 8)
 				let c = parseInt((y / (canvas_height - 1)) * 8)
 
-				this.setState((prevState) => {
-					let newState = prevState
-					let shouldCancelMove = (((newState.curPosition[c][r] < 10 && newState.curPosition[c][r] !== 0)
-						&& newState.old_image_value < 10) ||
-						(newState.curPosition[c][r] > 10 && newState.old_image_value > 10)) &&
-						(!(newState.old_image_position[0] === c && (newState.old_image_position[1] === r)))
-						&& this.state.dragging
+				const newState = {}
+				let shouldCancelMove = (((this.state.curPosition[c][r] < 10 && this.state.curPosition[c][r] !== 0)
+					&& this.state.old_image_value < 10) ||
+					(this.state.curPosition[c][r] > 10 && this.state.old_image_value > 10)) &&
+					(!(this.state.old_image_position[0] === c && (this.state.old_image_position[1] === r)))
+					&& this.state.dragging
 
-					if (shouldCancelMove) {
-						newState.curPosition[newState.old_image_position[0]][newState.old_image_position[1]] = newState.old_image_value
-						newState.dragging = false
-						newState.current_image = null
-						newState.old_image_value = 0
-					}
-					if (newState.old_image_value !== 0) {
-						newState.curPosition[c][r] = newState.old_image_value
-						if (!(c === newState.old_image_position[0] && r === newState.old_image_position[1])) {
-							let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-							[11, 11, 11, 11, 11, 11, 11, 11],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[0, 0, 0, 0, 0, 0, 0, 0],
-							[1, 1, 1, 1, 1, 1, 1, 1],
-							[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-							for (let i = 0; i < temp.length; i++) {
-								for (let j = 0; j < temp[i].length; j++) {
-									temp[i][j] = newState.curPosition[i][j]
-								}
-							}
-							if (newState.positions.length === newState.position_index + 1) {
-								newState.positions = newState.positions.concat([temp])
-							} else {
-								newState.positions = newState.positions.map((ele, index) => {
-									if (index === newState.position_index + 1) {
-										return temp
-									} else {
-										let temp2 = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-										[11, 11, 11, 11, 11, 11, 11, 11],
-										[0, 0, 0, 0, 0, 0, 0, 0],
-										[0, 0, 0, 0, 0, 0, 0, 0],
-										[0, 0, 0, 0, 0, 0, 0, 0],
-										[0, 0, 0, 0, 0, 0, 0, 0],
-										[1, 1, 1, 1, 1, 1, 1, 1],
-										[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-										for (let i = 0; i < temp.length; i++) {
-											for (let j = 0; j < temp[i].length; j++) {
-												temp2[i][j] = ele[i][j]
-											}
-										}
-										return temp2
-									}
-								})
-							}
-							newState.position_index++
+				if (shouldCancelMove) { this.cancelMove(newState)}
+				if (this.state.old_image_value !== 0) {
+					newState.curPosition = this.state.curPosition
+					newState.curPosition[c][r] = this.state.old_image_value
+					if (!(c === this.state.old_image_position[0] && r === this.state.old_image_position[1])) {
+						if (this.state.positions.length === this.state.position_index + 1) {
+							newState.positions = [...this.state.positions].concat([_.cloneDeep(this.state.curPosition)])
+						} else {
+							newState.positions = [...(this.state.positions.slice(0,this.state.position_index + 1))].concat([_.cloneDeep(this.state.curPosition)])
 						}
+						newState.position_index = this.state.position_index + 1
 					}
-					newState.current_image = null
-					newState.old_image_value = 0
-					newState.dragging = false
-					return newState
-				})
+				}
+				newState.current_image = null
+				newState.old_image_value = 0
+				newState.dragging = false
+				this.setState(newState)
 			}
 		}
 	}
@@ -318,107 +268,43 @@ class Board extends React.Component {
 		if (this) {
 			if (event.key === "ArrowRight") {
 				if (this.state.position_index < this.state.positions.length - 1) {
-					this.setState((prevState) => {
-						let newState = prevState
-						newState.position_index++
-						let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-						[11, 11, 11, 11, 11, 11, 11, 11],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[1, 1, 1, 1, 1, 1, 1, 1],
-						[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-						for (let i = 0; i < temp.length; i++) {
-							for (let j = 0; j < temp[i].length; j++) {
-								temp[i][j] = newState.positions[newState.position_index][i][j]
-							}
-						}
-						newState.curPosition = temp
-						return newState
-					})
+					const newState = {}
+					newState.position_index = this.state.position_index + 1;
+					newState.curPosition = this.state.positions[newState.position_index]
+					this.setState(newState)
 				}
 			} else if (event.key === "ArrowLeft") {
-
 				if (this.state.position_index > 0) {
-					this.setState((prevState) => {
-						let newState = prevState
-						newState.position_index--
-						let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-						[11, 11, 11, 11, 11, 11, 11, 11],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[1, 1, 1, 1, 1, 1, 1, 1],
-						[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-						for (let i = 0; i < temp.length; i++) {
-							for (let j = 0; j < temp[i].length; j++) {
-								temp[i][j] = newState.positions[newState.position_index][i][j]
-							}
-						}
-						newState.curPosition = temp
-						return newState
-					})
+					const newState = {}
+					newState.position_index = this.state.position_index - 1
+					newState.curPosition = this.state.positions[newState.position_index]
+					this.setState(newState)
 				}
 			} else if (event.key === "ArrowUp") {
 				if (this.state.positions.length > 0) {
-					this.setState((prevState) => {
-						let newState = prevState
-						newState.position_index = newState.positions.length - 1
-						let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-						[11, 11, 11, 11, 11, 11, 11, 11],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[1, 1, 1, 1, 1, 1, 1, 1],
-						[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-						for (let i = 0; i < temp.length; i++) {
-							for (let j = 0; j < temp[i].length; j++) {
-								temp[i][j] = newState.positions[newState.position_index][i][j]
-							}
-						}
-						newState.curPosition = temp
-						return newState
-					})
+					const newState = {}
+					newState.position_index = this.state.positions.length - 1
+					newState.curPosition = this.state.positions[newState.position_index]
+					this.setState(newState)
 				}
 			} else if (event.key === "ArrowDown") {
 				if (this.state.positions.length > 0) {
-					this.setState((prevState) => {
-						let newState = prevState
-						newState.position_index = 0
-						let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-						[11, 11, 11, 11, 11, 11, 11, 11],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[0, 0, 0, 0, 0, 0, 0, 0],
-						[1, 1, 1, 1, 1, 1, 1, 1],
-						[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-						for (let i = 0; i < temp.length; i++) {
-							for (let j = 0; j < temp[i].length; j++) {
-								temp[i][j] = newState.positions[newState.position_index][i][j]
-							}
-						}
-						newState.curPosition = temp
-						return newState
-					})
+					const newState = {}
+					newState.position_index = 0
+					newState.curPosition = this.state.positions[newState.position_index]
+					this.setState(newState)
 				}
 			}
 		}
 	}
 
-	cancelMove() {
+	cancelMove(newState) {
 		if (this.state.old_image_value !== 0) {
-			this.setState((prevState) => {
-				let newState = prevState
-				newState.curPosition[newState.old_image_position[0]][newState.old_image_position[1]] = newState.old_image_value
-				newState.dragging = false
-				newState.current_image = null
-				newState.old_image_value = 0
-				return newState
-			})
+			newState.curPosition = _.cloneDeep(this.state.curPosition)
+			newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = this.state.old_image_value
+			newState.dragging = false
+			newState.current_image = null
+			newState.old_image_value = 0
 		}
 	}
 
@@ -426,26 +312,14 @@ class Board extends React.Component {
 		let row = 8 - parseInt(new_location[1])
 		let column = (new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
-		this.setState((prevState) => {
-			let newState = prevState
-			let temp = [[15, 13, 13.5, 19, 14, 13.5, 13, 15],
-			[11, 11, 11, 11, 11, 11, 11, 11],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0],
-			[1, 1, 1, 1, 1, 1, 1, 1],
-			[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
-			for (let i = 0; i < temp.length; i++) {
-				for (let j = 0; j < temp[i].length; j++) {
-					temp[i][j] = newState.curPosition[i][j]
-				}
-			}
-			temp[row][column] = value
-			newState.positions = newState.positions.concat([temp])
-			newState.curPosition = temp
-			return newState
-		})
+		let newState = {}
+		// clone deep is important as we do not wish to manipulate the previous reference. 
+		// i.e we might alter the positions array as this.state.curPosition exists inside positions
+		const temp = _.cloneDeep(this.state.curPosition)
+		temp[row][column] = value
+		newState.positions = this.state.positions.concat([temp])
+		newState.curPosition = temp
+		this.setState(newState)
 	}
 
 	makeMove(prev_location, new_location) {

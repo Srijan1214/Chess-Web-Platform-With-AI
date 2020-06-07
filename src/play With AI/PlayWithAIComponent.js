@@ -5,7 +5,7 @@ class PlayWithAIComponent extends React.Component{
 	render() {
 		return (
 			<div>
-				<Board />
+				<Board height = {600} width = {600}/>
 			</div>
 		)
 	}
