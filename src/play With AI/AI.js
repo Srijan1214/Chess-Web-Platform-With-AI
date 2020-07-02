@@ -13,7 +13,7 @@ export const initialize_position = (position) => {
 }
 
 export function give_a_move(board_arr, isWhiteTurn) {
-	const depth = 2
+	const depth = 1
 	let min_eval = 100000 // a very large eval
 	let best_move = {}
 	convert_board_to_ascii(board_arr, isWhiteTurn)

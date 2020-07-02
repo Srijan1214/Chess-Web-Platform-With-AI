@@ -1,7 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import {asd} from "./basic_methods"
-import {convert_fileRank_to_rowCol, convert_rowCol_to_fileRank} from "../../utility_functions/Utility"
+import * as Board_input_handlers from "./Board_input_handlers"
 
 class Board extends React.Component {
 	constructor(props) {
@@ -37,6 +36,11 @@ class Board extends React.Component {
 			14: "black_king", 1: "white_pawn", 11: "black_pawn"
 		}
 		this.chess_board_canvas = React.createRef();
+		this.mouseClickHandler = Board_input_handlers.Outside_mouseClickHandler.bind(this)
+		this.mouseDragHandler = Board_input_handlers.Outside_mouseDragHandler.bind(this)
+		this.mouseUpHandler = Board_input_handlers.Outside_mouseUpHandler.bind(this)
+		this.MouseRightClickHandler = Board_input_handlers.Outside_MouseRightClickHandler.bind(this)
+		this.KeyboardPressHandler = Board_input_handlers.Outside_KeyboardPressHandler.bind(this)
 	}
 
 	componentDidMount() {
@@ -51,11 +55,6 @@ class Board extends React.Component {
 		}
 		fix_dpi()
 		this.draw_board(canvas)
-		// this.mouseClickHandler = this.mouseClickHandler.bind(this)
-		// this.mouseDragHandler = this.mouseDragHandler.bind(this)
-		// this.mouseUpHandler = this.mouseUpHandler.bind(this)
-		// this.MouseRightClickHandler = this.MouseRightClickHandler.bind(this)
-		// this.KeyboardPressHandler = this.KeyboardPressHandler.bind(this)
 	}
 
 	componentDidUpdate() {
@@ -158,159 +157,6 @@ class Board extends React.Component {
 		}
 	}
 
-	mouseClickHandler = (event)=> {
-		if (this) {
-			if (event.buttons === 1) {
-				let rect = event.currentTarget.getBoundingClientRect();
-				let x = event.clientX - rect.left;
-				let y = event.clientY - rect.top;
-
-				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.height
-
-				x = x * canvas_width / this.state.canvas_width
-				y = y * canvas_height / this.state.canvas_height
-
-				let r = parseInt((x / (canvas_width - 1)) * 8)
-				let c = parseInt((y / (canvas_height - 1)) * 8)
-
-				const newState = {}
-				newState.dragging = true
-				newState.first_load = this.state.first_load + 1
-				if (this.state.curPosition[c][r] !== 0) {
-					newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[c][r]]]
-					newState.old_image_value = this.state.curPosition[c][r]
-					// clone deep is important as we do not wish to manipulate the previous reference. 
-					// i.e we will alter the positions array as this.state.curPosition exists inside positions
-					newState.curPosition = _.cloneDeep(this.state.curPosition)
-					newState.curPosition[c][r] = 0
-					newState.old_image_position = [c,r]
-				}
-				newState.current_image_position = [x, y]
-				this.setState(newState)
-			} else if (event.buttons === 3) {
-				const newState = {}
-				this.cancelMove(newState)
-				this.setState(newState)
-			}
-		}
-	}
-
-	mouseDragHandler = (event)=> {
-		if (this && event.buttons === 1) {
-			if (this.state.dragging) {
-				let rect = event.currentTarget.getBoundingClientRect();
-				let x = event.clientX - rect.left;
-				let y = event.clientY - rect.top;
-
-				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.height
-
-				x = x * canvas_width / this.state.canvas_width
-				y = y * canvas_height / this.state.canvas_height
-
-				const newState = {}
-				newState.current_image_position = [x,y]
-				this.setState(newState)
-			}
-		}
-	}
-
-	mouseUpHandler = (event)=> {
-		if (this) {
-			if (event.buttons === 0) {
-				let rect = event.currentTarget.getBoundingClientRect();
-				let x = event.clientX - rect.left;
-				let y = event.clientY - rect.top;
-
-				let canvas_width = event.currentTarget.width
-				let canvas_height = event.currentTarget.height
-
-				x = x * canvas_width / this.state.canvas_width
-				y = y * canvas_height / this.state.canvas_height
-
-				let r = parseInt((x / (canvas_width - 1)) * 8)
-				let c = parseInt((y / (canvas_height - 1)) * 8)
-
-				const newState = {}
-				let shouldCancelMove = (((this.state.curPosition[c][r] < 10 && this.state.curPosition[c][r] !== 0)
-					&& this.state.old_image_value < 10) ||
-					(this.state.curPosition[c][r] > 10 && this.state.old_image_value > 10)) &&
-					(!(this.state.old_image_position[0] === c && (this.state.old_image_position[1] === r)))
-					&& this.state.dragging
-				const new_location = convert_rowCol_to_fileRank(c, r)
-				const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
-				shouldCancelMove = shouldCancelMove || !this.props.check_if_valid_move(prev_location, new_location)
-				if (shouldCancelMove) {
-					this.cancelMove(newState) 
-					newState.current_image = null
-					newState.old_image_value = 0
-					newState.dragging = false
-					this.setState(newState)
-					return
-				}
-				if (this.state.old_image_value !== 0) {
-					newState.curPosition = _.cloneDeep(this.state.curPosition)
-					newState.curPosition[c][r] = this.state.old_image_value
-					if (!(c === this.state.old_image_position[0] && r === this.state.old_image_position[1])) {
-						if (this.state.positions.length === this.state.position_index + 1) {// a new move
-							newState.positions = [...this.state.positions].concat([newState.curPosition])
-						} else {// delete old branch and overwrtie with this branch
-							newState.positions = [...(this.state.positions.slice(0,this.state.position_index + 1))].concat([newState.curPosition])
-						}
-						newState.position_index = this.state.position_index + 1
-						if(!shouldCancelMove)
-						this.props.givePlayedMove(prev_location, new_location)
-					}
-				}
-				newState.current_image = null
-				newState.old_image_value = 0
-				newState.dragging = false
-				this.setState(newState)
-			}
-		}
-	}
-
-	MouseRightClickHandler = (event)=> {
-		if (this) {
-			event.preventDefault()
-		}
-	}
-
-	KeyboardPressHandler = (event)=> {
-		if (this) {
-			if (event.key === "ArrowRight") {
-				if (this.state.position_index < this.state.positions.length - 1) {
-					const newState = {}
-					newState.position_index = this.state.position_index + 1;
-					newState.curPosition = this.state.positions[newState.position_index]
-					this.setState(newState)
-				}
-			} else if (event.key === "ArrowLeft") {
-				if (this.state.position_index > 0) {
-					const newState = {}
-					newState.position_index = this.state.position_index - 1
-					newState.curPosition = this.state.positions[newState.position_index]
-					this.setState(newState)
-				}
-			} else if (event.key === "ArrowUp") {
-				if (this.state.positions.length > 0) {
-					const newState = {}
-					newState.position_index = this.state.positions.length - 1
-					newState.curPosition = this.state.positions[newState.position_index]
-					this.setState(newState)
-				}
-			} else if (event.key === "ArrowDown") {
-				if (this.state.positions.length > 0) {
-					const newState = {}
-					newState.position_index = 0
-					newState.curPosition = this.state.positions[newState.position_index]
-					this.setState(newState)
-				}
-			}
-		}
-	}
-
 	cancelMove(newState) {
 		if (this.state.old_image_value !== 0) {
 			newState.curPosition = _.cloneDeep(this.state.curPosition)
@@ -354,11 +200,6 @@ class Board extends React.Component {
 			this.setState(newState)
 		},1200)
 	}
-
-	getMoveNumber(){
-		return this.state.positions.length
-	}
-
 }
 
 

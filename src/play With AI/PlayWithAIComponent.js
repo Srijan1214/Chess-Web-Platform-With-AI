@@ -1,7 +1,6 @@
 import React from "react"
 import Board from "../components/chess_board/Board"
 import _ from "lodash"
-// import { give_a_move, initialize_chess } from "./AI"
 import * as Chess from "chess.js"
 import { convert_fileRank_to_rowCol, convert_rowCol_to_fileRank } from "../utility_functions/Utility"
 import { give_a_move } from "./AI"
@@ -31,15 +30,11 @@ class PlayWithAIComponent extends React.Component {
 			<div>
 				<
 					Board height={600} width={600} ref={this._board}
-					givePlayedMove={this.givePlayedMove}
+					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					check_if_valid_move={this.check_if_valid_move}
 				/>
 			</div>
 		)
-	}
-	componentDidMount() {
-		// setTimeout(this.getMoveFromAI, 3000)
-		// give_a_move()
 	}
 
 	getMoveFromAI = () => {
@@ -56,10 +51,9 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.makeMove(move.from, move.to)
 	}
 
-	givePlayedMove = (prev_location, new_location) => {
+	callback_to_indicate_move_is_played = (prev_location, new_location) => {
 		chess.move({ from: prev_location, to: new_location })
 		console.log(chess.ascii())
-		console.log(chess.board())
 
 		const { row: new_r, column: new_c } = convert_fileRank_to_rowCol(new_location)
 		const { row: prev_r, column: prev_c } = convert_fileRank_to_rowCol(prev_location)
