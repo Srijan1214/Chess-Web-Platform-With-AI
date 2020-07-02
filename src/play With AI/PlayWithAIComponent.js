@@ -71,8 +71,12 @@ class PlayWithAIComponent extends React.Component {
 		}
 		newState.cur_position = newPosition
 		this.setState(newState, () => {
+			//creating timeout to make it asyncronous and not block the main program
 			setTimeout(() => {
 				this.playMoveFromAI()
+				const newState = {}
+				newState.who_moves = !this.state.who_moves
+				this.setState(newState)
 			}, 10)
 		})
 	}

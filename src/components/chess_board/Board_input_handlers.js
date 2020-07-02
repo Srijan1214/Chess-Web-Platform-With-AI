@@ -14,20 +14,20 @@ export function Outside_mouseClickHandler(event) {
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
 
-			let r = parseInt((x / (canvas_width - 1)) * 8)
-			let c = parseInt((y / (canvas_height - 1)) * 8)
+			let r = parseInt((y / (canvas_height - 1)) * 8)
+			let c = parseInt((x / (canvas_width - 1)) * 8)
 
 			const newState = {}
 			newState.dragging = true
 			newState.first_load = this.state.first_load + 1
-			if (this.state.curPosition[c][r] !== 0) {
-				newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[c][r]]]
-				newState.old_image_value = this.state.curPosition[c][r]
+			if (this.state.curPosition[r][c] !== 0) {
+				newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[r][c]]]
+				newState.old_image_value = this.state.curPosition[r][c]
 				// clone deep is important as we do not wish to manipulate the previous reference. 
 				// i.e we will alter the positions array as this.state.curPosition exists inside positions
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
-				newState.curPosition[c][r] = 0
-				newState.old_image_position = [c, r]
+				newState.curPosition[r][c] = 0
+				newState.old_image_position = [r, c]
 			}
 			newState.current_image_position = [x, y]
 			this.setState(newState)
@@ -72,16 +72,16 @@ export function Outside_mouseUpHandler(event) {
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
 
-			let r = parseInt((x / (canvas_width - 1)) * 8)
-			let c = parseInt((y / (canvas_height - 1)) * 8)
+			let r = parseInt((y / (canvas_height - 1)) * 8)
+			let c = parseInt((x / (canvas_width - 1)) * 8)
 
 			const newState = {}
-			let shouldCancelMove = (((this.state.curPosition[c][r] < 10 && this.state.curPosition[c][r] !== 0)
+			let shouldCancelMove = (((this.state.curPosition[r][c] < 10 && this.state.curPosition[r][c] !== 0)
 				&& this.state.old_image_value < 10) ||
-				(this.state.curPosition[c][r] > 10 && this.state.old_image_value > 10)) &&
-				(!(this.state.old_image_position[0] === c && (this.state.old_image_position[1] === r)))
+				(this.state.curPosition[r][c] > 10 && this.state.old_image_value > 10)) &&
+				(!(this.state.old_image_position[0] === r && (this.state.old_image_position[1] === c)))
 				&& this.state.dragging
-			const new_location = convert_rowCol_to_fileRank(c, r)
+			const new_location = convert_rowCol_to_fileRank(r, c)
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			shouldCancelMove = shouldCancelMove || !this.props.check_if_valid_move(prev_location, new_location)
 			if (shouldCancelMove) {
@@ -94,8 +94,8 @@ export function Outside_mouseUpHandler(event) {
 			}
 			if (this.state.old_image_value !== 0) {
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
-				newState.curPosition[c][r] = this.state.old_image_value
-				if (!(c === this.state.old_image_position[0] && r === this.state.old_image_position[1])) {
+				newState.curPosition[r][c] = this.state.old_image_value
+				if (!(r === this.state.old_image_position[0] && c === this.state.old_image_position[1])) {
 					if (this.state.positions.length === this.state.position_index + 1) {// a new move
 						newState.positions = [...this.state.positions].concat([newState.curPosition])
 					} else {// delete old branch and overwrtie with this branch
@@ -107,6 +107,7 @@ export function Outside_mouseUpHandler(event) {
 				}
 			}
 			newState.current_image = null
+			newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = 0
 			newState.old_image_value = 0
 			newState.dragging = false
 			this.setState(newState)
