@@ -4,6 +4,9 @@ import {convert_fileRank_to_rowCol, convert_rowCol_to_fileRank} from "../../util
 export function Outside_mouseClickHandler(event) {
 	if (this) {
 		if (event.buttons === 1) {
+			if(this.state.should_block_user_input){
+				return
+			}
 			let rect = event.currentTarget.getBoundingClientRect();
 			let x = event.clientX - rect.left;
 			let y = event.clientY - rect.top;
@@ -123,6 +126,9 @@ export function Outside_MouseRightClickHandler(event) {
 
 export function Outside_KeyboardPressHandler(event) {
 	if (this) {
+		if(this.state.should_block_user_input){
+			return
+		}
 		if (event.key === "ArrowRight") {
 			if (this.state.position_index < this.state.positions.length - 1) {
 				const newState = {}

@@ -24,6 +24,7 @@ class Board extends React.Component {
 			positions: [startPosition],
 			position_index: 0,
 			dragging: false,
+			should_block_user_input: false,
 			image_list: [],
 			current_image: null,
 			current_image_position: [0, 0],
@@ -196,9 +197,19 @@ class Board extends React.Component {
 		temp[prev_row][prev_column] = 0
 		newState.positions = this.state.positions.concat([temp])
 		newState.curPosition = temp
-		setTimeout(()=> {
-			this.setState(newState)
-		},1200)
+		this.setState(newState)
+	}
+
+	block_user_input = () => {
+		const newState = {}
+		newState.should_block_user_input = true
+		this.setState(newState)
+	}
+
+	unblock_user_input = () => {
+		const newState = {}
+		newState.should_block_user_input = false
+		this.setState(newState)
 	}
 }
 

@@ -64,19 +64,16 @@ class PlayWithAIComponent extends React.Component {
 
 		const newState = {}
 		newState.who_moves = !this.state.who_moves
-		if (this.state.who_moves !== this.user_color) {
-			newState.should_block_all_user_moves = true
-		} else {
-			newState.should_block_all_user_moves = false
-		}
 		newState.cur_position = newPosition
 		this.setState(newState, () => {
 			//creating timeout to make it asyncronous and not block the main program
+			// TODO might user worker later but it is a big pain to implement.
 			setTimeout(() => {
+				this._board.current.block_user_input()
 				this.playMoveFromAI()
 				const newState = {}
 				newState.who_moves = !this.state.who_moves
-				this.setState(newState)
+				this.setState(newState, () => {this._board.current.unblock_user_input()})
 			}, 10)
 		})
 	}

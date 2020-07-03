@@ -18,12 +18,9 @@ export function give_a_move(board_arr, isWhiteTurn) {
 	let best_move = {}
 	convert_board_to_ascii(board_arr, isWhiteTurn)
 	const legal_moves = chess.moves({ verbose: true })
-	console.log(chess.ascii())
-	console.log(legal_moves)
 	for(let move of legal_moves){
 		const new_board = makeMove(move.from, move.to, board_arr)
 		const pos_evaluation = bfs_until_required_depth(new_board, !isWhiteTurn, depth, depth)
-		console.log(pos_evaluation)
 		if(pos_evaluation < min_eval){
 			min_eval = pos_evaluation
 			best_move = move
