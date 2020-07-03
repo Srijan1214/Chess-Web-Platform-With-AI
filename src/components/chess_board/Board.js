@@ -196,6 +196,7 @@ class Board extends React.Component {
 		temp[new_row][new_column] = this.state.curPosition[prev_row][prev_column]
 		temp[prev_row][prev_column] = 0
 		newState.positions = this.state.positions.concat([temp])
+		newState.position_index = this.state.position_index + 1
 		newState.curPosition = temp
 		this.setState(newState)
 	}

@@ -39,7 +39,7 @@ class PlayWithAIComponent extends React.Component {
 
 	getMoveFromAI = () => {
 		const temp = _.cloneDeep(this._board.current.state.curPosition)
-		console.log(temp, chess.turn())
+		// console.log(temp, chess.turn())
 		const move = give_a_move(temp, chess.turn() == 'w')
 		return move
 	}
