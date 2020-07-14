@@ -1,5 +1,11 @@
 import _ from "lodash"
-import {convert_fileRank_to_rowCol, convert_rowCol_to_fileRank} from "../../utility_functions/Utility"
+import {
+	convert_rowCol_to_fileRank,
+	get_black_king_side_castle_array,
+	get_white_king_side_castle_array,
+	get_black_queen_side_castle_array,
+	get_white_queen_side_castle_array,
+} from "../../utility_functions/Utility.js"
 
 export function Outside_mouseClickHandler(event) {
 	if (this) {
@@ -86,7 +92,9 @@ export function Outside_mouseUpHandler(event) {
 				&& this.state.dragging
 			const new_location = convert_rowCol_to_fileRank(r, c)
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
-			shouldCancelMove = shouldCancelMove || !this.props.check_if_valid_move(prev_location, new_location)
+			const moveStatus = this.props.get_move_status(prev_location, new_location)
+			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
+			const isCastleMove = moveStatus.castle_move
 			if (shouldCancelMove) {
 				this.cancelMove(newState)
 				newState.current_image = null
@@ -98,6 +106,17 @@ export function Outside_mouseUpHandler(event) {
 			if (this.state.old_image_value !== 0) {
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
 				newState.curPosition[r][c] = this.state.old_image_value
+				if(isCastleMove){
+					if(new_location === 'g1') {
+						newState.curPosition = get_white_king_side_castle_array(newState.curPosition)
+					}else if (new_location === 'c1'){
+						newState.curPosition = get_white_queen_side_castle_array(newState.curPosition)
+					}else if (new_location === 'g8') {
+						newState.curPosition = get_black_king_side_castle_array(newState.curPosition)
+					}else if (new_location === 'c8'){
+						newState.curPosition = get_black_queen_side_castle_array(newState.curPosition)
+					}
+				}
 				if (!(r === this.state.old_image_position[0] && c === this.state.old_image_position[1])) {
 					if (this.state.positions.length === this.state.position_index + 1) {// a new move
 						newState.positions = [...this.state.positions].concat([newState.curPosition])
@@ -105,15 +124,20 @@ export function Outside_mouseUpHandler(event) {
 						newState.positions = [...(this.state.positions.slice(0, this.state.position_index + 1))].concat([newState.curPosition])
 					}
 					newState.position_index = this.state.position_index + 1
-					if (!shouldCancelMove)
-						this.props.callback_to_indicate_move_is_played(prev_location, new_location)
 				}
 			}
 			newState.current_image = null
 			newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = 0
 			newState.old_image_value = 0
 			newState.dragging = false
-			this.setState(newState)
+			this.setState(newState, () => {
+				if (!shouldCancelMove) {
+					this.props.callback_to_indicate_move_is_played(
+						prev_location,
+						new_location
+					)
+				}
+			})
 		}
 	}
 }

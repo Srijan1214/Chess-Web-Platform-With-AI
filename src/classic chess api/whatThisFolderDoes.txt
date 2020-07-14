@@ -1,0 +1,1 @@
+This folder is made to implement the rules and logic behind the classical chess game between two players and give a api to the rest of the program.

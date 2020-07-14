@@ -4,6 +4,9 @@ import _ from "lodash"
 import * as Chess from "chess.js"
 import { convert_fileRank_to_rowCol, convert_rowCol_to_fileRank } from "../utility_functions/Utility"
 import { give_a_move } from "./AI"
+import GameBoard from "../classic chess api/board.js"
+import AI from "../classic chess api/search.js"
+
 const chess = new Chess()
 
 class PlayWithAIComponent extends React.Component {
@@ -11,6 +14,8 @@ class PlayWithAIComponent extends React.Component {
 		super(props)
 		this._board = React.createRef()
 		this.user_color = 0 //make player only white for now
+		this.GameBoard = new GameBoard()
+		this.standard_ai = new AI(this.GameBoard)
 		this.state = {
 			who_moves: 0, // which color's turn is it right now
 			should_block_all_user_moves: false,
@@ -31,7 +36,7 @@ class PlayWithAIComponent extends React.Component {
 				<
 					Board height={600} width={600} ref={this._board}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
-					check_if_valid_move={this.check_if_valid_move}
+					get_move_status={this.get_move_status}
 				/>
 			</div>
 		)
@@ -40,20 +45,37 @@ class PlayWithAIComponent extends React.Component {
 	getMoveFromAI = () => {
 		const temp = _.cloneDeep(this._board.current.state.curPosition)
 		// console.log(temp, chess.turn())
-		const move = give_a_move(temp, chess.turn() == 'w')
+		// const move = give_a_move(temp, chess.turn() == 'w')
+		const move = this.standard_ai.SearchPosition()
 		return move
 	}
 
 	playMoveFromAI = () => {
 		const move = this.getMoveFromAI()
-		chess.move(move)
+		// chess.move(move)
 		console.log(move)
-		this._board.current.makeMove(move.from, move.to)
+		if(move.isCastling){
+			if(move.to === 'g1') {
+				this._board.current.perform_white_king_side_castle(this._board.current.state.curPosition)
+			}else if (move.to === 'c1'){
+				this._board.current.perform_white_queen_side_castle(this._board.current.state.curPosition)
+			}else if (move.to === 'g8') {
+				this._board.current.perform_black_king_side_castle(this._board.current.state.curPosition)
+			}else if (move.to === 'c8'){
+				this._board.current.perform_black_queen_side_castle(this._board.current.state.curPosition)
+			}
+		}else {
+			this._board.current.makeMove(move.from, move.to)
+		}
+		this.GameBoard.MakeMove(move.move)
+		this.GameBoard.PrintBoard()
 	}
 
 	callback_to_indicate_move_is_played = (prev_location, new_location) => {
-		chess.move({ from: prev_location, to: new_location })
-		console.log(chess.ascii())
+		// chess.move({ from: prev_location, to: new_location })
+		const moveStatus = this.GameBoard.move_piece(prev_location, new_location)
+		this.GameBoard.PrintBoard()
+		// console.log(chess.ascii())
 
 		const { row: new_r, column: new_c } = convert_fileRank_to_rowCol(new_location)
 		const { row: prev_r, column: prev_c } = convert_fileRank_to_rowCol(prev_location)
@@ -78,17 +100,8 @@ class PlayWithAIComponent extends React.Component {
 		})
 	}
 
-	check_if_valid_move = (prev_location, new_location) => {
-		if (prev_location === new_location) {
-			return false
-		}
-		const valid_moves = chess.moves({ verbose: true })
-		for (const ele of valid_moves) {
-			if (ele.from == prev_location && ele.to == new_location) {
-				return true
-			}
-		}
-		return false
+	get_move_status = (prev_location, new_location) => {
+		return this.GameBoard.get_move_status(prev_location, new_location)
 	}
 }
 

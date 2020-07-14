@@ -1,6 +1,7 @@
 import React from "react"
 import _ from "lodash"
 import * as Board_input_handlers from "./Board_input_handlers"
+import * as Board_castle_performers from "./perform_castles"
 
 class Board extends React.Component {
 	constructor(props) {
@@ -42,6 +43,12 @@ class Board extends React.Component {
 		this.mouseUpHandler = Board_input_handlers.Outside_mouseUpHandler.bind(this)
 		this.MouseRightClickHandler = Board_input_handlers.Outside_MouseRightClickHandler.bind(this)
 		this.KeyboardPressHandler = Board_input_handlers.Outside_KeyboardPressHandler.bind(this)
+
+		// castling function
+		this.perform_white_king_side_castle = Board_castle_performers.perform_white_king_side_castle.bind(this)
+		this.perform_white_queen_side_castle = Board_castle_performers.perform_white_queen_side_castle.bind(this)
+		this.perform_black_king_side_castle = Board_castle_performers.perform_black_king_side_castle.bind(this)
+		this.perform_black_queen_side_castle = Board_castle_performers.perform_black_queen_side_castle.bind(this)
 	}
 
 	componentDidMount() {
