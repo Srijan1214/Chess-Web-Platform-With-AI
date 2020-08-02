@@ -1,0 +1,83 @@
+.board_canvas_wrapper{
+	position: relative;
+}
+
+.opaque_filler{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: black;
+	opacity: 0.8;
+	z-index: 3;
+}
+
+#canvas_id{
+	z-index: 2;
+	/* height: 95%; */
+	width: 100%;
+	top:0;
+	position: absolute;
+}
+
+.button_wrapper{
+	position: absolute;
+	height: 14%;
+	width: 32%;
+}
+
+#restart_id{
+	top: 30%;
+	left: 50%;
+}
+
+#analyze_id{
+	top: 50%;
+	left: 50%;
+}
+
+#main_page_id{
+	top: 70%;
+	left: 50%;
+}
+
+.canvas_button{
+	z-index: 3;
+	position: relative;
+	top: -50%;
+	left: -50%;
+	height: 100%;
+	width: 100%;
+	border-radius: 40px;
+	cursor: pointer;
+	outline: none;
+}
+
+.bordered{
+	border: 1px solid;
+}
+
+.none_display{
+	display: none;
+}
+
+#draw_resign_div_id{
+	/* {height:"10%", width: "100%", top:"90%", backgroundColor: "blue", position: "absolute"} */
+	height: 10%;
+	width: 100%;
+	top: 90%;
+	background-color: darkslategray;
+	position: absolute;
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.draw_resign_button{
+	height: 60%;
+	width: 20%;
+	margin: auto;
+	border-radius: 40px;
+	cursor: pointer;
+	outline: none;
+}

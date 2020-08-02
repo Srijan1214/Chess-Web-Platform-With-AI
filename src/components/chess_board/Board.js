@@ -83,7 +83,8 @@ class Board extends React.Component {
 	}
 
 	render() {
-		const styling = { height: this.state.canvas_height, width: this.state.canvas_width, margins: 0, padding: 0 }
+		// const styling = { height: this.state.canvas_height, width: this.state.canvas_width, padding: 0, backgroundColor: "#333"}
+		const styling = { height: this.state.canvas_height, width: this.state.canvas_width, margins: 0, padding: 0, backgroundColor: "darkgrey" }
 		return (
 			<div>
 				<canvas id="chess_board" style={styling} ref={this.chess_board_canvas} onMouseDown={this.mouseClickHandler}
@@ -119,7 +120,7 @@ class Board extends React.Component {
 
 		const loadImage = (piece) => new Promise(resolve => {
 			let img = new Image();
-			// img.src = "https://3ad579acbe8e.ngrok.io/resources/image/piece/" + piece;
+			// img.src = "https://short-newt-45.serverless.social/resources/image/piece/" + piece;
 			img.src = "http://localhost:3001/resources/image/piece/" + piece;
 			img.draggable = "true"
 			img.name = piece

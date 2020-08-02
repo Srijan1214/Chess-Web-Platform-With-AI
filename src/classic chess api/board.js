@@ -3,7 +3,8 @@ import * as makeMove from "./makeMove.js"
 import * as Outside_function from "./board_utility_functions.js"
 import * as debug_io from "./io.js"
 import { get_move_status, move_piece } from "./moveParser.js"
-import { BRD_SQ_NUM,	COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
+import * as gameEndCheckers from "./gameEndCheckerFunctions.js"
+import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
 
 export default class GameBoard {
 	pieces = new Array(BRD_SQ_NUM)
@@ -67,6 +68,12 @@ export default class GameBoard {
 		// MoveParser function
 		this.get_move_status = get_move_status.bind(this)
 		this.move_piece = move_piece.bind(this)
+
+		// GameEndChecker Functions
+		this.check_if_draw_due_to_material = gameEndCheckers.check_if_draw_due_to_material.bind(this)
+		this.ThreeFoldRep = gameEndCheckers.ThreeFoldRep.bind(this)
+		this.check_if_drawn_position = gameEndCheckers.check_if_drawn_position.bind(this)
+		this.get_which_side_won = gameEndCheckers.get_which_side_won.bind(this)
 
 		// Helpful IO functions
 		this.PrMove = debug_io.PrMove.bind(this)

@@ -20,7 +20,7 @@ export const RANKS = {
 	RANK_5: 4, RANK_6: 5, RANK_7: 6, RANK_8: 7, RANK_NONE: 8
 }
 
-export const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2 }
+export const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2, NONE: -1 }
 
 export const CASTLEBIT = { WKCA: 1, WQCA: 2, BKCA: 4, BQCA: 8 }
 
