@@ -7,6 +7,7 @@ import { give_a_move } from "./AI"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
+import { COLOURS } from "../classic chess api/defs"
 
 const chess = new Chess()
 
@@ -91,6 +92,17 @@ class PlayWithAIComponent extends React.Component {
 		newState.who_moves = !this.state.who_moves
 		newState.cur_position = newPosition
 		this.setState(newState, () => {
+			//Checks if Game Ends
+			if(this.GameBoard.check_if_drawn_position()) {
+				this._board.current.show_end_game_menu_bar()
+				return
+			}
+
+			if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+				this._board.current.show_end_game_menu_bar()
+				return
+			}
+
 			//creating timeout to make it asyncronous and not block the main program
 			// TODO might user worker later but it is a big pain to implement.
 			setTimeout(() => {
@@ -98,7 +110,17 @@ class PlayWithAIComponent extends React.Component {
 				this.playMoveFromAI()
 				const newState = {}
 				newState.who_moves = !this.state.who_moves
-				this.setState(newState, () => {this._board.current._board.current.unblock_user_input()})
+				this.setState(newState, () => {
+					this._board.current._board.current.unblock_user_input()
+					//Checks if Game Ends
+					if(this.GameBoard.check_if_drawn_position()) {
+						this._board.current.show_end_game_menu_bar()
+					}
+
+					if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+						this._board.current.show_end_game_menu_bar()
+					}
+				})
 			}, 10)
 		})
 	}

@@ -8,6 +8,10 @@ class GameBoardWrapper extends React.Component {
 		this.width = props.width
 		this.height = Math.floor((props.height * 100) / 90)
 		this._board = React.createRef()
+		this.state = {
+			game_end_menu_visibility: false
+		}
+		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
 	}
 
 	render() {
@@ -25,7 +29,11 @@ class GameBoardWrapper extends React.Component {
 					}
 					get_move_status={this.props.get_move_status}
 				/>
-				<div className = "none_display">
+				<div
+					className={
+						this.state.game_end_menu_visibility ? "" : "none_display"
+					}
+				>
 					<div class="opaque_filler"></div>
 					<div>
 						<div class="button_wrapper" id="restart_id">
@@ -41,12 +49,18 @@ class GameBoardWrapper extends React.Component {
 						</div>
 					</div>
 				</div>
-				<div id= "draw_resign_div_id">
+				<div id="draw_resign_div_id">
 					<button className="draw_resign_button"> Offer Draw </button>
 					<button className="draw_resign_button"> Resign </button>
 				</div>
 			</div>
 		)
+	}
+
+	show_end_game_menu_bar() {
+		const newState = {}
+		newState.game_end_menu_visibility = true
+		this.setState(newState)
 	}
 }
 

@@ -1,4 +1,4 @@
-import { PIECES, BOOL, COLOURS, PCEINDEX } from "./defs.js"
+import { PIECES, BOOL, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
 export function check_if_draw_due_to_material() {
 	if (this.pceNum[PIECES.wP] != 0 || this.pceNum[PIECES.bP] != 0)
