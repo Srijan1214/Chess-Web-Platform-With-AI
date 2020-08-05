@@ -1,0 +1,41 @@
+#pop_up_canvas {
+	background-color: beige;
+	position: absolute;
+	top: 0;
+}
+
+.promotion_selection_class_1{
+	left: 0%;
+}
+
+.promotion_selection_class_2{
+	left: 12.5%;
+}
+
+.promotion_selection_class_3{
+	left: 25%;
+}
+
+.promotion_selection_class_4{
+	left: 37.5%;
+}
+
+.promotion_selection_class_5{
+	left: 50%;
+}
+
+.promotion_selection_class_6{
+	left: 62.5%;
+}
+
+.promotion_selection_class_7{
+	left: 75%;
+}
+
+.promotion_selection_class_8{
+	left: 87.5%;
+}
+
+.none_display {
+	display: none;
+}

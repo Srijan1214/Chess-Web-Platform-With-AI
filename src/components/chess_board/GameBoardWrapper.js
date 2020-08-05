@@ -1,5 +1,6 @@
 import React, { createRef } from "react"
 import Board from "./Board"
+import PromotionPopUp from "./PromotionPopUp"
 import './GameBoardWrapperStyle.css'
 
 class GameBoardWrapper extends React.Component {
@@ -8,8 +9,10 @@ class GameBoardWrapper extends React.Component {
 		this.width = props.width
 		this.height = Math.floor((props.height * 100) / 90)
 		this._board = React.createRef()
+		this._PromotionPopUp = React.createRef()
 		this.state = {
-			game_end_menu_visibility: false
+			game_end_menu_visibility: false,
+			promotion_selection_visibility: false,
 		}
 		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
 	}
@@ -31,7 +34,9 @@ class GameBoardWrapper extends React.Component {
 				/>
 				<div
 					className={
-						this.state.game_end_menu_visibility ? "" : "none_display"
+						this.state.game_end_menu_visibility
+							? ""
+							: "none_display"
 					}
 				>
 					<div class="opaque_filler"></div>
@@ -49,6 +54,12 @@ class GameBoardWrapper extends React.Component {
 						</div>
 					</div>
 				</div>
+				<PromotionPopUp
+					width={this.props.width}
+					height={this.props.height}
+					ref={this._PromotionPopUp}
+					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
+				></PromotionPopUp>
 				<div id="draw_resign_div_id">
 					<button className="draw_resign_button"> Offer Draw </button>
 					<button className="draw_resign_button"> Resign </button>
@@ -62,6 +73,11 @@ class GameBoardWrapper extends React.Component {
 		newState.game_end_menu_visibility = true
 		this.setState(newState)
 	}
+
+	show_promotion_selection_menu(file_number) {
+		this._PromotionPopUp.current.show_promotion_selection_menu(file_number)
+	}
+
 }
 
 export default GameBoardWrapper

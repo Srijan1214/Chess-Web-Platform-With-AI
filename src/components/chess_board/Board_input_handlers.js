@@ -106,17 +106,17 @@ export function Outside_mouseUpHandler(event) {
 			if (this.state.old_image_value !== 0) {
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
 				newState.curPosition[r][c] = this.state.old_image_value
-				if(isCastleMove){
-					if(new_location === 'g1') {
-						newState.curPosition = get_white_king_side_castle_array(newState.curPosition)
-					}else if (new_location === 'c1'){
-						newState.curPosition = get_white_queen_side_castle_array(newState.curPosition)
-					}else if (new_location === 'g8') {
-						newState.curPosition = get_black_king_side_castle_array(newState.curPosition)
-					}else if (new_location === 'c8'){
-						newState.curPosition = get_black_queen_side_castle_array(newState.curPosition)
-					}
-				}
+				// if(isCastleMove){
+				// 	if(new_location === 'g1') {
+				// 		newState.curPosition = get_white_king_side_castle_array(newState.curPosition)
+				// 	}else if (new_location === 'c1'){
+				// 		newState.curPosition = get_white_queen_side_castle_array(newState.curPosition)
+				// 	}else if (new_location === 'g8') {
+				// 		newState.curPosition = get_black_king_side_castle_array(newState.curPosition)
+				// 	}else if (new_location === 'c8'){
+				// 		newState.curPosition = get_black_queen_side_castle_array(newState.curPosition)
+				// 	}
+				// }
 				if (!(r === this.state.old_image_position[0] && c === this.state.old_image_position[1])) {
 					if (this.state.positions.length === this.state.position_index + 1) {// a new move
 						newState.positions = [...this.state.positions].concat([newState.curPosition])

@@ -83,7 +83,6 @@ class Board extends React.Component {
 	}
 
 	render() {
-		// const styling = { height: this.state.canvas_height, width: this.state.canvas_width, padding: 0, backgroundColor: "#333"}
 		const styling = { height: this.state.canvas_height, width: this.state.canvas_width, margins: 0, padding: 0, backgroundColor: "darkgrey" }
 		return (
 			<div>
