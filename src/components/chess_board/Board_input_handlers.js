@@ -9,7 +9,7 @@ import {
 
 export function Outside_mouseClickHandler(event) {
 	if (this) {
-		if (event.buttons === 1) {
+		if (event.button === 0) {
 			if(this.state.should_block_user_input){
 				return
 			}
@@ -29,18 +29,17 @@ export function Outside_mouseClickHandler(event) {
 			const newState = {}
 			newState.dragging = true
 			newState.first_load = this.state.first_load + 1
-			if (this.state.curPosition[r][c] !== 0) {
+			newState.old_image_value = this.state.curPosition[r][c]
+			if(newState.old_image_value !== 0)
 				newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[r][c]]]
-				newState.old_image_value = this.state.curPosition[r][c]
-				// clone deep is important as we do not wish to manipulate the previous reference. 
-				// i.e we will alter the positions array as this.state.curPosition exists inside positions
-				newState.curPosition = _.cloneDeep(this.state.curPosition)
-				newState.curPosition[r][c] = 0
-				newState.old_image_position = [r, c]
-			}
+			// clone deep is important as we do not wish to manipulate the previous reference. 
+			// i.e we will alter the positions array as this.state.curPosition exists inside positions
+			newState.curPosition = _.cloneDeep(this.state.curPosition)
+			newState.curPosition[r][c] = 0
+			newState.old_image_position = [r, c]
 			newState.current_image_position = [x, y]
 			this.setState(newState)
-		} else if (event.buttons === 3) {
+		} else if (event.button === 2) {
 			const newState = {}
 			this.cancelMove(newState)
 			this.setState(newState)
@@ -49,7 +48,7 @@ export function Outside_mouseClickHandler(event) {
 }
 
 export function Outside_mouseDragHandler(event) {
-	if (this && event.buttons === 1) {
+	if (this && event.button === 0) {
 		if (this.state.dragging) {
 			let rect = event.currentTarget.getBoundingClientRect();
 			let x = event.clientX - rect.left;
@@ -70,7 +69,10 @@ export function Outside_mouseDragHandler(event) {
 
 export function Outside_mouseUpHandler(event) {
 	if (this) {
-		if (event.buttons === 0) {
+		if (event.button === 0 ) {
+			//necessary check to ensure that holding right click will not cause bugs
+			if(!this.state.dragging) 
+				return
 			let rect = event.currentTarget.getBoundingClientRect();
 			let x = event.clientX - rect.left;
 			let y = event.clientY - rect.top;
@@ -90,6 +92,7 @@ export function Outside_mouseUpHandler(event) {
 				(this.state.curPosition[r][c] > 10 && this.state.old_image_value > 10)) &&
 				(!(this.state.old_image_position[0] === r && (this.state.old_image_position[1] === c)))
 				&& this.state.dragging
+				&& this.state.curPosition[r][c] !== 0
 			const new_location = convert_rowCol_to_fileRank(r, c)
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.get_move_status(prev_location, new_location)
@@ -106,17 +109,6 @@ export function Outside_mouseUpHandler(event) {
 			if (this.state.old_image_value !== 0) {
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
 				newState.curPosition[r][c] = this.state.old_image_value
-				// if(isCastleMove){
-				// 	if(new_location === 'g1') {
-				// 		newState.curPosition = get_white_king_side_castle_array(newState.curPosition)
-				// 	}else if (new_location === 'c1'){
-				// 		newState.curPosition = get_white_queen_side_castle_array(newState.curPosition)
-				// 	}else if (new_location === 'g8') {
-				// 		newState.curPosition = get_black_king_side_castle_array(newState.curPosition)
-				// 	}else if (new_location === 'c8'){
-				// 		newState.curPosition = get_black_queen_side_castle_array(newState.curPosition)
-				// 	}
-				// }
 				if (!(r === this.state.old_image_position[0] && c === this.state.old_image_position[1])) {
 					if (this.state.positions.length === this.state.position_index + 1) {// a new move
 						newState.positions = [...this.state.positions].concat([newState.curPosition])
