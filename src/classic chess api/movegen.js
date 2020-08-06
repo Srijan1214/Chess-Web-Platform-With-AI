@@ -171,6 +171,8 @@ export function GenerateMoves () {
 				this.pieces[SQUARES.G1] == PIECES.EMPTY
 			) {
 				if (
+					this.SqAttacked(SQUARES.E1, COLOURS.BLACK) ==
+						BOOL.FALSE &&
 					this.SqAttacked(SQUARES.F1, COLOURS.BLACK) ==
 						BOOL.FALSE &&
 					this.SqAttacked(SQUARES.G1, COLOURS.BLACK) ==
@@ -265,6 +267,8 @@ export function GenerateMoves () {
 				this.pieces[SQUARES.G8] == PIECES.EMPTY
 			) {
 				if (
+					this.SqAttacked(SQUARES.E8, COLOURS.WHITE) ==
+						BOOL.FALSE &&
 					this.SqAttacked(SQUARES.F8, COLOURS.WHITE) ==
 						BOOL.FALSE &&
 					this.SqAttacked(SQUARES.G8, COLOURS.WHITE) ==
