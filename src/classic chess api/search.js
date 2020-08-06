@@ -13,23 +13,11 @@ import {
 	TOSQ,
 	MATE,
 	Kings,
-	PIECES,
-	SQUARES,
 	PROMOTED,
 	MFLAGCA
 } from "./defs.js"
 
 export default class AI {
-	// SearchController.nodes;
-	// SearchController.fh;
-	// SearchController.fhf;
-	// SearchController.depth;
-	// SearchController.time;
-	// SearchController.start;
-	// SearchController.stop;
-	// SearchController.best;
-	// SearchController.thinking;
-
 	constructor(GameBoard) {
 		this.SearchController = {}
 		this.GameBoard = GameBoard
@@ -107,7 +95,7 @@ export default class AI {
 			index < this.GameBoard.hisPly - 1;
 			index++
 		) {
-			if (this.GameBoard.poskey == this.GameBoard.history[index].poskey) {
+			if (this.GameBoard.poskey === this.GameBoard.history[index].poskey) {
 				return BOOL.TRUE
 			}
 		}
@@ -115,7 +103,7 @@ export default class AI {
 
 	Quiescence(alpha, beta) {
 		// Check Time Up
-		if ((this.SearchController.nodes & 2047) == 0) {
+		if ((this.SearchController.nodes & 2047) === 0) {
 			this.CheckUp()
 		}
 
@@ -163,7 +151,7 @@ export default class AI {
 			this.PickNextMove(MoveNum)
 
 			Move = this.GameBoard.moveList[MoveNum]
-			if (this.GameBoard.MakeMove(Move) == BOOL.FALSE) {
+			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
 				continue
 			}
 			Legal++
@@ -171,13 +159,13 @@ export default class AI {
 
 			this.GameBoard.TakeMove()
 
-			if (this.SearchController.stop == BOOL.TRUE) {
+			if (this.SearchController.stop === BOOL.TRUE) {
 				return 0
 			}
 
 			if (Score > alpha) {
 				if (Score >= beta) {
-					if (Legal == 1) {
+					if (Legal === 1) {
 						this.SearchController.fhf += 1
 					}
 					this.SearchController.fh += 1
@@ -202,7 +190,7 @@ export default class AI {
 		}
 
 		// Check Time Up
-		if ((this.SearchController.nodes & 2047) == 0) {
+		if ((this.SearchController.nodes & 2047) === 0) {
 			this.CheckUp()
 		}
 
@@ -224,7 +212,7 @@ export default class AI {
 			this.GameBoard.pList[PCEINDEX(Kings[this.GameBoard.side], 0)],
 			this.GameBoard.side ^ 1
 		)
-		if (InCheck == BOOL.TRUE) {
+		if (InCheck === BOOL.TRUE) {
 			depth++
 		}
 
@@ -245,7 +233,7 @@ export default class AI {
 				MoveNum < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
 				++MoveNum
 			) {
-				if (this.GameBoard.moveList[MoveNum] == PvMove) {
+				if (this.GameBoard.moveList[MoveNum] === PvMove) {
 					this.GameBoard.moveScores[MoveNum] = 2000000
 					break
 				}
@@ -264,26 +252,26 @@ export default class AI {
 			this.PickNextMove(MoveNum)
 
 			Move = this.GameBoard.moveList[MoveNum]
-			if (this.GameBoard.MakeMove(Move) == BOOL.FALSE) {
+			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
 				continue
 			}
 			Legal++
 			Score = -this.AlphaBeta(-beta, -alpha, depth - 1)
 
 			this.GameBoard.TakeMove()
-			if (this.SearchController.stop == BOOL.TRUE) {
+			if (this.SearchController.stop === BOOL.TRUE) {
 				return 0
 			}
 
 			if (Score > alpha) {
 				if (Score >= beta) {
-					if (Legal == 1) {
+					if (Legal === 1) {
 						this.SearchController.fhf += 1
 					}
 					this.SearchController.fh += 1
 
 					// Update Killer Moves
-					if ((Move & MFLAGCAP) == 0) {
+					if ((Move & MFLAGCAP) === 0) {
 						// NON Capture move
 						this.GameBoard.searchKillers[MAXDEPTH + this.GameBoard.ply] =
 							this.GameBoard.searchKillers[this.GameBoard.ply]
@@ -296,7 +284,7 @@ export default class AI {
 				// Piece history Moves prunning
 				// e.g if a knight moving to d5 is good then the other knight moving to the same square is also
 				// likely to be good
-				if ((Move & MFLAGCAP) == 0) {
+				if ((Move & MFLAGCAP) === 0) {
 					// NON Capture move
 					this.GameBoard.searchHistory[
 						this.GameBoard.pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)
@@ -307,8 +295,8 @@ export default class AI {
 			}
 		}
 
-		if (Legal == 0) {
-			if (InCheck == BOOL.TRUE) {
+		if (Legal === 0) {
+			if (InCheck === BOOL.TRUE) {
 				return -MATE + this.GameBoard.ply
 			} else {
 				return 0
@@ -354,7 +342,7 @@ export default class AI {
 		for (currentDepth = 1; currentDepth <= 5; currentDepth++) {
 			bestScore = this.AlphaBeta(-INFINITE, INFINITE, currentDepth)
 			// Alpha Beta Search
-			if (this.SearchController.stop == BOOL.TRUE) {
+			if (this.SearchController.stop === BOOL.TRUE) {
 				break
 			}
 			bestMove = this.ProbePvTable()

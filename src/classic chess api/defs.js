@@ -210,7 +210,7 @@ export const MFLAGPROM = 0xF00000
 export const NOMOVE = 0
 
 export const SQOFFBOARD = (sq) => {
-	if (FilesBrd[sq] == SQUARES.OFFBOARD) return BOOL.TRUE
+	if (FilesBrd[sq] === SQUARES.OFFBOARD) return BOOL.TRUE
 	return BOOL.FALSE
 }
 

@@ -7,28 +7,27 @@ export function get_move_status (from, to) {
 	to = (to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 
 	let Move = NOMOVE
-	let PromPce = PIECES.EMPTY
 	let found = BOOL.FALSE
 	let index
 
 	for (index = this.moveListStart[this.ply]; index < this.moveListStart[this.ply + 1]; index++) {
 		Move = this.moveList[index]
-		if (FROMSQ(Move) == from && TOSQ(Move) == to) {
+		if (FROMSQ(Move) === from && TOSQ(Move) === to) {
 			found = true
 			break
 		}
 	}
 
-	if (found != BOOL.FALSE) {
+	if (found !== BOOL.FALSE) {
 		// Check if king is in check after making the move as
 		// generateMove() will generate moves in which checks is not considered 
-		if (this.MakeMove(Move) == BOOL.FALSE) {
+		if (this.MakeMove(Move) === BOOL.FALSE) {
 			return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false}
 
 		}
 		// revert the move from makeMove(Move)
 		this.TakeMove()
-		return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0, promotion_move : (PROMOTED(Move) != PIECES.EMPTY)}
+		return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0, promotion_move : (PROMOTED(Move) !== PIECES.EMPTY)}
 
 	}
 
@@ -48,12 +47,12 @@ export function move_piece(from, to, promoted = PIECES.EMPTY) {
 	
 		for (index = this.moveListStart[this.ply]; index < this.moveListStart[this.ply + 1]; index++) {
 			Move = this.moveList[index]
-			if (FROMSQ(Move) == from && TOSQ(Move) == to) {
+			if (FROMSQ(Move) === from && TOSQ(Move) === to) {
 				// Check for piece promotion if the from and to square satisfy
 				PromPce = PROMOTED(Move)
-				if (promoted != PIECES.EMPTY) {
-					if(PromPce == promoted){
-							if (this.side == COLOURS.WHITE) {
+				if (promoted !== PIECES.EMPTY) {
+					if(PromPce === promoted){
+							if (this.side === COLOURS.WHITE) {
 								if (PromPce === PIECES.wQ || PromPce === PIECES.wR || PromPce === PIECES.wB || PromPce === PIECES.wN) {
 								found = BOOL.TRUE
 								break
@@ -73,10 +72,10 @@ export function move_piece(from, to, promoted = PIECES.EMPTY) {
 			}
 		}
 	
-		if (found != BOOL.FALSE) {
+		if (found !== BOOL.FALSE) {
 			// Check if king is in check after making the move as
 			// generateMove() will generate moves in which checks is not considered 
-			if (this.MakeMove(Move) == BOOL.FALSE) {
+			if (this.MakeMove(Move) === BOOL.FALSE) {
 				return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0}
 			}
 			return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0}

@@ -16,18 +16,18 @@ export function PrMove (move) {
 
 	let promoted = PROMOTED(move);
 	// console.log('promoted = ' + promoted)
-	if (promoted != PIECES.EMPTY) {
+	if (promoted !== PIECES.EMPTY) {
 		let pchar = "q";
-		if (PieceKnight[promoted] == BOOL.TRUE) {
+		if (PieceKnight[promoted] === BOOL.TRUE) {
 			pchar = "n";
 		} else if (
-			PieceRookQueen[promoted] == BOOL.TRUE &&
-			PieceBishopQueen[promoted] == BOOL.FALSE
+			PieceRookQueen[promoted] === BOOL.TRUE &&
+			PieceBishopQueen[promoted] === BOOL.FALSE
 		) {
 			pchar = "r";
 		} else if (
-			PieceRookQueen[promoted] == BOOL.FALSE &&
-			PieceBishopQueen[promoted] == BOOL.TRUE
+			PieceRookQueen[promoted] === BOOL.FALSE &&
+			PieceBishopQueen[promoted] === BOOL.TRUE
 		) {
 			pchar = "b";
 		}

@@ -13,7 +13,7 @@ export function ClearPiece (sq) {
 	this.material[col] -= PieceVal[pce];
 
 	for (index = 0; index < this.pceNum[pce]; index++) {
-		if (this.pList[PCEINDEX(pce, index)] == sq) {
+		if (this.pList[PCEINDEX(pce, index)] === sq) {
 			t_pceNum = index;
 			break;
 		}
@@ -46,7 +46,7 @@ export function MovePiece (from, to) {
 	this.pieces[to] = pce
 
 	for (index = 0; index < this.pceNum[pce]; index++) {
-		if (this.pList[PCEINDEX(pce, index)] == from) {
+		if (this.pList[PCEINDEX(pce, index)] === from) {
 			this.pList[PCEINDEX(pce, index)] = to
 			break
 		}
@@ -61,14 +61,14 @@ export function MakeMove (move){
 	this.history[this.hisPly].posKey = this.posKey
 
 	if ((move & MFLAGEP) != 0) {
-		if (side == COLOURS.WHITE) {
+		if (side === COLOURS.WHITE) {
 			this.ClearPiece(to - 10)
 		} else {
 			this.ClearPiece(to + 10)
 		}
 	} else if ((move & MFLAGCA) != 0) {
 		// Check if the from square of castling is a king for extra guard
-		if (this.pieces[from] == PIECES.wK || this.pieces[from] == PIECES.bK) {
+		if (this.pieces[from] === PIECES.wK || this.pieces[from] === PIECES.bK) {
 			switch (to) {
 				case SQUARES.C1:
 					this.MovePiece(SQUARES.A1, SQUARES.D1);
@@ -114,10 +114,10 @@ export function MakeMove (move){
 	this.hisPly++
 	this.ply++
 
-	if (PiecePawn[this.pieces[from]] == BOOL.TRUE) {
+	if (PiecePawn[this.pieces[from]] === BOOL.TRUE) {
 		this.fiftyMove = 0
 		if ((move & MFLAGPS) != 0) {
-			if (side == COLOURS.WHITE) {
+			if (side === COLOURS.WHITE) {
 				this.enPas = from + 10
 			} else {
 				this.enPas = from - 10
@@ -168,7 +168,7 @@ export function TakeMove () {
 	this.HASH_SIDE();
 
 	if ((MFLAGEP & move) != 0) {
-		if (this.side == COLOURS.WHITE) {
+		if (this.side === COLOURS.WHITE) {
 			this.AddPiece(to - 10, PIECES.bP);
 		} else {
 			this.AddPiece(to + 10, PIECES.wP);
@@ -203,7 +203,7 @@ export function TakeMove () {
 		this.ClearPiece(from);
 		this.AddPiece(
 			from,
-			PieceCol[PROMOTED(move)] == COLOURS.WHITE ? PIECES.wP : PIECES.bP
+			PieceCol[PROMOTED(move)] === COLOURS.WHITE ? PIECES.wP : PIECES.bP
 		);
 	}
 };
