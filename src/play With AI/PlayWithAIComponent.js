@@ -9,17 +9,16 @@ import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
 import { COLOURS, PIECES } from "../classic chess api/defs"
 
-const chess = new Chess()
 
 class PlayWithAIComponent extends React.Component {
 	constructor(props) {
 		super(props)
 		this._board = React.createRef()
-		this.user_color = 0 //make player only white for now
+		this.user_color = 1 //make player only white for now
 		this.GameBoard = new GameBoard()
 		this.standard_ai = new AI(this.GameBoard)
 		this.state = {
-			who_moves: 0, // which color's turn is it right now
+			who_moves: this.user_color, // which color's turn is it right now
 			should_block_all_user_moves: false,
 			cur_position: [
 				[15, 13, 13.5, 19, 14, 13.5, 13, 15],
@@ -37,11 +36,6 @@ class PlayWithAIComponent extends React.Component {
 	render() {
 		return (
 			<div>
-				{/* <
-					Board height={600} width={600} ref={this._board}
-					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
-					get_move_status={this.get_move_status}
-				/> */}
 				<GameBoardWrapper height={600} width={600} ref={this._board}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
@@ -53,16 +47,12 @@ class PlayWithAIComponent extends React.Component {
 
 	getMoveFromAI = () => {
 		const temp = _.cloneDeep(this._board.current._board.current.state.curPosition)
-		// console.log(temp, chess.turn())
-		// const move = give_a_move(temp, chess.turn() == 'w')
 		const move = this.standard_ai.SearchPosition()
 		return move
 	}
 
 	playMoveFromAI = () => {
 		const move = this.getMoveFromAI()
-		// chess.move(move)
-		console.log(move)
 		if(move.isCastling){
 			if(move.to === 'g1') {
 				this._board.current._board.current.perform_white_king_side_castle(this._board.current._board.current.state.curPosition)
@@ -92,9 +82,42 @@ class PlayWithAIComponent extends React.Component {
 		this.GameBoard.PrintBoard()
 	}
 
+	//this function blocks user input while AI is processing
+	perform_AI_move_blocking = () => {
+		//Checks if Game Ends
+		if(this.GameBoard.check_if_drawn_position()) {
+			this._board.current.show_end_game_menu_bar()
+			return
+		}
+
+		if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+			this._board.current.show_end_game_menu_bar()
+			return
+		}
+
+		//creating timeout to make it asyncronous and not block the main program
+		// TODO might user worker later but it is a big pain to implement.
+		setTimeout(() => {
+			this._board.current._board.current.block_user_input()
+			this.playMoveFromAI()
+			const newState = {}
+			newState.who_moves = !this.state.who_moves
+			this.setState(newState, () => {
+				this._board.current._board.current.unblock_user_input()
+				//Checks if Game Ends
+				if(this.GameBoard.check_if_drawn_position()) {
+					this._board.current.show_end_game_menu_bar()
+				}
+
+				if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+					this._board.current.show_end_game_menu_bar()
+				}
+			})
+		}, 10)
+	}
+
 	callback_to_indicate_move_is_played = (prev_location, new_location) => {
 		const moveStatus = this.GameBoard.get_move_status(prev_location, new_location)
-		console.log(moveStatus)
 		if(moveStatus.isValidMove){
 			if(moveStatus.castle_move) {
 				if(new_location === 'g1') {
@@ -130,36 +153,7 @@ class PlayWithAIComponent extends React.Component {
 		newState.who_moves = !this.state.who_moves
 		newState.cur_position = newPosition
 		this.setState(newState, () => {
-			//Checks if Game Ends
-			if(this.GameBoard.check_if_drawn_position()) {
-				this._board.current.show_end_game_menu_bar()
-				return
-			}
-
-			if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
-				this._board.current.show_end_game_menu_bar()
-				return
-			}
-
-			//creating timeout to make it asyncronous and not block the main program
-			// TODO might user worker later but it is a big pain to implement.
-			setTimeout(() => {
-				this._board.current._board.current.block_user_input()
-				this.playMoveFromAI()
-				const newState = {}
-				newState.who_moves = !this.state.who_moves
-				this.setState(newState, () => {
-					this._board.current._board.current.unblock_user_input()
-					//Checks if Game Ends
-					if(this.GameBoard.check_if_drawn_position()) {
-						this._board.current.show_end_game_menu_bar()
-					}
-
-					if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
-						this._board.current.show_end_game_menu_bar()
-					}
-				})
-			}, 10)
+			this.perform_AI_move_blocking()
 		})
 	}
 
@@ -168,12 +162,10 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	callback_insert_promotion_piece = (piece_val, file_number) => {
-		// if (piece_val in [9, 5, 3.5, 3, 19, 15, 13.5, 13]) {
-			this._board.current._board.current.put_piece_on_board(
-				String.fromCharCode(97 + file_number - 1) + 8,
-				piece_val
-			)
-		// } 
+		this._board.current._board.current.put_piece_on_board(
+			String.fromCharCode(97 + file_number - 1) + 8,
+			piece_val
+		)
 
 		let promPiece
 		if (piece_val === 9) promPiece = PIECES.wQ
@@ -185,44 +177,23 @@ class PlayWithAIComponent extends React.Component {
 		else if (piece_val === 13.5) promPiece = PIECES.bB
 		else if (piece_val === 13) promPiece = PIECES.bN
 
-		console.log(this.state)
 		this.GameBoard.move_piece(this.state.prev_location, this.state.new_location, promPiece)
 
 		const newState = {}
 		newState.who_moves = !this.state.who_moves
 		this.setState(newState, () => {
-			//Checks if Game Ends
-			if(this.GameBoard.check_if_drawn_position()) {
-				this._board.current.show_end_game_menu_bar()
-				return
-			}
-
-			if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
-				this._board.current.show_end_game_menu_bar()
-				return
-			}
-
-			//creating timeout to make it asyncronous and not block the main program
-			// TODO might user worker later but it is a big pain to implement.
-			setTimeout(() => {
-				this._board.current._board.current.block_user_input()
-				this.playMoveFromAI()
-				const newState = {}
-				newState.who_moves = !this.state.who_moves
-				this.setState(newState, () => {
-					this._board.current._board.current.unblock_user_input()
-					//Checks if Game Ends
-					if(this.GameBoard.check_if_drawn_position()) {
-						this._board.current.show_end_game_menu_bar()
-					}
-
-					if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
-						this._board.current.show_end_game_menu_bar()
-					}
-				})
-			}, 10)
+			this.perform_AI_move_blocking()
 		})
 
+	}
+
+	componentDidMount() {
+		console.log(this._board.current)
+		if(this.user_color === 1) {
+			this.playMoveFromAI()
+		} else {
+
+		}
 	}
 }
 

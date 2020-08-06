@@ -63,6 +63,7 @@ class Board extends React.Component {
 		}
 		fix_dpi()
 		this.draw_board(canvas)
+		console.log(this)
 	}
 
 	componentDidUpdate() {
@@ -80,6 +81,7 @@ class Board extends React.Component {
 				ctx.drawImage(this.state.current_image, parseInt(x - dx / 2), parseInt(y - dy / 2), dx, dy)
 			}
 		}
+		console.log(this)
 	}
 
 	render() {
