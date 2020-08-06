@@ -1,4 +1,4 @@
-import React, { createRef } from "react"
+import React from "react"
 import "./PromotionPopUpStyles.css"
 
 class PromotionPopUp extends React.Component {
@@ -87,11 +87,6 @@ class PromotionPopUp extends React.Component {
 		if (this.state.are_images_loaded) {
 			// Draw Pieces
 			this.put_starting_pieces_on_board(canvas)
-			if (this.state.current_image !== null) {
-				const ctx = canvas.getContext("2d")
-				const dx = canvas.width / 8
-				const dy = canvas.height / 8
-			}
 		}
 	}
 
@@ -203,7 +198,7 @@ class PromotionPopUp extends React.Component {
 				piece_value = -1
 				console.log("out click")
 			}
-			if (piece_value != -1){
+			if (piece_value !== -1){
 				if (this.state.piece_color === 1) {
 					piece_value += 10
 				}

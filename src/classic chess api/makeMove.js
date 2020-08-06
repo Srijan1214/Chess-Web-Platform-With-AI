@@ -60,13 +60,13 @@ export function MakeMove (move){
 
 	this.history[this.hisPly].posKey = this.posKey
 
-	if ((move & MFLAGEP) != 0) {
+	if ((move & MFLAGEP) !== 0) {
 		if (side === COLOURS.WHITE) {
 			this.ClearPiece(to - 10)
 		} else {
 			this.ClearPiece(to + 10)
 		}
-	} else if ((move & MFLAGCA) != 0) {
+	} else if ((move & MFLAGCA) !== 0) {
 		// Check if the from square of castling is a king for extra guard
 		if (this.pieces[from] === PIECES.wK || this.pieces[from] === PIECES.bK) {
 			switch (to) {
@@ -89,7 +89,7 @@ export function MakeMove (move){
 		}
 	}
 
-	if (this.enPas != SQUARES.NO_SQ) this.HASH_EP()
+	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP()
 	this.HASH_CA()
 
 	this.history[this.hisPly].move = move
@@ -106,7 +106,7 @@ export function MakeMove (move){
 	let captured = CAPTURED(move)
 	this.fiftyMove++
 
-	if (captured != PIECES.EMPTY) {
+	if (captured !== PIECES.EMPTY) {
 		this.ClearPiece(to)
 		this.fiftyMove = 0
 	}
@@ -116,7 +116,7 @@ export function MakeMove (move){
 
 	if (PiecePawn[this.pieces[from]] === BOOL.TRUE) {
 		this.fiftyMove = 0
-		if ((move & MFLAGPS) != 0) {
+		if ((move & MFLAGPS) !== 0) {
 			if (side === COLOURS.WHITE) {
 				this.enPas = from + 10
 			} else {
@@ -130,7 +130,7 @@ export function MakeMove (move){
 
 	let prPce = PROMOTED(move)
 
-	if (prPce != PIECES.EMPTY) {
+	if (prPce !== PIECES.EMPTY) {
 		this.ClearPiece(to)
 		this.AddPiece(to, prPce)
 	}
@@ -154,26 +154,26 @@ export function TakeMove () {
 	let from = FROMSQ(move);
 	let to = TOSQ(move);
 
-	if (this.enPas != SQUARES.NO_SQ) this.HASH_EP();
+	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
 	this.castlePerm = this.history[this.hisPly].castlePerm;
 	this.fiftyMove = this.history[this.hisPly].fiftyMove;
 	this.enPas = this.history[this.hisPly].enPas;
 
-	if (this.enPas != SQUARES.NO_SQ) this.HASH_EP();
+	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
 	this.side ^= 1;
 	this.HASH_SIDE();
 
-	if ((MFLAGEP & move) != 0) {
+	if ((MFLAGEP & move) !== 0) {
 		if (this.side === COLOURS.WHITE) {
 			this.AddPiece(to - 10, PIECES.bP);
 		} else {
 			this.AddPiece(to + 10, PIECES.wP);
 		}
-	} else if ((MFLAGCA & move) != 0) {
+	} else if ((MFLAGCA & move) !== 0) {
 		switch (to) {
 			case SQUARES.C1:
 				this.MovePiece(SQUARES.D1, SQUARES.A1);
@@ -195,11 +195,11 @@ export function TakeMove () {
 	this.MovePiece(to, from);
 
 	let captured = CAPTURED(move);
-	if (captured != PIECES.EMPTY) {
+	if (captured !== PIECES.EMPTY) {
 		this.AddPiece(to, captured);
 	}
 
-	if (PROMOTED(move) != PIECES.EMPTY) {
+	if (PROMOTED(move) !== PIECES.EMPTY) {
 		this.ClearPiece(from);
 		this.AddPiece(
 			from,

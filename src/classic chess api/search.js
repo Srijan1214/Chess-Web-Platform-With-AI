@@ -58,7 +58,7 @@ export default class AI {
 			}
 		}
 
-		if (bestNum != MoveNum) {
+		if (bestNum !== MoveNum) {
 			let temp = this.GameBoard.moveScores[MoveNum]
 			this.GameBoard.moveScores[MoveNum] = this.GameBoard.moveScores[bestNum]
 			this.GameBoard.moveScores[bestNum] = temp
@@ -112,7 +112,7 @@ export default class AI {
 		// Check Rep() Fifty Move
 		if (
 			(this.IsRepetition() || this.GameBoard.fiftyMove >= 100) &&
-			this.GameBoard.ply != 0
+			this.GameBoard.ply !== 0
 		) {
 			return 0
 		}
@@ -177,7 +177,7 @@ export default class AI {
 			}
 		}
 
-		if (alpha != OldAlpha) {
+		if (alpha !== OldAlpha) {
 			this.StorePvMove(BestMove)
 		}
 
@@ -199,7 +199,7 @@ export default class AI {
 		// Check Rep() Fifty Move
 		if (
 			(this.IsRepetition() || this.GameBoard.fiftyMove >= 100) &&
-			this.GameBoard.ply != 0
+			this.GameBoard.ply !== 0
 		) {
 			return 0
 		}
@@ -227,7 +227,7 @@ export default class AI {
 		let Move = NOMOVE
 
 		let PvMove = this.ProbePvTable()
-		if (PvMove != NOMOVE) {
+		if (PvMove !== NOMOVE) {
 			for (
 				MoveNum = this.GameBoard.moveListStart[this.GameBoard.ply];
 				MoveNum < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
@@ -303,7 +303,7 @@ export default class AI {
 			}
 		}
 
-		if (alpha != OldAlpha) {
+		if (alpha !== OldAlpha) {
 			this.StorePvMove(BestMove)
 		}
 
@@ -361,7 +361,7 @@ export default class AI {
 			for (c = 0; c < PvNum; c++) {
 				line += " " + this.GameBoard.PrMove(this.GameBoard.PvArray[c])
 			}
-			if (currentDepth != 1) {
+			if (currentDepth !== 1) {
 				line +=
 					"Ordering:" +
 					(
@@ -378,7 +378,7 @@ export default class AI {
 		
 		console.log(this.GameBoard.PrMove(bestMove))
 		const ret_move = (this.GameBoard.PrMove(bestMove))
-		const isCastling = (bestMove & MFLAGCA) != 0
+		const isCastling = (bestMove & MFLAGCA) !== 0
 		const promotedPiece = PROMOTED(bestMove)
 		return {
 			from: ret_move.substring(0, 2),

@@ -1,4 +1,4 @@
-import React, { createRef } from "react"
+import React from "react"
 import Board from "./Board"
 import PromotionPopUp from "./PromotionPopUp"
 import './GameBoardWrapperStyle.css'

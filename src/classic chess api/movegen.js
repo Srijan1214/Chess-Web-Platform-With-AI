@@ -1,7 +1,7 @@
 import {PIECES, NOMOVE, BOOL, CAPTURED, FROMSQ, MAXDEPTH, BRD_SQ_NUM, TOSQ, RANKS, COLOURS, PCEINDEX, MFLAGPS, SQOFFBOARD, MFLAGEP, CASTLEBIT, SQUARES, MFLAGCA, 
-	MVVLVAVALUE, MVVLVASCORES,
+	MVVLVASCORES,
 	RanksBrd,
-	DirNum, PceDir,LoopNonSlidePce, LoopNonSlideIndex,LoopSlidePce, LoopSlideIndex, PieceCol, PiecePawn,  } from "./defs.js"
+	DirNum, PceDir,LoopNonSlidePce, LoopNonSlideIndex,LoopSlidePce, LoopSlideIndex, PieceCol } from "./defs.js"
 
 export function MoveExists (move) {
 	this.GenerateMoves();

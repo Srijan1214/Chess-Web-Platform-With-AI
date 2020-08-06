@@ -1,9 +1,6 @@
 import React from "react"
-import Board from "../components/chess_board/Board"
 import _ from "lodash"
-import * as Chess from "chess.js"
-import { convert_fileRank_to_rowCol, convert_rowCol_to_fileRank } from "../utility_functions/Utility"
-import { give_a_move } from "./AI"
+import { convert_fileRank_to_rowCol } from "../utility_functions/Utility"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
@@ -46,7 +43,6 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	getMoveFromAI = () => {
-		const temp = _.cloneDeep(this._board.current._board.current.state.curPosition)
 		const move = this.standard_ai.SearchPosition()
 		return move
 	}
@@ -90,7 +86,7 @@ class PlayWithAIComponent extends React.Component {
 			return
 		}
 
-		if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+		if(this.GameBoard.get_which_side_won() !== COLOURS.NONE) {
 			this._board.current.show_end_game_menu_bar()
 			return
 		}
@@ -109,7 +105,7 @@ class PlayWithAIComponent extends React.Component {
 					this._board.current.show_end_game_menu_bar()
 				}
 
-				if(this.GameBoard.get_which_side_won() != COLOURS.NONE) {
+				if(this.GameBoard.get_which_side_won() !== COLOURS.NONE) {
 					this._board.current.show_end_game_menu_bar()
 				}
 			})

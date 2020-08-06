@@ -4,8 +4,8 @@ export function GetPvLine(depth) {
 	let move = this.ProbePvTable()
 	let count = 0
 
-	while (move != NOMOVE && count < depth) {
-		if (this.GameBoard.MoveExists(move) == BOOL.TRUE) {
+	while (move !== NOMOVE && count < depth) {
+		if (this.GameBoard.MoveExists(move) === BOOL.TRUE) {
 			this.GameBoard.MakeMove(move)
 			this.GameBoard.PvArray[count++] = move
 		} else {
@@ -24,7 +24,7 @@ export function GetPvLine(depth) {
 export function ProbePvTable() {
 	let index = this.GameBoard.posKey % PVENTRIES
 
-	if (this.GameBoard.PvTable[index].posKey == this.GameBoard.posKey) {
+	if (this.GameBoard.PvTable[index].posKey === this.GameBoard.posKey) {
 		return this.GameBoard.PvTable[index].move
 	}
 

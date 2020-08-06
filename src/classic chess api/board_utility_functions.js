@@ -1,7 +1,7 @@
 import {
 	BRD_SQ_NUM, PieceKeys, SideKey, CastleKeys, MAXGAMEMOVES, NOMOVE, PVENTRIES,
-	COLOURS, MAXDEPTH,MAXPOSITIONMOVES, PIECES, PCEINDEX, BOOL, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
- KiDir, KnDir, RkDir, BiDir, PieceVal,PieceCol, PieceKnight, PieceKing, PieceRookQueen, PieceBishopQueen, START_FEN } from "./defs.js"
+	COLOURS, PIECES, PCEINDEX, BOOL, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
+ KiDir, KnDir, RkDir, BiDir, PieceVal,PieceCol, PieceKnight, PieceKing, PieceRookQueen, PieceBishopQueen } from "./defs.js"
 
 export function InitBoardVars () {
 	let index = 0
@@ -27,12 +27,12 @@ export function InitBoardVars () {
 export function CheckBoard () {
 	let t_pceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	let t_material = [0, 0]
-	let sq64, t_piece, t_pce_num, sq120, colour, pcount
+	let sq64, t_piece, t_pce_num, sq120 
 
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
 		for (t_pce_num = 0; t_pce_num < this.pceNum[t_piece]; ++t_pce_num) {
 			sq120 = this.pList[PCEINDEX(t_piece, t_pce_num)]
-			if (this.pieces[sq120] != t_piece) {
+			if (this.pieces[sq120] !== t_piece) {
 				console.log('Error Pce Lists')
 				return BOOL.FALSE
 			}
@@ -47,24 +47,24 @@ export function CheckBoard () {
 	}
 
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
-		if (t_pceNum[t_piece] != this.pceNum[t_piece]) {
+		if (t_pceNum[t_piece] !== this.pceNum[t_piece]) {
 			console.log('Error t_pceNum')
 			return BOOL.FALSE
 		}
 	}
 
-	if (t_material[COLOURS.WHITE] != this.material[COLOURS.WHITE] ||
-		t_material[COLOURS.BLACK] != this.material[COLOURS.BLACK]) {
+	if (t_material[COLOURS.WHITE] !== this.material[COLOURS.WHITE] ||
+		t_material[COLOURS.BLACK] !== this.material[COLOURS.BLACK]) {
 		console.log('Error t_material')
 		return BOOL.FALSE
 	}
 
-	if (this.side != COLOURS.WHITE && this.side != COLOURS.BLACK) {
+	if (this.side !== COLOURS.WHITE && this.side !== COLOURS.BLACK) {
 		console.log('Error this.side')
 		return BOOL.FALSE
 	}
 
-	if (this.GeneratePosKey() != this.posKey) {
+	if (this.GeneratePosKey() !== this.posKey) {
 		console.log('Error this.posKey')
 		return BOOL.FALSE
 	}
@@ -111,16 +111,16 @@ export function GeneratePosKey () {
 
 	for (sq = 0; sq < BRD_SQ_NUM; sq++) {
 		piece = this.pieces[sq]
-		if (piece != PIECES.EMPTY && piece != SQUARES.OFFBOARD) {
+		if (piece !== PIECES.EMPTY && piece !== SQUARES.OFFBOARD) {
 			finalKey ^= PieceKeys[(piece * 120) + sq]
 		}
 	}
 
-	if (this.side == COLOURS.WHITE) {
+	if (this.side === COLOURS.WHITE) {
 		finalKey ^= SideKey
 	}
 
-	if (this.enPas != SQUARES.NO_SQ) {
+	if (this.enPas !== SQUARES.NO_SQ) {
 		finalKey ^= PieceKeys[this.enPas]
 	}
 
@@ -157,7 +157,7 @@ export function UpdateListsMaterial () {
 	for (index = 0; index < 64; ++index) {
 		sq = SQ120(index)
 		piece = this.pieces[sq]
-		if (piece != PIECES.EMPTY) {
+		if (piece !== PIECES.EMPTY) {
 			colour = PieceCol[piece]
 
 			this.material[colour] += PieceVal[piece]
@@ -247,11 +247,11 @@ export function ParseFen (fen) {
 		fenCnt++
 	}
 
-	this.side = (fen[fenCnt] == 'w') ? COLOURS.WHITE : COLOURS.BLACK
+	this.side = (fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
 	fenCnt += 2
 
 	for (i = 0; i < 4; i++) {
-		if (fen[fenCnt] == ' ') {
+		if (fen[fenCnt] === ' ') {
 			break
 		}
 		switch (fen[fenCnt]) {
@@ -265,7 +265,7 @@ export function ParseFen (fen) {
 	}
 	fenCnt++
 
-	if (fen[fenCnt] != '-') {
+	if (fen[fenCnt] !== '-') {
 		file = fen[fenCnt].charCodeAt() - 'a'.charCodeAt()
 		rank = fen[fenCnt + 1].charCodeAt() - '1'.charCodeAt()
 		console.log("fen[fenCnt]:" + fen[fenCnt] + " File:" + file + " Rank:" + rank)
@@ -288,7 +288,7 @@ export function PrintSqAttacked () {
 		let line = ((rank + 1) + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file, rank)
-			if (this.SqAttacked(sq, this.side) == BOOL.TRUE) piece = "X"
+			if (this.SqAttacked(sq, this.side) === BOOL.TRUE) piece = "X"
 			else piece = "-"
 			line += (" " + piece + " ")
 		}
@@ -301,20 +301,19 @@ export function PrintSqAttacked () {
 
 export function SqAttacked (sq, side)  {
 	let pce;
-	let t_sq;
 	let index;
 
-	if (side == COLOURS.WHITE) {
+	if (side === COLOURS.WHITE) {
 		if (
-			this.pieces[sq - 11] == PIECES.wP ||
-			this.pieces[sq - 9] == PIECES.wP
+			this.pieces[sq - 11] === PIECES.wP ||
+			this.pieces[sq - 9] === PIECES.wP
 		) {
 			return BOOL.TRUE;
 		}
 	} else {
 		if (
-			this.pieces[sq + 11] == PIECES.bP ||
-			this.pieces[sq + 9] == PIECES.bP
+			this.pieces[sq + 11] === PIECES.bP ||
+			this.pieces[sq + 9] === PIECES.bP
 		) {
 			return BOOL.TRUE;
 		}
@@ -323,9 +322,9 @@ export function SqAttacked (sq, side)  {
 	for (index = 0; index < 8; index++) {
 		pce = this.pieces[sq + KnDir[index]];
 		if (
-			pce != SQUARES.OFFBOARD &&
-			PieceCol[pce] == side &&
-			PieceKnight[pce] == BOOL.TRUE
+			pce !== SQUARES.OFFBOARD &&
+			PieceCol[pce] === side &&
+			PieceKnight[pce] === BOOL.TRUE
 		) {
 			return BOOL.TRUE;
 		}
@@ -335,9 +334,9 @@ export function SqAttacked (sq, side)  {
 		let dir = RkDir[index];
 		let t_sq = sq + dir;
 		let pce = this.pieces[t_sq];
-		while (pce != SQUARES.OFFBOARD) {
-			if (pce != PIECES.EMPTY) {
-				if (PieceRookQueen[pce] == BOOL.TRUE && PieceCol[pce] == side) {
+		while (pce !== SQUARES.OFFBOARD) {
+			if (pce !== PIECES.EMPTY) {
+				if (PieceRookQueen[pce] === BOOL.TRUE && PieceCol[pce] === side) {
 					return BOOL.TRUE;
 				}
 				break;
@@ -351,11 +350,11 @@ export function SqAttacked (sq, side)  {
 		let dir = BiDir[index];
 		let t_sq = sq + dir;
 		let pce = this.pieces[t_sq];
-		while (pce != SQUARES.OFFBOARD) {
-			if (pce != PIECES.EMPTY) {
+		while (pce !== SQUARES.OFFBOARD) {
+			if (pce !== PIECES.EMPTY) {
 				if (
-					PieceBishopQueen[pce] == BOOL.TRUE &&
-					PieceCol[pce] == side
+					PieceBishopQueen[pce] === BOOL.TRUE &&
+					PieceCol[pce] === side
 				) {
 					return BOOL.TRUE;
 				}
@@ -369,9 +368,9 @@ export function SqAttacked (sq, side)  {
 	for (index = 0; index < 8; index++) {
 		pce = this.pieces[sq + KiDir[index]];
 		if (
-			pce != SQUARES.OFFBOARD &&
-			PieceCol[pce] == side &&
-			PieceKing[pce] == BOOL.TRUE
+			pce !== SQUARES.OFFBOARD &&
+			PieceCol[pce] === side &&
+			PieceKing[pce] === BOOL.TRUE
 		) {
 			return BOOL.TRUE;
 		}

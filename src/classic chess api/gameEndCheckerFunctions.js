@@ -1,13 +1,13 @@
 import { PIECES, BOOL, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
 export function check_if_draw_due_to_material() {
-	if (this.pceNum[PIECES.wP] != 0 || this.pceNum[PIECES.bP] != 0)
+	if (this.pceNum[PIECES.wP] !== 0 || this.pceNum[PIECES.bP] !== 0)
 		return BOOL.FALSE
 	if (
-		this.pceNum[PIECES.wQ] != 0 ||
-		this.pceNum[PIECES.bQ] != 0 ||
-		this.pceNum[PIECES.wR] != 0 ||
-		this.pceNum[PIECES.bR] != 0
+		this.pceNum[PIECES.wQ] !== 0 ||
+		this.pceNum[PIECES.bQ] !== 0 ||
+		this.pceNum[PIECES.wR] !== 0 ||
+		this.pceNum[PIECES.bR] !== 0
 	)
 		return BOOL.FALSE
 	if (this.pceNum[PIECES.wB] > 1 || this.pceNum[PIECES.bB] > 1) {
@@ -17,10 +17,10 @@ export function check_if_draw_due_to_material() {
 		return BOOL.FALSE
 	}
 
-	if (this.pceNum[PIECES.wN] != 0 && this.pceNum[PIECES.wB] != 0) {
+	if (this.pceNum[PIECES.wN] !== 0 && this.pceNum[PIECES.wB] !== 0) {
 		return BOOL.FALSE
 	}
-	if (this.pceNum[PIECES.bN] != 0 && this.pceNum[PIECES.bB] != 0) {
+	if (this.pceNum[PIECES.bN] !== 0 && this.pceNum[PIECES.bB] !== 0) {
 		return BOOL.FALSE
 	}
 
@@ -32,7 +32,7 @@ export function ThreeFoldRep() {
 		r = 0
 
 	for (i = 0; i < this.hisPly; ++i) {
-		if (this.history[i].posKey == this.posKey) {
+		if (this.history[i].posKey === this.posKey) {
 			r++
 		}
 	}
@@ -48,7 +48,7 @@ export function check_if_drawn_position() {
 		return BOOL.TRUE
 	}
 
-	if (this.check_if_draw_due_to_material() == BOOL.TRUE) {
+	if (this.check_if_draw_due_to_material() === BOOL.TRUE) {
 		return BOOL.TRUE
 	}
 	return BOOL.FALSE
@@ -66,7 +66,7 @@ export function get_which_side_won() {
 		MoveNum < this.moveListStart[this.ply + 1];
 		++MoveNum
 	) {
-		if (this.MakeMove(this.moveList[MoveNum]) == BOOL.FALSE) {
+		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {
 			continue
 		}
 		found++
@@ -74,15 +74,15 @@ export function get_which_side_won() {
 		break
 	}
 
-	if (found != 0) return COLOURS.NONE
+	if (found !== 0) return COLOURS.NONE
 
 	var InCheck = this.SqAttacked(
 		this.pList[PCEINDEX(Kings[this.side], 0)],
 		this.side ^ 1
 	)
 
-	if (InCheck == BOOL.TRUE) {
-		if (this.side == COLOURS.WHITE) {
+	if (InCheck === BOOL.TRUE) {
+		if (this.side === COLOURS.WHITE) {
 			// black wins
 			return COLOURS.BLACK
 		} else {
@@ -93,6 +93,4 @@ export function get_which_side_won() {
 		// stalemate
 		return COLOURS.NONE
 	}
-
-	return COLOURS.NONE
 }

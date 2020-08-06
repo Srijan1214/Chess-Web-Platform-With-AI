@@ -1,10 +1,6 @@
 import _ from "lodash"
 import {
-	convert_rowCol_to_fileRank,
-	get_black_king_side_castle_array,
-	get_white_king_side_castle_array,
-	get_black_queen_side_castle_array,
-	get_white_queen_side_castle_array,
+	convert_rowCol_to_fileRank
 } from "../../utility_functions/Utility.js"
 
 export function Outside_mouseClickHandler(event) {
@@ -97,7 +93,6 @@ export function Outside_mouseUpHandler(event) {
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.get_move_status(prev_location, new_location)
 			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
-			const isCastleMove = moveStatus.castle_move
 			if (shouldCancelMove) {
 				this.cancelMove(newState)
 				newState.current_image = null
