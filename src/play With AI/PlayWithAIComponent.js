@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import { convert_fileRank_to_rowCol } from "../utility_functions/Utility"
+import { convert_fileRank_to_rowCol, get_flipped_square } from "../utility_functions/Utility"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
@@ -128,10 +128,18 @@ class PlayWithAIComponent extends React.Component {
 				}
 			}
 			if(moveStatus.promotion_move) {
-				this._board.current.show_promotion_selection_menu(parseInt(new_location.charCodeAt(0)) - 96)
+				let file_number = parseInt(new_location.charCodeAt(0)) - 96
+				if(this.user_color == 1) {
+					file_number = 9 - file_number
+				}
+				this._board.current.show_promotion_selection_menu(file_number)
 				const newState = {}
 				newState.prev_location = prev_location
 				newState.new_location = new_location
+				// if (this.user_color === 1) {
+				// 	newState.prev_location = get_flipped_square(newState.prev_location)
+				// 	newState.new_location = get_flipped_square(newState.new_location)
+				// }
 				this.setState(newState)
 				return
 			}
@@ -159,8 +167,12 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	callback_insert_promotion_piece = (piece_val, file_number) => {
+		let location = String.fromCharCode(97 + file_number - 1) + 8
+		if(this.user_color === 1) { // if black's turn then location is 1st rank
+			location = get_flipped_square(location)
+		}
 		this._board.current._board.current.put_piece_on_board(
-			String.fromCharCode(97 + file_number - 1) + 8,
+			location,
 			piece_val
 		)
 

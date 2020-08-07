@@ -58,6 +58,7 @@ class GameBoardWrapper extends React.Component {
 				<PromotionPopUp
 					width={this.props.width}
 					height={this.props.height}
+					user_color={this.props.user_color}
 					ref={this._PromotionPopUp}
 					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
 				></PromotionPopUp>

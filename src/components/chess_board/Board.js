@@ -184,9 +184,6 @@ class Board extends React.Component {
 	}
 
 	put_piece_on_board(new_location, value) {
-		if(this.user_color === 1) {
-			new_location = get_flipped_square(new_location)
-		}
 		let row = 8 - parseInt(new_location[1])
 		let column = (new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
