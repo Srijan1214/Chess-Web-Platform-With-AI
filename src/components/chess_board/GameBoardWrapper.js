@@ -26,6 +26,7 @@ class GameBoardWrapper extends React.Component {
 				<Board
 					height={this.props.height}
 					width={this.props.width}
+					user_color={this.props.user_color}
 					ref={this._board}
 					callback_to_indicate_move_is_played={
 						this.props.callback_to_indicate_move_is_played

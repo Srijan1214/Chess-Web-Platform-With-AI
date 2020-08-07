@@ -73,3 +73,25 @@ export function get_black_queen_side_castle_array(curPosition) {
 	temp[r2][c2] = 15
 	return temp
 }
+
+// converts [row, column] from white perspective to black's perspective.
+// and vice versa
+export function get_flipped_row_column(r, c) {
+	r = 7 - r
+	c = 7 - c
+	return { r: r, c: c }
+}
+
+// converts square(e.g "a3") from white perspective to black's perspective (e.g "h6").
+// and vice versa
+export function get_flipped_square(location) {
+	let file = location[0]
+	file = file.charCodeAt(0) - 97
+	// file = file + 7 - 2 * file
+	file = 7 - file
+	file = String.fromCharCode(file + 97)
+	let rank = location[1]
+	rank = parseInt(rank) - 1
+	rank = 7 - rank + 1
+	return file + rank
+}

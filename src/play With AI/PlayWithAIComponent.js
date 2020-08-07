@@ -34,6 +34,7 @@ class PlayWithAIComponent extends React.Component {
 		return (
 			<div>
 				<GameBoardWrapper height={600} width={600} ref={this._board}
+					user_color={this.user_color}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
 					get_move_status={this.get_move_status}

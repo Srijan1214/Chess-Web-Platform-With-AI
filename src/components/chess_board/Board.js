@@ -1,5 +1,6 @@
 import React from "react"
 import _ from "lodash"
+import { get_flipped_row_column, get_flipped_square } from "../../utility_functions/Utility.js"
 import * as Board_input_handlers from "./Board_input_handlers"
 import * as Board_castle_performers from "./perform_castles"
 
@@ -15,6 +16,7 @@ class Board extends React.Component {
 		[0, 0, 0, 0, 0, 0, 0, 0],
 		[1, 1, 1, 1, 1, 1, 1, 1],
 		[5, 3, 3.5, 9, 4, 3.5, 3, 5]]
+		this.user_color = props.user_color //which side view's the board
 		this.state = {
 			canvas_width: props.width,
 			canvas_height: props.height,
@@ -160,7 +162,13 @@ class Board extends React.Component {
 	put_starting_pieces_on_board(canvas) {
 		for (let r = 0; r < this.state.curPosition.length; r++) {
 			for (let c = 0; c < this.state.curPosition[r].length; c++) {
-				this.put_piece_at(c + 1, r + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - r][c]]], this.state.curPosition[7 - r][c])
+				let [a, b] = [r, c]
+				if(this.user_color === 1) {
+					let temp = get_flipped_row_column(r, c)
+					a = temp.r
+					b = temp.c
+				}
+				this.put_piece_at(b + 1, a + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - r][c]]], this.state.curPosition[7 - r][c])
 			}
 		}
 	}
@@ -176,6 +184,9 @@ class Board extends React.Component {
 	}
 
 	put_piece_on_board(new_location, value) {
+		if(this.user_color === 1) {
+			new_location = get_flipped_square(new_location)
+		}
 		let row = 8 - parseInt(new_location[1])
 		let column = (new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 

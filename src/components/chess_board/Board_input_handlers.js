@@ -2,6 +2,7 @@ import _ from "lodash"
 import {
 	convert_rowCol_to_fileRank
 } from "../../utility_functions/Utility.js"
+import { get_flipped_row_column } from "../../utility_functions/Utility.js"
 
 export function Outside_mouseClickHandler(event) {
 	if (this) {
@@ -21,6 +22,10 @@ export function Outside_mouseClickHandler(event) {
 
 			let r = parseInt((y / (canvas_height - 1)) * 8)
 			let c = parseInt((x / (canvas_width - 1)) * 8)
+
+			if (this.user_color === 1) {
+				;({ r, c } = get_flipped_row_column(r, c))
+			}
 
 			const newState = {}
 			newState.dragging = true
@@ -81,6 +86,11 @@ export function Outside_mouseUpHandler(event) {
 
 			let r = parseInt((y / (canvas_height - 1)) * 8)
 			let c = parseInt((x / (canvas_width - 1)) * 8)
+
+
+			if (this.user_color === 1) {
+				;({ r, c } = get_flipped_row_column(r, c))
+			}
 
 			const newState = {}
 			let shouldCancelMove = (((this.state.curPosition[r][c] < 10 && this.state.curPosition[r][c] !== 0)
