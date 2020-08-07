@@ -27,6 +27,41 @@ export function check_if_draw_due_to_material() {
 	return BOOL.TRUE
 }
 
+// returns BOOL.FALSE if no stalemate
+export function check_if_draw_due_to_stalemate() {
+	this.GenerateMoves()
+
+	var MoveNum = 0
+	var found = 0
+
+	for (
+		MoveNum = this.moveListStart[this.ply];
+		MoveNum < this.moveListStart[this.ply + 1];
+		++MoveNum
+	) {
+		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {
+			continue
+		}
+		found++
+		this.TakeMove()
+		break
+	}
+
+	if (found !== 0) return BOOL.FALSE
+
+	var InCheck = this.SqAttacked(
+		this.pList[PCEINDEX(Kings[this.side], 0)],
+		this.side ^ 1
+	)
+
+	if (InCheck === BOOL.TRUE) {
+			return BOOL.FALSE
+	} else {
+		// stalemate
+		return BOOL.TRUE
+	}
+}
+
 export function ThreeFoldRep() {
 	var i = 0,
 		r = 0
@@ -49,6 +84,10 @@ export function check_if_drawn_position() {
 	}
 
 	if (this.check_if_draw_due_to_material() === BOOL.TRUE) {
+		return BOOL.TRUE
+	}
+
+	if (this.check_if_draw_due_to_stalemate() === BOOL.TRUE) {
 		return BOOL.TRUE
 	}
 	return BOOL.FALSE

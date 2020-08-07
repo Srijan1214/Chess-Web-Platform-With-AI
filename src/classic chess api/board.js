@@ -74,6 +74,7 @@ export default class GameBoard {
 		this.ThreeFoldRep = gameEndCheckers.ThreeFoldRep.bind(this)
 		this.check_if_drawn_position = gameEndCheckers.check_if_drawn_position.bind(this)
 		this.get_which_side_won = gameEndCheckers.get_which_side_won.bind(this)
+		this.check_if_draw_due_to_stalemate = gameEndCheckers.check_if_draw_due_to_stalemate.bind(this)
 
 		// Helpful IO functions
 		this.PrMove = debug_io.PrMove.bind(this)
