@@ -40,18 +40,18 @@ class GameBoardWrapper extends React.Component {
 							: "none_display"
 					}
 				>
-					<div class="opaque_filler"></div>
+					<div className="opaque_filler"></div>
 					<div>
-						<div class="button_wrapper" id="restart_id">
-							<button class="canvas_button">START GAME</button>
+						<div className="button_wrapper" id="restart_id">
+							<button className="canvas_button">START GAME</button>
 						</div>
-						<div class="button_wrapper" id="analyze_id">
-							<button class="canvas_button">
+						<div className="button_wrapper" id="analyze_id">
+							<button className="canvas_button">
 								ANALYSIS BOARD
 							</button>
 						</div>
-						<div class="button_wrapper" id="main_page_id">
-							<button class="canvas_button">MAIN PAGE</button>
+						<div className="button_wrapper" id="main_page_id">
+							<button className="canvas_button">MAIN PAGE</button>
 						</div>
 					</div>
 				</div>
