@@ -139,6 +139,14 @@ export function Outside_mouseUpHandler(event) {
 	}
 }
 
+export function Outside_MouseOutHandler(event) {
+	if (this) {
+		const newState = {}
+		this.cancelMove(newState)
+		this.setState(newState)
+	}
+}
+
 export function Outside_MouseRightClickHandler(event) {
 	if (this) {
 		event.preventDefault()
