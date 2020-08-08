@@ -199,6 +199,23 @@ class Board extends React.Component {
 		this.setState(newState)
 	}
 
+	put_multiple_pieces_on_board(location_val_array) {
+		let newState = {}
+		// clone deep is important as we do not wish to manipulate the previous reference. 
+		// i.e we might alter the positions array as this.state.curPosition exists inside positions
+
+		const temp = _.cloneDeep(this.state.curPosition)
+		for(const ele of location_val_array) {
+			let row = 8 - parseInt(ele.location[1])
+			let column = (ele.location[0]).charCodeAt(0) - ("a").charCodeAt(0)
+			temp[row][column] = ele.value
+		}
+
+		newState.positions = this.state.positions.concat([temp])
+		newState.curPosition = temp
+		this.setState(newState)
+	}
+
 	makeMove = (prev_location, new_location) => {
 		let prev_row = 8 - parseInt(prev_location[1])
 		let prev_column = (prev_location[0]).charCodeAt(0) - ("a").charCodeAt(0)

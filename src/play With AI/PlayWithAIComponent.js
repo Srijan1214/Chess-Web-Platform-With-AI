@@ -37,6 +37,7 @@ class PlayWithAIComponent extends React.Component {
 					user_color={this.user_color}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
+					callback_cancel_promotion_layout={this.callback_cancel_promotion_layout}
 					get_move_status={this.get_move_status}
 				/>
 			</div>
@@ -136,10 +137,6 @@ class PlayWithAIComponent extends React.Component {
 				const newState = {}
 				newState.prev_location = prev_location
 				newState.new_location = new_location
-				// if (this.user_color === 1) {
-				// 	newState.prev_location = get_flipped_square(newState.prev_location)
-				// 	newState.new_location = get_flipped_square(newState.new_location)
-				// }
 				this.setState(newState)
 				return
 			}
@@ -196,8 +193,16 @@ class PlayWithAIComponent extends React.Component {
 
 	}
 
+	callback_cancel_promotion_layout = () => {
+		const pawn_val = (this.user_color === 0) ? 1 : 11
+		const location_val_1 = {location: this.state.prev_location, value: pawn_val}
+		const location_val_2 = {location: this.state.new_location, value: 0}
+
+		this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
+		this._board.current.hide_promotion_selection_menu()
+	}
+
 	componentDidMount() {
-		console.log(this._board.current)
 		if(this.user_color === 1) {
 			this.playMoveFromAI()
 		} else {

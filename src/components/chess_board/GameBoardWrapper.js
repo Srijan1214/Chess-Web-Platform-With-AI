@@ -12,7 +12,6 @@ class GameBoardWrapper extends React.Component {
 		this._PromotionPopUp = React.createRef()
 		this.state = {
 			game_end_menu_visibility: false,
-			promotion_selection_visibility: false,
 		}
 		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
 	}
@@ -61,6 +60,7 @@ class GameBoardWrapper extends React.Component {
 					user_color={this.props.user_color}
 					ref={this._PromotionPopUp}
 					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
+					callback_cancel_promotion_layout={this.props.callback_cancel_promotion_layout}
 				></PromotionPopUp>
 				<div id="draw_resign_div_id">
 					<button className="draw_resign_button"> Offer Draw </button>
@@ -78,6 +78,10 @@ class GameBoardWrapper extends React.Component {
 
 	show_promotion_selection_menu(file_number) {
 		this._PromotionPopUp.current.show_promotion_selection_menu(file_number)
+	}
+
+	hide_promotion_selection_menu() {
+		this._PromotionPopUp.current.hide_promotion_selection_menu()
 	}
 
 }

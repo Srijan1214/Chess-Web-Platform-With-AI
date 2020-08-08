@@ -158,8 +158,6 @@ class PromotionPopUp extends React.Component {
 			const dx = canvas.width
 			const dy = canvas.height / 4
 
-			// console.log
-
 			const common_start_cord_x = (this.state.file_number - 1) * dx
 			const queen_start_cord_y = (dy * 1)
 			const rook_start_cord_y = (dy * 2)
@@ -167,8 +165,6 @@ class PromotionPopUp extends React.Component {
 			const knight_start_cord_y = (dy * 4)
 
 			const check_if_inside_rectangle = (x, y, rect_x, rect_y, dx, dy) => {
-				// console.log(x, y)
-				console.log(rect_x, rect_y)
 				if (
 					x >= rect_x &&
 					x <= rect_x + dx &&
@@ -184,19 +180,15 @@ class PromotionPopUp extends React.Component {
 			let piece_value = -1
 			if(check_if_inside_rectangle(x, y, common_start_cord_x, queen_start_cord_y, dx, dy)) {
 				piece_value = 9
-				console.log("queen click")
 			}else if(check_if_inside_rectangle(x, y, common_start_cord_x, rook_start_cord_y, dx, dy)) {
 				piece_value = 5
-				console.log("rook click")
 			}else if(check_if_inside_rectangle(x, y, common_start_cord_x, bish_start_cord_y, dx, dy)) {
 				piece_value = 3.5
-				console.log("bish click")
 			}else if(check_if_inside_rectangle(x, y, common_start_cord_x, knight_start_cord_y, dx, dy)) {
 				piece_value = 3
-				console.log("knight click")
 			}else {
 				piece_value = -1
-				console.log("out click")
+				this.props.callback_cancel_promotion_layout()
 			}
 			if (piece_value !== -1){
 				if (this.user_color === 1) {
@@ -208,7 +200,6 @@ class PromotionPopUp extends React.Component {
 		}
 
 		get_piece_number(x, y)
-		console.log(x, y)
 	}
 
 }
