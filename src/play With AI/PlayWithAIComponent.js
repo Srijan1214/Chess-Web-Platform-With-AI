@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import { convert_fileRank_to_rowCol, get_flipped_square } from "../utility_functions/Utility"
+import { convert_fileRank_to_rowCol, convert_rowCol_to_fileRank, get_flipped_square } from "../utility_functions/Utility"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
@@ -11,7 +11,7 @@ class PlayWithAIComponent extends React.Component {
 	constructor(props) {
 		super(props)
 		this._board = React.createRef()
-		this.user_color = 1 //make player only white for now
+		this.user_color = 0 //make player only white for now
 		this.GameBoard = new GameBoard()
 		this.standard_ai = new AI(this.GameBoard)
 		this.state = {
@@ -42,6 +42,39 @@ class PlayWithAIComponent extends React.Component {
 				/>
 			</div>
 		)
+	}
+
+	setFEN = (fenStr) => {
+		this.GameBoard.ParseFen(fenStr)
+		const piece_character_array = this.GameBoard.GiveBoardArray()
+		const location_val_array = []
+
+		const get_piece_value_from_piece_character = function(piece_char) {
+			switch(piece_char){
+				case 'P': return 1
+				case 'N': return 3
+				case 'B': return 3.5
+				case 'K': return 4
+				case 'R': return 5
+				case 'Q': return 9
+				case 'p': return 11
+				case 'n': return 13
+				case 'b': return 13.5
+				case 'k': return 14
+				case 'r': return 15
+				case 'q': return 19
+				case '.': return 0
+			}
+			return -1
+		}
+		for(let r = 0; r < 8; r++) {
+			for(let c = 0; c < 8; c++) {
+				const location = convert_rowCol_to_fileRank(r, c)
+				const value = get_piece_value_from_piece_character(piece_character_array[r][c])
+				location_val_array.push({location: location, value: value})
+			}
+		}
+		this._board.current._board.current.put_multiple_pieces_on_board(location_val_array)
 	}
 
 	getMoveFromAI = () => {
@@ -130,7 +163,7 @@ class PlayWithAIComponent extends React.Component {
 			}
 			if(moveStatus.promotion_move) {
 				let file_number = parseInt(new_location.charCodeAt(0)) - 96
-				if(this.user_color == 1) {
+				if(this.user_color === 1) {
 					file_number = 9 - file_number
 				}
 				this._board.current.show_promotion_selection_menu(file_number)
@@ -203,6 +236,7 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	componentDidMount() {
+		// this.setFEN("rn1qk2r/p2nbppp/bpp1p3/3pN3/2PP4/1PB3P1/P3PPBP/RN1QK2R w KQkq - 2 10")
 		if(this.user_color === 1) {
 			this.playMoveFromAI()
 		} else {

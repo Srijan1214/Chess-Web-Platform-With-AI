@@ -44,6 +44,7 @@ export default class GameBoard {
 		this.ResetBoard = Outside_function.ResetBoard.bind(this)
 		this.SqAttacked = Outside_function.SqAttacked.bind(this)
 		this.UpdateListsMaterial = Outside_function.UpdateListsMaterial.bind(this)
+		this.GiveBoardArray = Outside_function.GiveBoardArray.bind(this)
 
 		// MakeMove functions
 		this.AddPiece = makeMove.AddPiece.bind(this)

@@ -155,37 +155,37 @@ export function Outside_MouseRightClickHandler(event) {
 
 export function Outside_KeyboardPressHandler(event) {
 	if (this) {
-		if(this.state.should_block_user_input){
-			return
-		}
-		if (event.key === "ArrowRight") {
-			if (this.state.position_index < this.state.positions.length - 1) {
-				const newState = {}
-				newState.position_index = this.state.position_index + 1;
-				newState.curPosition = this.state.positions[newState.position_index]
-				this.setState(newState)
-			}
-		} else if (event.key === "ArrowLeft") {
-			if (this.state.position_index > 0) {
-				const newState = {}
-				newState.position_index = this.state.position_index - 1
-				newState.curPosition = this.state.positions[newState.position_index]
-				this.setState(newState)
-			}
-		} else if (event.key === "ArrowUp") {
-			if (this.state.positions.length > 0) {
-				const newState = {}
-				newState.position_index = this.state.positions.length - 1
-				newState.curPosition = this.state.positions[newState.position_index]
-				this.setState(newState)
-			}
-		} else if (event.key === "ArrowDown") {
-			if (this.state.positions.length > 0) {
-				const newState = {}
-				newState.position_index = 0
-				newState.curPosition = this.state.positions[newState.position_index]
-				this.setState(newState)
-			}
-		}
+		// if(this.state.should_block_user_input){
+		// 	return
+		// }
+		// if (event.key === "ArrowRight") {
+		// 	if (this.state.position_index < this.state.positions.length - 1) {
+		// 		const newState = {}
+		// 		newState.position_index = this.state.position_index + 1;
+		// 		newState.curPosition = this.state.positions[newState.position_index]
+		// 		this.setState(newState)
+		// 	}
+		// } else if (event.key === "ArrowLeft") {
+		// 	if (this.state.position_index > 0) {
+		// 		const newState = {}
+		// 		newState.position_index = this.state.position_index - 1
+		// 		newState.curPosition = this.state.positions[newState.position_index]
+		// 		this.setState(newState)
+		// 	}
+		// } else if (event.key === "ArrowUp") {
+		// 	if (this.state.positions.length > 0) {
+		// 		const newState = {}
+		// 		newState.position_index = this.state.positions.length - 1
+		// 		newState.curPosition = this.state.positions[newState.position_index]
+		// 		this.setState(newState)
+		// 	}
+		// } else if (event.key === "ArrowDown") {
+		// 	if (this.state.positions.length > 0) {
+		// 		const newState = {}
+		// 		newState.position_index = 0
+		// 		newState.curPosition = this.state.positions[newState.position_index]
+		// 		this.setState(newState)
+		// 	}
+		// }
 	}
 }

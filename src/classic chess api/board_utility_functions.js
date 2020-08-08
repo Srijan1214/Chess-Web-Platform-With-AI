@@ -104,6 +104,27 @@ export function PrintBoard () {
 	console.log("key:" + this.posKey.toString(16))
 }
 
+export function GiveBoardArray () {
+	const makeArray = function (a, b) {
+		let arr = new Array(a)
+		for (var i = 0; i < a; i++) arr[i] = new Array(b)
+		return arr
+	}
+
+	const retArray = makeArray(8, 8)
+	let sq, file, rank, piece
+
+	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
+		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+			sq = FR2SQ(file, rank)
+			piece = this.pieces[sq]
+			retArray[7 - rank][file] = PceChar[piece]
+		}
+	}
+
+	return retArray
+}
+
 export function GeneratePosKey () {
 	let sq = 0
 	let finalKey = 0
