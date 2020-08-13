@@ -4,6 +4,7 @@ import * as Outside_function from "./board_utility_functions.js"
 import * as debug_io from "./io.js"
 import { get_move_status, move_piece } from "./moveParser.js"
 import * as gameEndCheckers from "./gameEndCheckerFunctions.js"
+import * as boardInterfaceFunctions from "./board_interface_functions"
 import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
 
 export default class GameBoard {
@@ -76,6 +77,10 @@ export default class GameBoard {
 		this.check_if_drawn_position = gameEndCheckers.check_if_drawn_position.bind(this)
 		this.get_which_side_won = gameEndCheckers.get_which_side_won.bind(this)
 		this.check_if_draw_due_to_stalemate = gameEndCheckers.check_if_draw_due_to_stalemate.bind(this)
+
+		// Board Interface Functions
+		this.Set_Board_To_Start_Position = boardInterfaceFunctions.Set_Board_To_Start_Position.bind(this)
+		this.TakeBack_Move = boardInterfaceFunctions.TakeBack_Move.bind(this)
 
 		// Helpful IO functions
 		this.PrMove = debug_io.PrMove.bind(this)

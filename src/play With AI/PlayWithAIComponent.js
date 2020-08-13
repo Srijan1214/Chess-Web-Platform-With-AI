@@ -38,6 +38,8 @@ class PlayWithAIComponent extends React.Component {
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
 					callback_cancel_promotion_layout={this.callback_cancel_promotion_layout}
+					callback_buttonclick_takeback={this.callback_buttonclick_takeback}
+					callback_buttonclick_restart_game={this.callback_buttonclick_restart_game}
 					get_move_status={this.get_move_status}
 				/>
 			</div>
@@ -46,35 +48,7 @@ class PlayWithAIComponent extends React.Component {
 
 	setFEN = (fenStr) => {
 		this.GameBoard.ParseFen(fenStr)
-		const piece_character_array = this.GameBoard.GiveBoardArray()
-		const location_val_array = []
-
-		const get_piece_value_from_piece_character = function(piece_char) {
-			switch(piece_char){
-				case 'P': return 1
-				case 'N': return 3
-				case 'B': return 3.5
-				case 'K': return 4
-				case 'R': return 5
-				case 'Q': return 9
-				case 'p': return 11
-				case 'n': return 13
-				case 'b': return 13.5
-				case 'k': return 14
-				case 'r': return 15
-				case 'q': return 19
-				case '.': return 0
-			}
-			return -1
-		}
-		for(let r = 0; r < 8; r++) {
-			for(let c = 0; c < 8; c++) {
-				const location = convert_rowCol_to_fileRank(r, c)
-				const value = get_piece_value_from_piece_character(piece_character_array[r][c])
-				location_val_array.push({location: location, value: value})
-			}
-		}
-		this._board.current._board.current.put_multiple_pieces_on_board(location_val_array)
+		this.force_interface_sync_with_backend()
 	}
 
 	getMoveFromAI = () => {
@@ -235,8 +209,14 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.hide_promotion_selection_menu()
 	}
 
+	callback_buttonclick_takeback = () => {
+		this.GameBoard.TakeBack_Move()
+		this.GameBoard.TakeBack_Move()
+		this.force_interface_sync_with_backend()
+	}
+
 	callback_buttonclick_offer_draw = () => {
-		
+
 	}
 
 	callback_buttonclick_resign = () => {
@@ -244,7 +224,8 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	callback_buttonclick_restart_game = () => {
-
+		this.GameBoard.Set_Board_To_Start_Position()
+		this.force_interface_sync_with_backend()
 	}
 
 	callback_buttonclick_analyze = () => {
@@ -253,6 +234,39 @@ class PlayWithAIComponent extends React.Component {
 
 	callback_buttonclick_home_page = () => {
 
+	}
+
+	// Makes the display chess board position match up to the position in the GameBoard logic
+	force_interface_sync_with_backend() {
+		const piece_character_array = this.GameBoard.GiveBoardArray()
+		const location_val_array = []
+
+		const get_piece_value_from_piece_character = function(piece_char) {
+			switch(piece_char){
+				case 'P': return 1
+				case 'N': return 3
+				case 'B': return 3.5
+				case 'K': return 4
+				case 'R': return 5
+				case 'Q': return 9
+				case 'p': return 11
+				case 'n': return 13
+				case 'b': return 13.5
+				case 'k': return 14
+				case 'r': return 15
+				case 'q': return 19
+				case '.': return 0
+			}
+			return -1
+		}
+		for(let r = 0; r < 8; r++) {
+			for(let c = 0; c < 8; c++) {
+				const location = convert_rowCol_to_fileRank(r, c)
+				const value = get_piece_value_from_piece_character(piece_character_array[r][c])
+				location_val_array.push({location: location, value: value})
+			}
+		}
+		this._board.current._board.current.put_multiple_pieces_on_board(location_val_array)
 	}
 
 	componentDidMount() {
