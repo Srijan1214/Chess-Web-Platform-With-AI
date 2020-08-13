@@ -12,6 +12,7 @@ class GameBoardWrapper extends React.Component {
 		this._PromotionPopUp = React.createRef()
 		this.state = {
 			game_end_menu_visibility: false,
+			game_end_text: "",
 		}
 		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
 	}
@@ -39,7 +40,7 @@ class GameBoardWrapper extends React.Component {
 							: "none_display"
 					}
 				>
-					<div style={{height:this.props.height}} className="opaque_filler bordered"></div>
+					<div style={{height:this.props.height}} className="opaque_filler bordered"><span>{this.state.game_end_text}</span></div>
 				</div>
 				<PromotionPopUp
 					width={this.props.width}
@@ -79,12 +80,24 @@ class GameBoardWrapper extends React.Component {
 		this.setState(newState)
 	}
 
+	hide_end_game_menu_bar() {
+		const newState = {}
+		newState.game_end_menu_visibility = false
+		this.setState(newState)
+	}
+
 	show_promotion_selection_menu(file_number) {
 		this._PromotionPopUp.current.show_promotion_selection_menu(file_number)
 	}
 
 	hide_promotion_selection_menu() {
 		this._PromotionPopUp.current.hide_promotion_selection_menu()
+	}
+
+	set_game_end_message(message) {
+		const newState = {}
+		newState.game_end_text = message
+		this.setState(newState)
 	}
 
 }

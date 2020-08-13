@@ -91,11 +91,19 @@ class PlayWithAIComponent extends React.Component {
 	perform_AI_move_blocking = () => {
 		//Checks if Game Ends
 		if(this.GameBoard.check_if_drawn_position()) {
+			this._board.current.set_game_end_message("The Game Is A Draw!!!")
 			this._board.current.show_end_game_menu_bar()
 			return
 		}
 
-		if(this.GameBoard.get_which_side_won() !== COLOURS.NONE) {
+		if(this.GameBoard.get_which_side_won() == COLOURS.WHITE) {
+			this._board.current.set_game_end_message("WHITE WON!!!")
+			this._board.current.show_end_game_menu_bar()
+			return
+		}
+
+		if(this.GameBoard.get_which_side_won() == COLOURS.BLACK) {
+			this._board.current.set_game_end_message("BLACK WON!!!")
 			this._board.current.show_end_game_menu_bar()
 			return
 		}
@@ -111,11 +119,21 @@ class PlayWithAIComponent extends React.Component {
 				this._board.current._board.current.unblock_user_input()
 				//Checks if Game Ends
 				if(this.GameBoard.check_if_drawn_position()) {
+					this._board.current.set_game_end_message("The Game Is A Draw!!!")
 					this._board.current.show_end_game_menu_bar()
+					return
 				}
 
-				if(this.GameBoard.get_which_side_won() !== COLOURS.NONE) {
+				if(this.GameBoard.get_which_side_won() == COLOURS.WHITE) {
+					this._board.current.set_game_end_message("WHITE WON!!!")
 					this._board.current.show_end_game_menu_bar()
+					return
+				}
+
+				if(this.GameBoard.get_which_side_won() == COLOURS.BLACK) {
+					this._board.current.set_game_end_message("BLACK WON!!!")
+					this._board.current.show_end_game_menu_bar()
+					return
 				}
 			})
 		}, 10)
@@ -226,6 +244,7 @@ class PlayWithAIComponent extends React.Component {
 	callback_buttonclick_restart_game = () => {
 		this.GameBoard.Set_Board_To_Start_Position()
 		this.force_interface_sync_with_backend()
+		this._board.current.hide_end_game_menu_bar()
 	}
 
 	callback_buttonclick_analyze = () => {
@@ -270,7 +289,6 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	componentDidMount() {
-		// this.setFEN("rn1qk2r/p2nbppp/bpp1p3/3pN3/2PP4/1PB3P1/P3PPBP/RN1QK2R w KQkq - 2 10")
 		if(this.user_color === 1) {
 			this.playMoveFromAI()
 		} else {
