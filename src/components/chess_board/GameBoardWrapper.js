@@ -58,7 +58,7 @@ class GameBoardWrapper extends React.Component {
 					>
 						<button className="bottom_button"> Offer Draw </button>
 						<button className="bottom_button" onClick={this.props.callback_buttonclick_takeback}> Take Back </button>
-						<button className="bottom_button"> Resign </button>
+						<button className="bottom_button" onClick={this.props.callback_buttonclick_resign}> Resign </button>
 					</div>
 					<div className={"bottom_buttons_container " +
 						(this.state.game_end_menu_visibility
