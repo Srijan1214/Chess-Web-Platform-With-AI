@@ -235,6 +235,26 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.hide_promotion_selection_menu()
 	}
 
+	callback_buttonclick_offer_draw = () => {
+		
+	}
+
+	callback_buttonclick_resign = () => {
+
+	}
+
+	callback_buttonclick_restart_game = () => {
+
+	}
+
+	callback_buttonclick_analyze = () => {
+
+	}
+
+	callback_buttonclick_home_page = () => {
+
+	}
+
 	componentDidMount() {
 		// this.setFEN("rn1qk2r/p2nbppp/bpp1p3/3pN3/2PP4/1PB3P1/P3PPBP/RN1QK2R w KQkq - 2 10")
 		if(this.user_color === 1) {

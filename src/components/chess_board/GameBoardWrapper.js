@@ -39,20 +39,7 @@ class GameBoardWrapper extends React.Component {
 							: "none_display"
 					}
 				>
-					<div className="opaque_filler"></div>
-					<div>
-						<div className="button_wrapper" id="restart_id">
-							<button className="canvas_button">START GAME</button>
-						</div>
-						<div className="button_wrapper" id="analyze_id">
-							<button className="canvas_button">
-								ANALYSIS BOARD
-							</button>
-						</div>
-						<div className="button_wrapper" id="main_page_id">
-							<button className="canvas_button">MAIN PAGE</button>
-						</div>
-					</div>
+					<div style={{height:this.props.height}} className="opaque_filler bordered"></div>
 				</div>
 				<PromotionPopUp
 					width={this.props.width}
@@ -62,9 +49,24 @@ class GameBoardWrapper extends React.Component {
 					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
 					callback_cancel_promotion_layout={this.props.callback_cancel_promotion_layout}
 				></PromotionPopUp>
-				<div id="draw_resign_div_id">
-					<button className="draw_resign_button"> Offer Draw </button>
-					<button className="draw_resign_button"> Resign </button>
+				<div className="bottom_interface_container"> 
+					<div className={"bottom_buttons_container " +
+						(this.state.game_end_menu_visibility
+						? "none_display"
+						: "")}
+					>
+						<button className="bottom_button"> Offer Draw </button>
+						<button className="bottom_button"> Resign </button>
+					</div>
+					<div className={"bottom_buttons_container " +
+						(this.state.game_end_menu_visibility
+						? ""
+						: "none_display")}
+					>
+						<button className="bottom_button"> Restart Game </button>
+						<button className="bottom_button"> Analyze Game </button>
+						<button className="bottom_button"> Home Page </button>
+					</div>
 				</div>
 			</div>
 		)
