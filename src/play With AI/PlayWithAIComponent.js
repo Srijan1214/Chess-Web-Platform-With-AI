@@ -41,6 +41,7 @@ class PlayWithAIComponent extends React.Component {
 					callback_buttonclick_takeback={this.callback_buttonclick_takeback}
 					callback_buttonclick_restart_game={this.callback_buttonclick_restart_game}
 					callback_buttonclick_resign={this.callback_buttonclick_resign}
+					callback_buttonclick_offer_draw={this.callback_buttonclick_offer_draw}
 					get_move_status={this.get_move_status}
 				/>
 			</div>
@@ -235,7 +236,16 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	callback_buttonclick_offer_draw = () => {
+		let accept_draw = false
 
+		if(this.standard_ai.GetBestScore() < -100) {
+			accept_draw = true
+		}
+
+		if(accept_draw) {
+			this._board.current.set_game_end_message("The Game Is A Draw!!!")
+			this._board.current.show_end_game_menu_bar()
+		}
 	}
 
 	callback_buttonclick_resign = () => {

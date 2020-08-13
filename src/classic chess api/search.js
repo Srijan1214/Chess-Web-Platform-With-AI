@@ -375,6 +375,7 @@ export default class AI {
 
 		this.SearchController.best = bestMove
 		this.SearchController.thinking = BOOL.FALSE
+		this.SearchController.bestScore = bestScore
 		
 		console.log(this.GameBoard.PrMove(bestMove))
 		const ret_move = (this.GameBoard.PrMove(bestMove))
@@ -387,5 +388,9 @@ export default class AI {
 			promotedPiece: promotedPiece,
 			move: bestMove
 		}
+	}
+
+	GetBestScore() {
+		return this.SearchController.bestScore
 	}
 }
