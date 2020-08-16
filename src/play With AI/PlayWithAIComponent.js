@@ -11,11 +11,12 @@ class PlayWithAIComponent extends React.Component {
 	constructor(props) {
 		super(props)
 		this._board = React.createRef()
-		this.user_color = 0 //make player only white for now
+		// this.state.user_color = 0 //make player only white for now
 		this.GameBoard = new GameBoard()
 		this.standard_ai = new AI(this.GameBoard)
 		this.state = {
-			who_moves: this.user_color, // which color's turn is it right now
+			user_color: 0,
+			who_moves: 0, // which color's turn is it right now
 			should_block_all_user_moves: false,
 			cur_position: [
 				[15, 13, 13.5, 19, 14, 13.5, 13, 15],
@@ -34,7 +35,8 @@ class PlayWithAIComponent extends React.Component {
 		return (
 			<div>
 				<GameBoardWrapper height={600} width={600} ref={this._board}
-					user_color={this.user_color}
+					user_color={this.state.user_color}
+					get_user_color={this.get_user_color}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
 					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
 					callback_cancel_promotion_layout={this.callback_cancel_promotion_layout}
@@ -44,8 +46,36 @@ class PlayWithAIComponent extends React.Component {
 					callback_buttonclick_offer_draw={this.callback_buttonclick_offer_draw}
 					get_move_status={this.get_move_status}
 				/>
+				<div style={{display:"flex", justifyContent:"center", marginTop:"11%"}}>
+					<button style={{fontSize:"2em", borderRadius:"2em", backgroundColor:"#f44336", outline:"none"}}
+					onClick={this.change_color_click}
+					> Change Color And Restart Game</button>
+				</div>
 			</div>
 		)
+	}
+
+	get_user_color = () => {
+		return this.state.user_color
+	}
+
+	change_color_click = () => {
+		const newState = {}
+		if(this.state.user_color === 0) {
+			newState.user_color = 1
+		} else {
+			newState.user_color = 0
+		}
+		this.setState(newState, () => {
+			this.callback_buttonclick_restart_game()
+			this.force_interface_sync_with_backend()
+			if(this.state.user_color === 1) {
+				setTimeout(()=> {
+					this.playMoveFromAI()
+					this.force_interface_sync_with_backend()
+				}, 10)
+			}
+		})
 	}
 
 	setFEN = (fenStr) => {
@@ -157,7 +187,7 @@ class PlayWithAIComponent extends React.Component {
 			}
 			if(moveStatus.promotion_move) {
 				let file_number = parseInt(new_location.charCodeAt(0)) - 96
-				if(this.user_color === 1) {
+				if(this.state.user_color === 1) {
 					file_number = 9 - file_number
 				}
 				this._board.current.show_promotion_selection_menu(file_number)
@@ -192,7 +222,7 @@ class PlayWithAIComponent extends React.Component {
 
 	callback_insert_promotion_piece = (piece_val, file_number) => {
 		let location = String.fromCharCode(97 + file_number - 1) + 8
-		if(this.user_color === 1) { // if black's turn then location is 1st rank
+		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
 			location = get_flipped_square(location)
 		}
 		this._board.current._board.current.put_piece_on_board(
@@ -221,7 +251,7 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	callback_cancel_promotion_layout = () => {
-		const pawn_val = (this.user_color === 0) ? 1 : 11
+		const pawn_val = (this.state.user_color === 0) ? 1 : 11
 		const location_val_1 = {location: this.state.prev_location, value: pawn_val}
 		const location_val_2 = {location: this.state.new_location, value: 0}
 
@@ -250,7 +280,7 @@ class PlayWithAIComponent extends React.Component {
 
 	callback_buttonclick_resign = () => {
 		let game_end_text
-		if(this.user_color === 0) {
+		if(this.state.user_color === 0) {
 			game_end_text = "BLACK WINS"
 		} else {
 			game_end_text = "WHITE WINS"
@@ -308,7 +338,7 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	componentDidMount() {
-		if(this.user_color === 1) {
+		if(this.state.user_color === 1) {
 			this.playMoveFromAI()
 		} else {
 

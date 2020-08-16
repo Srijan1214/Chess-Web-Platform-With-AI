@@ -27,6 +27,7 @@ class GameBoardWrapper extends React.Component {
 					height={this.props.height}
 					width={this.props.width}
 					user_color={this.props.user_color}
+					get_user_color={this.props.get_user_color}
 					ref={this._board}
 					callback_to_indicate_move_is_played={
 						this.props.callback_to_indicate_move_is_played
@@ -46,6 +47,7 @@ class GameBoardWrapper extends React.Component {
 					width={this.props.width}
 					height={this.props.height}
 					user_color={this.props.user_color}
+					get_user_color={this.props.get_user_color}
 					ref={this._PromotionPopUp}
 					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
 					callback_cancel_promotion_layout={this.props.callback_cancel_promotion_layout}
@@ -66,8 +68,8 @@ class GameBoardWrapper extends React.Component {
 						: "none_display")}
 					>
 						<button className="bottom_button" onClick={this.props.callback_buttonclick_restart_game}> Restart Game </button>
-						<button className="bottom_button"> Analyze Game </button>
-						<button className="bottom_button"> Home Page </button>
+						{/* <button className="bottom_button"> Analyze Game </button> */}
+						{/* <button className="bottom_button"> Home Page </button> */}
 					</div>
 				</div>
 			</div>

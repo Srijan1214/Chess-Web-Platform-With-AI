@@ -370,7 +370,7 @@ export default class AI {
 					).toFixed(2) +
 					"%"
 			}
-			console.log(line)
+			// console.log(line)
 		}
 
 		this.SearchController.best = bestMove

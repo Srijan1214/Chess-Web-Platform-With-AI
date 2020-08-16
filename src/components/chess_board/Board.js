@@ -107,7 +107,7 @@ class Board extends React.Component {
 			for (let j = 0; j < 9; j++) {
 				let x1 = canvas.width - j * dx
 				let y1 = canvas.height - i * dy
-				if (j % 2 === 0) { y1 -= dy }
+				if (j % 2 === 1) { y1 -= dy }
 				ctx.fillRect(x1, y1, dx, dy)
 			}
 		}
@@ -123,8 +123,8 @@ class Board extends React.Component {
 
 		const loadImage = (piece) => new Promise(resolve => {
 			let img = new Image();
-			// img.src = "https://short-newt-45.serverless.social/resources/image/piece/" + piece;
-			img.src = "http://localhost:3001/resources/image/piece/" + piece;
+			img.src = "https://proud-cow-50.serverless.social/resources/image/piece/" + piece;
+			// img.src = "http://localhost:3001/resources/image/piece/" + piece;
 			img.draggable = "true"
 			img.name = piece
 			img.onload = function () {
@@ -165,7 +165,8 @@ class Board extends React.Component {
 		for (let r = 0; r < this.state.curPosition.length; r++) {
 			for (let c = 0; c < this.state.curPosition[r].length; c++) {
 				let [a, b] = [r, c]
-				if(this.user_color === 1) {
+				// if(this.user_color === 1) {
+				if(this.props.get_user_color() === 1) {
 					let temp = get_flipped_row_column(r, c)
 					a = temp.r
 					b = temp.c
