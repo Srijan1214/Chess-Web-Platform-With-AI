@@ -77,7 +77,6 @@ class GameBoardWrapper extends React.Component {
 						: "none_display")}
 						style={{width:this.props.width}}
 					>
-						<button className="bottom_button button_highlight_on_hover" onClick={this.props.callback_buttonclick_restart_game}> Restart Game </button>
 					</div>
 				</div>
 				<div
@@ -160,10 +159,8 @@ class GameBoardWrapper extends React.Component {
 		const newState = {}
 		if (event.target.value === "White") {
 			newState.radio_button_user_color = 0
-			// this.props.callback_set_user_color(0)
 		} else {
 			newState.radio_button_user_color = 1
-			// this.props.callback_set_user_color(1)
 		}
 		this.setState(newState)
 	}
