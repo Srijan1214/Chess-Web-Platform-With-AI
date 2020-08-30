@@ -23,6 +23,7 @@ class GameBoardWrapper extends React.Component {
 		this.show_restart_game_confirmation = this.show_restart_game_confirmation.bind(this)
 		this.hide_restart_game_confirmation = this.hide_restart_game_confirmation.bind(this)
 		this.radio_button_change_listener = this.radio_button_change_listener.bind(this)
+		this.restart_button_handler = this.restart_button_handler.bind(this)
 	}
 
 	render() {
@@ -99,10 +100,9 @@ class GameBoardWrapper extends React.Component {
 					<div style={{ width:"100%", textAlign:"center" }}>
 						<div className = {this.state.restart_button_confirmation_visibility ? "none_display" : ""}>
 							<button className="bottom_button button_highlight_on_hover" style={{width:"90%", height:0.6 * 0.1 *this.props.height, marginTop:"14%",}} 
-								onClick={this.show_restart_game_confirmation}> Restart Game </button>
+								onClick={this.restart_button_handler}> Restart Game </button>
 						</div>
 						<div style={{width:"100%"}} className = {this.state.restart_button_confirmation_visibility ? "" : "none_display"}>
-						{/* <div > */}
 							<button className="confirmation_button_left_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
 								onClick={this.hide_restart_game_confirmation}>✕</button>
 							<button className="confirmation_button_right_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
@@ -153,6 +153,14 @@ class GameBoardWrapper extends React.Component {
 		const newState = {}
 		newState.game_end_text = message
 		this.setState(newState)
+	}
+
+	restart_button_handler() {
+		if(this.state.game_end_menu_visibility) {
+			this.props.callback_buttonclick_restart_game()
+		}else {
+			this.show_restart_game_confirmation()
+		}
 	}
 
 	radio_button_change_listener (event) {
