@@ -104,10 +104,10 @@ class GameBoardWrapper extends React.Component {
 						<div style={{width:"100%"}} className = {this.state.restart_button_confirmation_visibility ? "" : "none_display"}>
 						{/* <div > */}
 							<button className="confirmation_button_left_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
-								onClick={this.hide_restart_game_confirmation}>No</button>
+								onClick={this.hide_restart_game_confirmation}>✕</button>
 							<button className="confirmation_button_right_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
 								onClick={() => {this.props.callback_buttonclick_restart_game(); this.hide_restart_game_confirmation()}}>
-								Yes
+								✓
 							</button>
 						</div>
 					</div>
