@@ -31,8 +31,8 @@ export function check_if_draw_due_to_material() {
 export function check_if_draw_due_to_stalemate() {
 	this.GenerateMoves()
 
-	var MoveNum = 0
-	var found = 0
+	let MoveNum = 0
+	let found = 0
 
 	for (
 		MoveNum = this.moveListStart[this.ply];
@@ -49,7 +49,7 @@ export function check_if_draw_due_to_stalemate() {
 
 	if (found !== 0) return BOOL.FALSE
 
-	var InCheck = this.SqAttacked(
+	let InCheck = this.SqAttacked(
 		this.pList[PCEINDEX(Kings[this.side], 0)],
 		this.side ^ 1
 	)
@@ -63,15 +63,15 @@ export function check_if_draw_due_to_stalemate() {
 }
 
 export function ThreeFoldRep() {
-	var index = 0,
-		r = 0
+	let index = 0
+	let repetitions = 0
 
 	for (index = 0; index < this.hisPly; index++) {
 		if (this.history[index].posKey === this.posKey) {
-			r++
+			repetitions++
 		}
 	}
-	return r
+	return repetitions
 }
 
 export function check_if_drawn_position() {
@@ -97,8 +97,8 @@ export function check_if_drawn_position() {
 export function get_which_side_won() {
 	this.GenerateMoves()
 
-	var MoveNum = 0
-	var found = 0
+	let MoveNum = 0
+	let found = 0
 
 	for (
 		MoveNum = this.moveListStart[this.ply];
@@ -115,7 +115,7 @@ export function get_which_side_won() {
 
 	if (found !== 0) return COLOURS.NONE
 
-	var InCheck = this.SqAttacked(
+	let InCheck = this.SqAttacked(
 		this.pList[PCEINDEX(Kings[this.side], 0)],
 		this.side ^ 1
 	)

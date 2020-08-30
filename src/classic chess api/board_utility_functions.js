@@ -107,7 +107,7 @@ export function PrintBoard () {
 export function GiveBoardArray () {
 	const makeArray = function (a, b) {
 		let arr = new Array(a)
-		for (var index = 0; index < a; index++) arr[index] = new Array(b)
+		for (let index = 0; index < a; index++) arr[index] = new Array(b)
 		return arr
 	}
 

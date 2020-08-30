@@ -162,15 +162,15 @@ class Board extends React.Component {
 	}
 
 	put_starting_pieces_on_board(canvas) {
-		for (let r = 0; r < this.state.curPosition.length; r++) {
-			for (let c = 0; c < this.state.curPosition[r].length; c++) {
-				let [a, b] = [r, c]
+		for (let row = 0; row < this.state.curPosition.length; row++) {
+			for (let column = 0; column < this.state.curPosition[row].length; column++) {
+				let [a, b] = [row, column]
 				if(this.props.get_user_color() === 1) {
-					let temp = get_flipped_row_column(r, c)
-					a = temp.r
-					b = temp.c
+					let temp = get_flipped_row_column(row, column)
+					a = temp.row
+					b = temp.column
 				}
-				this.put_piece_at(b + 1, a + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - r][c]]], this.state.curPosition[7 - r][c])
+				this.put_piece_at(b + 1, a + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - row][column]]], this.state.curPosition[7 - row][column])
 			}
 		}
 	}
@@ -217,8 +217,8 @@ class Board extends React.Component {
 	}
 
 	get_piece_val_at(location) {
-		const { row: r, column: c } = convert_fileRank_to_rowCol(location)
-		return this.state.curPosition[r][c]
+		const { row: row, column: column } = convert_fileRank_to_rowCol(location)
+		return this.state.curPosition[row][column]
 	}
 
 	makeMove = (prev_location, new_location) => {

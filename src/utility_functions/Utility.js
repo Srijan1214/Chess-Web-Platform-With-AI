@@ -76,10 +76,10 @@ export function get_black_queen_side_castle_array(curPosition) {
 
 // converts [row, column] from white perspective to black's perspective.
 // and vice versa
-export function get_flipped_row_column(r, c) {
-	r = 7 - r
-	c = 7 - c
-	return { r: r, c: c }
+export function get_flipped_row_column(row, column) {
+	row = 7 - row
+	column = 7 - column
+	return { row: row, column: column }
 }
 
 // converts square(e.g "a3") from white perspective to black's perspective (e.g "h6").

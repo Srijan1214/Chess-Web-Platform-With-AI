@@ -334,10 +334,10 @@ class PlayWithAIComponent extends React.Component {
 				default: return -1
 			}
 		}
-		for(let r = 0; r < 8; r++) {
-			for(let c = 0; c < 8; c++) {
-				const location = convert_rowCol_to_fileRank(r, c)
-				const value = get_piece_value_from_piece_character(piece_character_array[r][c])
+		for(let row = 0; row < 8; row++) {
+			for(let column = 0; column < 8; column++) {
+				const location = convert_rowCol_to_fileRank(row, column)
+				const value = get_piece_value_from_piece_character(piece_character_array[row][column])
 				location_val_array.push({location: location, value: value})
 			}
 		}

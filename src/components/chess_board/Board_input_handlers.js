@@ -20,24 +20,24 @@ export function Outside_mouseClickHandler(event) {
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
 
-			let r = parseInt((y / (canvas_height - 1)) * 8)
-			let c = parseInt((x / (canvas_width - 1)) * 8)
+			let row = parseInt((y / (canvas_height - 1)) * 8)
+			let column = parseInt((x / (canvas_width - 1)) * 8)
 
 			if (this.props.get_user_color() === 1) {
-				;({ r, c } = get_flipped_row_column(r, c))
+				;({ row : row, column : column } = get_flipped_row_column(row, column))
 			}
 
 			const newState = {}
 			newState.dragging = true
 			newState.first_load = this.state.first_load + 1
-			newState.old_image_value = this.state.curPosition[r][c]
+			newState.old_image_value = this.state.curPosition[row][column]
 			if(newState.old_image_value !== 0)
-				newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[r][c]]]
+				newState.current_image = this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[row][column]]]
 			// clone deep is important as we do not wish to manipulate the previous reference. 
 			// i.e we will alter the positions array as this.state.curPosition exists inside positions
 			newState.curPosition = _.cloneDeep(this.state.curPosition)
-			newState.curPosition[r][c] = 0
-			newState.old_image_position = [r, c]
+			newState.curPosition[row][column] = 0
+			newState.old_image_position = [row, column]
 			newState.current_image_position = [x, y]
 			this.setState(newState)
 		} else if (event.button === 2) {
@@ -84,22 +84,22 @@ export function Outside_mouseUpHandler(event) {
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
 
-			let r = parseInt((y / (canvas_height - 1)) * 8)
-			let c = parseInt((x / (canvas_width - 1)) * 8)
+			let row = parseInt((y / (canvas_height - 1)) * 8)
+			let column = parseInt((x / (canvas_width - 1)) * 8)
 
 
 			if (this.props.get_user_color() === 1) {
-				;({ r, c } = get_flipped_row_column(r, c))
+				;({ row : row, column : column } = get_flipped_row_column(row, column))
 			}
 
 			const newState = {}
-			let shouldCancelMove = (((this.state.curPosition[r][c] < 10 && this.state.curPosition[r][c] !== 0)
+			let shouldCancelMove = (((this.state.curPosition[row][column] < 10 && this.state.curPosition[row][column] !== 0)
 				&& this.state.old_image_value < 10) ||
-				(this.state.curPosition[r][c] > 10 && this.state.old_image_value > 10)) &&
-				(!(this.state.old_image_position[0] === r && (this.state.old_image_position[1] === c)))
+				(this.state.curPosition[row][column] > 10 && this.state.old_image_value > 10)) &&
+				(!(this.state.old_image_position[0] === row && (this.state.old_image_position[1] === column)))
 				&& this.state.dragging
-				&& this.state.curPosition[r][c] !== 0
-			const new_location = convert_rowCol_to_fileRank(r, c)
+				&& this.state.curPosition[row][column] !== 0
+			const new_location = convert_rowCol_to_fileRank(row, column)
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.get_move_status(prev_location, new_location)
 			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
@@ -113,8 +113,8 @@ export function Outside_mouseUpHandler(event) {
 			}
 			if (this.state.old_image_value !== 0) {
 				newState.curPosition = _.cloneDeep(this.state.curPosition)
-				newState.curPosition[r][c] = this.state.old_image_value
-				if (!(r === this.state.old_image_position[0] && c === this.state.old_image_position[1])) {
+				newState.curPosition[row][column] = this.state.old_image_value
+				if (!(row === this.state.old_image_position[0] && column === this.state.old_image_position[1])) {
 					if (this.state.positions.length === this.state.position_index + 1) {// a new move
 						newState.positions = [...this.state.positions].concat([newState.curPosition])
 					} else {// delete old branch and overwrtie with this branch
