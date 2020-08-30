@@ -107,7 +107,7 @@ export function PrintBoard () {
 export function GiveBoardArray () {
 	const makeArray = function (a, b) {
 		let arr = new Array(a)
-		for (var i = 0; i < a; i++) arr[i] = new Array(b)
+		for (var index = 0; index < a; index++) arr[index] = new Array(b)
 		return arr
 	}
 
@@ -218,7 +218,7 @@ export function ParseFen (fen) {
 	let file = FILES.FILE_A
 	let piece = 0
 	let count = 0
-	let i = 0
+	let index = 0
 	let sq120 = 0
 	let fenCnt = 0
 
@@ -260,7 +260,7 @@ export function ParseFen (fen) {
 				console.log("FEN error")
 				return
 		}
-		for (i = 0; i < count; i++) {
+		for (index = 0; index < count; index++) {
 			sq120 = FR2SQ(file, rank)
 			this.pieces[sq120] = piece
 			file++
@@ -271,7 +271,7 @@ export function ParseFen (fen) {
 	this.side = (fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
 	fenCnt += 2
 
-	for (i = 0; i < 4; i++) {
+	for (index = 0; index < 4; index++) {
 		if (fen[fenCnt] === ' ') {
 			break
 		}

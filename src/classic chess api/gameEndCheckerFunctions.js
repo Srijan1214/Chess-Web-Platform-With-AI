@@ -63,11 +63,11 @@ export function check_if_draw_due_to_stalemate() {
 }
 
 export function ThreeFoldRep() {
-	var i = 0,
+	var index = 0,
 		r = 0
 
-	for (i = 0; i < this.hisPly; ++i) {
-		if (this.history[i].posKey === this.posKey) {
+	for (index = 0; index < this.hisPly; index++) {
+		if (this.history[index].posKey === this.posKey) {
 			r++
 		}
 	}

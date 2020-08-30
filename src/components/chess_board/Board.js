@@ -103,10 +103,10 @@ class Board extends React.Component {
 		const dx = canvas.width / 8
 		const dy = canvas.height / 8
 		ctx.fillStyle = "grey"
-		for (let i = 1; i < 9; i += 2) {
+		for (let index = 1; index < 9; index += 2) {
 			for (let j = 0; j < 9; j++) {
 				let x1 = canvas.width - j * dx
-				let y1 = canvas.height - i * dy
+				let y1 = canvas.height - index * dy
 				if (j % 2 === 1) { y1 -= dy }
 				ctx.fillRect(x1, y1, dx, dy)
 			}
