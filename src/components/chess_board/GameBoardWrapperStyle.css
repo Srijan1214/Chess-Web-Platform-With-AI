@@ -88,7 +88,7 @@
 
 .bottom_interface_container {
 	height: 10%;
-	width: 100%;
+	/* width: 100%; */
 	top: 90%;
 	background-color: darkslategray;
 	position: absolute;
@@ -99,4 +99,42 @@
 	width: 100%;
 	display: flex;
 	justify-content: space-evenly;
+}
+
+.side_select_menu_container {
+	position: absolute;
+	height: 100%;
+	margin-right: 0;
+	top: 0;
+	right: 0;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.confirmation_button_left_side {
+	border-top-left-radius: 40px;
+	border-bottom-left-radius: 40px;
+	cursor: pointer;
+	outline: none;
+	margin-right: 0;
+	padding-right: 0;
+	border-right: 0;
+	background-color: red;
+}
+
+.confirmation_button_right_side {
+	border-top-right-radius: 40px;
+	border-bottom-right-radius: 40px;
+	cursor: pointer;
+	outline: none;
+	margin-left: 0;
+	padding-left: 0;
+	border-left: 0;
+	background-color: yellow;
+}
+
+.button_highlight_on_hover:hover {
+	opacity: 0.7;
 }

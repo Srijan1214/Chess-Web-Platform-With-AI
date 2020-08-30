@@ -30,6 +30,12 @@ class PlayWithAIComponent extends React.Component {
 			new_location: "a1"
 		}
 	}
+	callback_set_user_color = (user_color) => {
+		const newState = {}
+		newState.user_color = user_color
+		this.setState(newState)
+	}
+
 	render() {
 		return (
 			<div>
