@@ -14,6 +14,7 @@ class GameBoardWrapper extends React.Component {
 			game_end_menu_visibility: false,
 			game_end_text: "",
 			restart_button_confirmation_visibility: false,
+			radio_button_user_color: 0,
 		}
 		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
 		this.hide_end_game_menu_bar = this.hide_end_game_menu_bar.bind(this)
@@ -21,6 +22,7 @@ class GameBoardWrapper extends React.Component {
 		this.hide_promotion_selection_menu = this.hide_promotion_selection_menu.bind(this)
 		this.show_restart_game_confirmation = this.show_restart_game_confirmation.bind(this)
 		this.hide_restart_game_confirmation = this.hide_restart_game_confirmation.bind(this)
+		this.radio_button_change_listener = this.radio_button_change_listener.bind(this)
 	}
 
 	render() {
@@ -33,6 +35,7 @@ class GameBoardWrapper extends React.Component {
 					height={this.props.height}
 					width={this.props.width}
 					user_color={this.props.user_color}
+					get_user_color={this.props.get_user_color}
 					ref={this._board}
 					callback_to_indicate_move_is_played={
 						this.props.callback_to_indicate_move_is_played
@@ -52,6 +55,7 @@ class GameBoardWrapper extends React.Component {
 					width={this.props.width}
 					height={this.props.height}
 					user_color={this.props.user_color}
+					get_user_color={this.props.get_user_color}
 					ref={this._PromotionPopUp}
 					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
 					callback_cancel_promotion_layout={this.props.callback_cancel_promotion_layout}
@@ -81,13 +85,13 @@ class GameBoardWrapper extends React.Component {
 					style={{width:0.2 * this.props.width}}
 				>
 					<div style= {{color:"grey", fontSize:"large"}}> <b> <u>Select Side</u> </b></div>
-					<div style= {{color: "grey", margin:"18%"}}>
+					<div style= {{color: "grey", margin:"18%"}} onChange={this.radio_button_change_listener}>
 						<div>
-							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.user_color === 0}></input>
+							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.get_user_color() === 0}></input>
 							<label for="white_radio_id">White</label>
 						</div>
 						<div>
-							<input type="radio" id="black_radio_id" name="color" value="Black" defaultChecked={this.props.user_color === 1}></input>
+							<input type="radio" id="black_radio_id" name="color" value="Black" defaultChecked={this.props.get_user_color() === 1}></input>
 							<label for="black_radio_id">Black</label>
 						</div>
 					</div>
@@ -149,6 +153,18 @@ class GameBoardWrapper extends React.Component {
 	set_game_end_message(message) {
 		const newState = {}
 		newState.game_end_text = message
+		this.setState(newState)
+	}
+
+	radio_button_change_listener (event) {
+		const newState = {}
+		if (event.target.value === "White") {
+			newState.radio_button_user_color = 0
+			// this.props.callback_set_user_color(0)
+		} else {
+			newState.radio_button_user_color = 1
+			// this.props.callback_set_user_color(1)
+		}
 		this.setState(newState)
 	}
 

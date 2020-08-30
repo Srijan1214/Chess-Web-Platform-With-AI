@@ -165,7 +165,7 @@ class Board extends React.Component {
 		for (let r = 0; r < this.state.curPosition.length; r++) {
 			for (let c = 0; c < this.state.curPosition[r].length; c++) {
 				let [a, b] = [r, c]
-				if(this.user_color === 1) {
+				if(this.props.get_user_color() === 1) {
 					let temp = get_flipped_row_column(r, c)
 					a = temp.r
 					b = temp.c

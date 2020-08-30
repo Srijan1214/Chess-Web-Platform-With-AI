@@ -23,7 +23,7 @@ export function Outside_mouseClickHandler(event) {
 			let r = parseInt((y / (canvas_height - 1)) * 8)
 			let c = parseInt((x / (canvas_width - 1)) * 8)
 
-			if (this.user_color === 1) {
+			if (this.props.get_user_color() === 1) {
 				;({ r, c } = get_flipped_row_column(r, c))
 			}
 
@@ -88,7 +88,7 @@ export function Outside_mouseUpHandler(event) {
 			let c = parseInt((x / (canvas_width - 1)) * 8)
 
 
-			if (this.user_color === 1) {
+			if (this.props.get_user_color() === 1) {
 				;({ r, c } = get_flipped_row_column(r, c))
 			}
 
