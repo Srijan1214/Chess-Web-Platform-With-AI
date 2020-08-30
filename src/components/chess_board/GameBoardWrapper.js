@@ -88,11 +88,11 @@ class GameBoardWrapper extends React.Component {
 					<div style= {{color: "grey", margin:"18%"}} onChange={this.radio_button_change_listener}>
 						<div>
 							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.get_user_color() === 0}></input>
-							<label for="white_radio_id">White</label>
+							<label htmlFor="white_radio_id">White</label>
 						</div>
 						<div>
 							<input type="radio" id="black_radio_id" name="color" value="Black" defaultChecked={this.props.get_user_color() === 1}></input>
-							<label for="black_radio_id">Black</label>
+							<label htmlFor="black_radio_id">Black</label>
 						</div>
 					</div>
 

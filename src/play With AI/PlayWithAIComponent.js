@@ -117,13 +117,13 @@ class PlayWithAIComponent extends React.Component {
 			return
 		}
 
-		if(this.GameBoard.get_which_side_won() == COLOURS.WHITE) {
+		if(this.GameBoard.get_which_side_won() === COLOURS.WHITE) {
 			this._board.current.set_game_end_message("WHITE WON!!!")
 			this._board.current.show_end_game_menu_bar()
 			return
 		}
 
-		if(this.GameBoard.get_which_side_won() == COLOURS.BLACK) {
+		if(this.GameBoard.get_which_side_won() === COLOURS.BLACK) {
 			this._board.current.set_game_end_message("BLACK WON!!!")
 			this._board.current.show_end_game_menu_bar()
 			return
@@ -145,13 +145,13 @@ class PlayWithAIComponent extends React.Component {
 					return
 				}
 
-				if(this.GameBoard.get_which_side_won() == COLOURS.WHITE) {
+				if(this.GameBoard.get_which_side_won() === COLOURS.WHITE) {
 					this._board.current.set_game_end_message("WHITE WON!!!")
 					this._board.current.show_end_game_menu_bar()
 					return
 				}
 
-				if(this.GameBoard.get_which_side_won() == COLOURS.BLACK) {
+				if(this.GameBoard.get_which_side_won() === COLOURS.BLACK) {
 					this._board.current.set_game_end_message("BLACK WON!!!")
 					this._board.current.show_end_game_menu_bar()
 					return
@@ -331,8 +331,8 @@ class PlayWithAIComponent extends React.Component {
 				case 'r': return 15
 				case 'q': return 19
 				case '.': return 0
+				default: return -1
 			}
-			return -1
 		}
 		for(let r = 0; r < 8; r++) {
 			for(let c = 0; c < 8; c++) {
