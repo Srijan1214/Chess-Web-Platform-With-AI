@@ -1,4 +1,4 @@
-import { PIECES, NOMOVE, BOOL, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, } from "./defs.js"
+import { PIECES, NOMOVE, BOOL, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
 
 export function get_move_status (from, to) {
 	// TODO
@@ -27,11 +27,11 @@ export function get_move_status (from, to) {
 		}
 		// revert the move from makeMove(Move)
 		this.TakeMove()
-		return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0, promotion_move : (PROMOTED(Move) !== PIECES.EMPTY)}
+		return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0, promotion_move : (PROMOTED(Move) !== PIECES.EMPTY), enPass_move: ((Move & MFLAGEP) !==0)}
 
 	}
 
-	return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false}
+	return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false, enPass_move: ((Move & MFLAGEP) !==0)}
 }
 
 export function move_piece(from, to, promoted = PIECES.EMPTY) {

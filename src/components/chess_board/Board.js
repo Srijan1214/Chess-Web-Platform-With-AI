@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import { get_flipped_row_column } from "../../utility_functions/Utility.js"
+import { get_flipped_row_column, convert_fileRank_to_rowCol } from "../../utility_functions/Utility.js"
 import * as Board_input_handlers from "./Board_input_handlers"
 import * as Board_castle_performers from "./perform_castles"
 
@@ -214,6 +214,11 @@ class Board extends React.Component {
 		newState.positions = this.state.positions.concat([temp])
 		newState.curPosition = temp
 		this.setState(newState)
+	}
+
+	get_piece_val_at(location) {
+		const { row: r, column: c } = convert_fileRank_to_rowCol(location)
+		return this.state.curPosition[r][c]
 	}
 
 	makeMove = (prev_location, new_location) => {

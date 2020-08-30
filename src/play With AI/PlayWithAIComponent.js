@@ -83,7 +83,6 @@ class PlayWithAIComponent extends React.Component {
 				this._board.current._board.current.perform_black_queen_side_castle(this._board.current._board.current.state.curPosition)
 			}
 		} else if (move.promotedPiece !== PIECES.EMPTY) {
-			this._board.current._board.current.makeMove(move.from, move.to)
 			let piece_val = 0
 			if (move.promotedPiece === PIECES.wQ) piece_val = 9
 			else if (move.promotedPiece === PIECES.wR) piece_val = 5
@@ -93,8 +92,16 @@ class PlayWithAIComponent extends React.Component {
 			else if (move.promotedPiece === PIECES.bR) piece_val = 15
 			else if (move.promotedPiece === PIECES.bB) piece_val = 13.5
 			else if (move.promotedPiece === PIECES.bN) piece_val = 13
-			this._board.current._board.current.put_piece_on_board(move.to, piece_val)
-		}else {
+			const location_val_1 = {location: move.from, value: 0}
+			const location_val_2 = {location: move.to, value: piece_val}
+			this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
+		}else if(move.enPass) {
+			const piece_val = (this.get_user_color() === 0)? 11: 1
+			const location_val_1 = {location: move.from, value: 0}
+			const location_val_2 = {location: move.to, value: piece_val}
+			const location_val_3 = {location: move.to[0] + move.from[1], value: 0}
+			this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2, location_val_3])
+		} else {
 			this._board.current._board.current.makeMove(move.from, move.to)
 		}
 		this.GameBoard.MakeMove(move.move)
@@ -178,6 +185,14 @@ class PlayWithAIComponent extends React.Component {
 				newState.new_location = new_location
 				this.setState(newState)
 				return
+			}
+			if(moveStatus.enPass_move) {
+				const file = new_location[0]
+				const rank = prev_location[1]
+
+				const location_val_1 = {location: file + rank, value: 0}
+				this._board.current._board.current.put_multiple_pieces_on_board([location_val_1])
+
 			}
 			this.GameBoard.move_piece(prev_location, new_location)
 		}

@@ -14,7 +14,8 @@ import {
 	MATE,
 	Kings,
 	PROMOTED,
-	MFLAGCA
+	MFLAGCA,
+	MFLAGEP
 } from "./defs.js"
 
 export default class AI {
@@ -380,13 +381,15 @@ export default class AI {
 		console.log(this.GameBoard.PrMove(bestMove))
 		const ret_move = (this.GameBoard.PrMove(bestMove))
 		const isCastling = (bestMove & MFLAGCA) !== 0
+		const enPass = (bestMove & MFLAGEP) !==0
 		const promotedPiece = PROMOTED(bestMove)
 		return {
 			from: ret_move.substring(0, 2),
 			to: ret_move.substring(2, 4),
 			isCastling: isCastling,
 			promotedPiece: promotedPiece,
-			move: bestMove
+			move: bestMove,
+			enPass: enPass
 		}
 	}
 
