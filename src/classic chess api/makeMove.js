@@ -2,14 +2,14 @@ import { PIECES, PCEINDEX, FROMSQ, TOSQ, MFLAGEP, COLOURS, MFLAGCA, SQUARES, CAP
 	PieceVal, PieceCol, Kings, CastlePerm, PiecePawn} from "./defs.js"
 
 export function ClearPiece (sq) {
-	let pce = this.pieces[sq];
+	let pce = this.m_pieces[sq];
 	let col = PieceCol[pce];
 	let index;
 	let t_pceNum = -1;
 
 	this.HASH_PCE(pce, sq);
 
-	this.pieces[sq] = PIECES.EMPTY;
+	this.m_pieces[sq] = PIECES.EMPTY;
 	this.material[col] -= PieceVal[pce];
 
 	for (index = 0; index < this.pceNum[pce]; index++) {
@@ -29,7 +29,7 @@ export function AddPiece (sq, pce) {
 
 	this.HASH_PCE(pce, sq);
 
-	this.pieces[sq] = pce;
+	this.m_pieces[sq] = pce;
 	this.material[col] += PieceVal[pce];
 	this.pList[PCEINDEX(pce, this.pceNum[pce])] = sq;
 	this.pceNum[pce]++;
@@ -37,13 +37,13 @@ export function AddPiece (sq, pce) {
 
 export function MovePiece (from, to) {
 	let index = 0
-	let pce = this.pieces[from]
+	let pce = this.m_pieces[from]
 
 	this.HASH_PCE(pce, from)
-	this.pieces[from] = PIECES.EMPTY
+	this.m_pieces[from] = PIECES.EMPTY
 
 	this.HASH_PCE(pce, to)
-	this.pieces[to] = pce
+	this.m_pieces[to] = pce
 
 	for (index = 0; index < this.pceNum[pce]; index++) {
 		if (this.pList[PCEINDEX(pce, index)] === from) {
@@ -68,7 +68,7 @@ export function MakeMove (move){
 		}
 	} else if ((move & MFLAGCA) !== 0) {
 		// Check if the from square of castling is a king for extra guard
-		if (this.pieces[from] === PIECES.wK || this.pieces[from] === PIECES.bK) {
+		if (this.m_pieces[from] === PIECES.wK || this.m_pieces[from] === PIECES.bK) {
 			switch (to) {
 				case SQUARES.C1:
 					this.MovePiece(SQUARES.A1, SQUARES.D1);
@@ -114,7 +114,7 @@ export function MakeMove (move){
 	this.hisPly++
 	this.ply++
 
-	if (PiecePawn[this.pieces[from]] === BOOL.TRUE) {
+	if (PiecePawn[this.m_pieces[from]] === BOOL.TRUE) {
 		this.fiftyMove = 0
 		if ((move & MFLAGPS) !== 0) {
 			if (side === COLOURS.WHITE) {

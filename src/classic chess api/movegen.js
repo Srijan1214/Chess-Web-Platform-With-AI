@@ -32,7 +32,7 @@ export function MOVE (from, to, captured, promoted, flag) {
 export function AddCaptureMove (move) {
 	this.moveList[this.moveListStart[this.ply + 1]] = move;
 	this.moveScores[this.moveListStart[this.ply + 1]] =
-		MVVLVASCORES[CAPTURED(move) * 14 + this.pieces[FROMSQ(move)]] +
+		MVVLVASCORES[CAPTURED(move) * 14 + this.m_pieces[FROMSQ(move)]] +
 		1000000;
 	this.moveListStart[this.ply + 1] += 1;
 }
@@ -52,7 +52,7 @@ export function AddQuietMove (move) {
 	} else {
 		this.moveScores[this.moveListStart[this.ply + 1]] =
 			this.searchHistory[
-				this.pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move)
+				this.m_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move)
 			];
 	}
 
@@ -126,11 +126,11 @@ export function GenerateMoves () {
 		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
 			sq = this.pList[PCEINDEX(pceType, pceNum)];
 
-			if (this.pieces[sq + 10] === PIECES.EMPTY) {
+			if (this.m_pieces[sq + 10] === PIECES.EMPTY) {
 				this.AddWhitePawnQuietMove(sq, sq + 10);
 				if (
 					RanksBrd[sq] === RANKS.RANK_2 &&
-					this.pieces[sq + 20] === PIECES.EMPTY
+					this.m_pieces[sq + 20] === PIECES.EMPTY
 				) {
 					this.AddQuietMove(
 						this.MOVE(sq, sq + 20, PIECES.EMPTY, PIECES.EMPTY, MFLAGPS)
@@ -140,16 +140,16 @@ export function GenerateMoves () {
 
 			if (
 				SQOFFBOARD(sq + 9) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq + 9]] === COLOURS.BLACK
+				PieceCol[this.m_pieces[sq + 9]] === COLOURS.BLACK
 			) {
-				this.AddWhitePawnCaptureMove(sq, sq + 9, this.pieces[sq + 9]);
+				this.AddWhitePawnCaptureMove(sq, sq + 9, this.m_pieces[sq + 9]);
 			}
 
 			if (
 				SQOFFBOARD(sq + 11) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq + 11]] === COLOURS.BLACK
+				PieceCol[this.m_pieces[sq + 11]] === COLOURS.BLACK
 			) {
-				this.AddWhitePawnCaptureMove(sq, sq + 11, this.pieces[sq + 11]);
+				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
 			}
 			if (this.enPas !== SQUARES.NO_SQ) {
 				if (sq + 9 === this.enPas) {
@@ -167,8 +167,8 @@ export function GenerateMoves () {
 
 		if (this.castlePerm & CASTLEBIT.WKCA) {
 			if (
-				this.pieces[SQUARES.F1] === PIECES.EMPTY &&
-				this.pieces[SQUARES.G1] === PIECES.EMPTY
+				this.m_pieces[SQUARES.F1] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.G1] === PIECES.EMPTY
 			) {
 				if (
 					this.SqAttacked(SQUARES.E1, COLOURS.BLACK) ===
@@ -193,9 +193,9 @@ export function GenerateMoves () {
 
 		if (this.castlePerm & CASTLEBIT.WQCA) {
 			if (
-				this.pieces[SQUARES.D1] === PIECES.EMPTY &&
-				this.pieces[SQUARES.C1] === PIECES.EMPTY &&
-				this.pieces[SQUARES.B1] === PIECES.EMPTY
+				this.m_pieces[SQUARES.D1] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.C1] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.B1] === PIECES.EMPTY
 			) {
 				if (
 					this.SqAttacked(SQUARES.D1, COLOURS.BLACK) ===
@@ -221,12 +221,12 @@ export function GenerateMoves () {
 		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
 			sq = this.pList[PCEINDEX(pceType, pceNum)];
 
-			if (this.pieces[sq - 10] === PIECES.EMPTY) {
+			if (this.m_pieces[sq - 10] === PIECES.EMPTY) {
 				// Add Pawn Move
 				this.AddBlackPawnQuietMove(sq, sq - 10);
 				if (
 					RanksBrd[sq] === RANKS.RANK_7 &&
-					this.pieces[sq - 20] === PIECES.EMPTY
+					this.m_pieces[sq - 20] === PIECES.EMPTY
 				) {
 					this.AddQuietMove(
 						this.MOVE(sq, sq - 20, PIECES.EMPTY, PIECES.EMPTY, MFLAGPS)
@@ -236,16 +236,16 @@ export function GenerateMoves () {
 
 			if (
 				SQOFFBOARD(sq - 9) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq - 9]] === COLOURS.WHITE
+				PieceCol[this.m_pieces[sq - 9]] === COLOURS.WHITE
 			) {
-				this.AddBlackPawnCaptureMove(sq, sq - 9, this.pieces[sq - 9]);
+				this.AddBlackPawnCaptureMove(sq, sq - 9, this.m_pieces[sq - 9]);
 			}
 
 			if (
 				SQOFFBOARD(sq - 11) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq - 11]] === COLOURS.WHITE
+				PieceCol[this.m_pieces[sq - 11]] === COLOURS.WHITE
 			) {
-				this.AddBlackPawnCaptureMove(sq, sq - 11, this.pieces[sq - 11]);
+				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
 			}
 			if (this.enPas !== SQUARES.NO_SQ) {
 				if (sq - 9 === this.enPas) {
@@ -263,8 +263,8 @@ export function GenerateMoves () {
 
 		if (this.castlePerm & CASTLEBIT.BKCA) {
 			if (
-				this.pieces[SQUARES.F8] === PIECES.EMPTY &&
-				this.pieces[SQUARES.G8] === PIECES.EMPTY
+				this.m_pieces[SQUARES.F8] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.G8] === PIECES.EMPTY
 			) {
 				if (
 					this.SqAttacked(SQUARES.E8, COLOURS.WHITE) ===
@@ -289,9 +289,9 @@ export function GenerateMoves () {
 
 		if (this.castlePerm & CASTLEBIT.BQCA) {
 			if (
-				this.pieces[SQUARES.D8] === PIECES.EMPTY &&
-				this.pieces[SQUARES.C8] === PIECES.EMPTY &&
-				this.pieces[SQUARES.B8] === PIECES.EMPTY
+				this.m_pieces[SQUARES.D8] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.C8] === PIECES.EMPTY &&
+				this.m_pieces[SQUARES.B8] === PIECES.EMPTY
 			) {
 				if (
 					this.SqAttacked(SQUARES.D8, COLOURS.WHITE) ===
@@ -327,13 +327,13 @@ export function GenerateMoves () {
 					continue;
 				}
 
-				if (this.pieces[t_sq] !== PIECES.EMPTY) {
-					if (PieceCol[this.pieces[t_sq]] !== this.side) {
+				if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
+					if (PieceCol[this.m_pieces[t_sq]] !== this.side) {
 						this.AddCaptureMove(
 							this.MOVE(
 								sq,
 								t_sq,
-								this.pieces[t_sq],
+								this.m_pieces[t_sq],
 								PIECES.EMPTY,
 								0
 							)
@@ -359,15 +359,15 @@ export function GenerateMoves () {
 				t_sq = sq + dir;
 
 				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
-					if (this.pieces[t_sq] !== PIECES.EMPTY) {
+					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
-							PieceCol[this.pieces[t_sq]] !== this.side
+							PieceCol[this.m_pieces[t_sq]] !== this.side
 						) {
 							this.AddCaptureMove(
 								this.MOVE(
 									sq,
 									t_sq,
-									this.pieces[t_sq],
+									this.m_pieces[t_sq],
 									PIECES.EMPTY,
 									0
 								)
@@ -405,16 +405,16 @@ export function GenerateCaptures () {
 
 			if (
 				SQOFFBOARD(sq + 9) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq + 9]] === COLOURS.BLACK
+				PieceCol[this.m_pieces[sq + 9]] === COLOURS.BLACK
 			) {
-				this.AddWhitePawnCaptureMove(sq, sq + 9, this.pieces[sq + 9]);
+				this.AddWhitePawnCaptureMove(sq, sq + 9, this.m_pieces[sq + 9]);
 			}
 
 			if (
 				SQOFFBOARD(sq + 11) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq + 11]] === COLOURS.BLACK
+				PieceCol[this.m_pieces[sq + 11]] === COLOURS.BLACK
 			) {
-				this.AddWhitePawnCaptureMove(sq, sq + 11, this.pieces[sq + 11]);
+				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
 			}
 			if (this.enPas !== SQUARES.NO_SQ) {
 				if (sq + 9 === this.enPas) {
@@ -437,16 +437,16 @@ export function GenerateCaptures () {
 
 			if (
 				SQOFFBOARD(sq - 9) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq - 9]] === COLOURS.WHITE
+				PieceCol[this.m_pieces[sq - 9]] === COLOURS.WHITE
 			) {
-				this.AddBlackPawnCaptureMove(sq, sq - 9, this.pieces[sq - 9]);
+				this.AddBlackPawnCaptureMove(sq, sq - 9, this.m_pieces[sq - 9]);
 			}
 
 			if (
 				SQOFFBOARD(sq - 11) === BOOL.FALSE &&
-				PieceCol[this.pieces[sq - 11]] === COLOURS.WHITE
+				PieceCol[this.m_pieces[sq - 11]] === COLOURS.WHITE
 			) {
-				this.AddBlackPawnCaptureMove(sq, sq - 11, this.pieces[sq - 11]);
+				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
 			}
 			if (this.enPas !== SQUARES.NO_SQ) {
 				if (sq - 9 === this.enPas) {
@@ -477,13 +477,13 @@ export function GenerateCaptures () {
 					continue;
 				}
 
-				if (this.pieces[t_sq] !== PIECES.EMPTY) {
-					if (PieceCol[this.pieces[t_sq]] !== this.side) {
+				if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
+					if (PieceCol[this.m_pieces[t_sq]] !== this.side) {
 						this.AddCaptureMove(
 							this.MOVE(
 								sq,
 								t_sq,
-								this.pieces[t_sq],
+								this.m_pieces[t_sq],
 								PIECES.EMPTY,
 								0
 							)
@@ -507,15 +507,15 @@ export function GenerateCaptures () {
 				t_sq = sq + dir;
 
 				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
-					if (this.pieces[t_sq] !== PIECES.EMPTY) {
+					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
-							PieceCol[this.pieces[t_sq]] !== this.side
+							PieceCol[this.m_pieces[t_sq]] !== this.side
 						) {
 							this.AddCaptureMove(
 								this.MOVE(
 									sq,
 									t_sq,
-									this.pieces[t_sq],
+									this.m_pieces[t_sq],
 									PIECES.EMPTY,
 									0
 								)

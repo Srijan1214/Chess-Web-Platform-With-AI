@@ -288,7 +288,7 @@ export default class AI {
 				if ((Move & MFLAGCAP) === 0) {
 					// NON Capture move
 					this.GameBoard.searchHistory[
-						this.GameBoard.pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)
+						this.GameBoard.m_pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)
 					] += depth * depth
 				}
 				alpha = Score

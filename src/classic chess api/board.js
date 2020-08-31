@@ -8,7 +8,7 @@ import * as boardInterfaceFunctions from "./board_interface_functions"
 import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
 
 export default class GameBoard {
-	pieces = new Array(BRD_SQ_NUM)
+	m_pieces = new Array(BRD_SQ_NUM)
 	side = COLOURS.WHITE
 	fiftyMove = 0
 	hisPly = 0 // count of every halfmove played

@@ -32,7 +32,7 @@ export function CheckBoard () {
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
 		for (t_pce_num = 0; t_pce_num < this.pceNum[t_piece]; ++t_pce_num) {
 			sq120 = this.pList[PCEINDEX(t_piece, t_pce_num)]
-			if (this.pieces[sq120] !== t_piece) {
+			if (this.m_pieces[sq120] !== t_piece) {
 				console.log('Error Pce Lists')
 				return BOOL.FALSE
 			}
@@ -41,7 +41,7 @@ export function CheckBoard () {
 
 	for (sq64 = 0; sq64 < 64; ++sq64) {
 		sq120 = SQ120(sq64)
-		t_piece = this.pieces[sq120]
+		t_piece = this.m_pieces[sq120]
 		t_pceNum[t_piece]++
 		t_material[PieceCol[t_piece]] += PieceVal[t_piece]
 	}
@@ -79,7 +79,7 @@ export function PrintBoard () {
 		let line = (RankChar[rank] + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file, rank)
-			piece = this.pieces[sq]
+			piece = this.m_pieces[sq]
 			line += (" " + PceChar[piece] + " ")
 		}
 		console.log(line)
@@ -117,7 +117,7 @@ export function GiveBoardArray () {
 	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file, rank)
-			piece = this.pieces[sq]
+			piece = this.m_pieces[sq]
 			retArray[7 - rank][file] = PceChar[piece]
 		}
 	}
@@ -131,7 +131,7 @@ export function GeneratePosKey () {
 	let piece = PIECES.EMPTY
 
 	for (sq = 0; sq < BRD_SQ_NUM; sq++) {
-		piece = this.pieces[sq]
+		piece = this.m_pieces[sq]
 		if (piece !== PIECES.EMPTY && piece !== SQUARES.OFFBOARD) {
 			finalKey ^= PieceKeys[(piece * 120) + sq]
 		}
@@ -177,7 +177,7 @@ export function UpdateListsMaterial () {
 
 	for (index = 0; index < 64; ++index) {
 		sq = SQ120(index)
-		piece = this.pieces[sq]
+		piece = this.m_pieces[sq]
 		if (piece !== PIECES.EMPTY) {
 			colour = PieceCol[piece]
 
@@ -194,11 +194,11 @@ export function ResetBoard () {
 	let index = 0
 
 	for (index = 0; index < BRD_SQ_NUM; index++) {
-		this.pieces[index] = SQUARES.OFFBOARD
+		this.m_pieces[index] = SQUARES.OFFBOARD
 	}
 
 	for (index = 0; index < 64; index++) {
-		this.pieces[SQ120(index)] = PIECES.EMPTY
+		this.m_pieces[SQ120(index)] = PIECES.EMPTY
 	}
 
 	this.side = COLOURS.BOTH
@@ -262,7 +262,7 @@ export function ParseFen (fen) {
 		}
 		for (index = 0; index < count; index++) {
 			sq120 = FR2SQ(file, rank)
-			this.pieces[sq120] = piece
+			this.m_pieces[sq120] = piece
 			file++
 		}
 		fenCnt++
@@ -326,22 +326,22 @@ export function SqAttacked (sq, side)  {
 
 	if (side === COLOURS.WHITE) {
 		if (
-			this.pieces[sq - 11] === PIECES.wP ||
-			this.pieces[sq - 9] === PIECES.wP
+			this.m_pieces[sq - 11] === PIECES.wP ||
+			this.m_pieces[sq - 9] === PIECES.wP
 		) {
 			return BOOL.TRUE;
 		}
 	} else {
 		if (
-			this.pieces[sq + 11] === PIECES.bP ||
-			this.pieces[sq + 9] === PIECES.bP
+			this.m_pieces[sq + 11] === PIECES.bP ||
+			this.m_pieces[sq + 9] === PIECES.bP
 		) {
 			return BOOL.TRUE;
 		}
 	}
 
 	for (index = 0; index < 8; index++) {
-		pce = this.pieces[sq + KnDir[index]];
+		pce = this.m_pieces[sq + KnDir[index]];
 		if (
 			pce !== SQUARES.OFFBOARD &&
 			PieceCol[pce] === side &&
@@ -354,7 +354,7 @@ export function SqAttacked (sq, side)  {
 	for (index = 0; index < 4; index++) {
 		let dir = RkDir[index];
 		let t_sq = sq + dir;
-		let pce = this.pieces[t_sq];
+		let pce = this.m_pieces[t_sq];
 		while (pce !== SQUARES.OFFBOARD) {
 			if (pce !== PIECES.EMPTY) {
 				if (PieceRookQueen[pce] === BOOL.TRUE && PieceCol[pce] === side) {
@@ -363,14 +363,14 @@ export function SqAttacked (sq, side)  {
 				break;
 			}
 			t_sq += dir;
-			pce = this.pieces[t_sq];
+			pce = this.m_pieces[t_sq];
 		}
 	}
 
 	for (index = 0; index < 4; index++) {
 		let dir = BiDir[index];
 		let t_sq = sq + dir;
-		let pce = this.pieces[t_sq];
+		let pce = this.m_pieces[t_sq];
 		while (pce !== SQUARES.OFFBOARD) {
 			if (pce !== PIECES.EMPTY) {
 				if (
@@ -382,12 +382,12 @@ export function SqAttacked (sq, side)  {
 				break;
 			}
 			t_sq += dir;
-			pce = this.pieces[t_sq];
+			pce = this.m_pieces[t_sq];
 		}
 	}
 
 	for (index = 0; index < 8; index++) {
-		pce = this.pieces[sq + KiDir[index]];
+		pce = this.m_pieces[sq + KiDir[index]];
 		if (
 			pce !== SQUARES.OFFBOARD &&
 			PieceCol[pce] === side &&
