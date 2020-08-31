@@ -1,8 +1,8 @@
 import _ from "lodash"
 import {
-	convert_rowCol_to_fileRank
+	Convert_RowCol_To_FileRank
 } from "../../utility_functions/Utility.js"
-import { get_flipped_row_column } from "../../utility_functions/Utility.js"
+import { Get_Flipped_Row_Column } from "../../utility_functions/Utility.js"
 
 export function Outside_mouseClickHandler(event) {
 	if (this) {
@@ -24,7 +24,7 @@ export function Outside_mouseClickHandler(event) {
 			let column = parseInt((x / (canvas_width - 1)) * 8)
 
 			if (this.props.get_user_color() === 1) {
-				;({ row : row, column : column } = get_flipped_row_column(row, column))
+				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
 			}
 
 			const newState = {}
@@ -89,7 +89,7 @@ export function Outside_mouseUpHandler(event) {
 
 
 			if (this.props.get_user_color() === 1) {
-				;({ row : row, column : column } = get_flipped_row_column(row, column))
+				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
 			}
 
 			const newState = {}
@@ -99,8 +99,8 @@ export function Outside_mouseUpHandler(event) {
 				(!(this.state.old_image_position[0] === row && (this.state.old_image_position[1] === column)))
 				&& this.state.dragging
 				&& this.state.curPosition[row][column] !== 0
-			const new_location = convert_rowCol_to_fileRank(row, column)
-			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
+			const new_location = Convert_RowCol_To_FileRank(row, column)
+			const prev_location = Convert_RowCol_To_FileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.GetMoveStatus(prev_location, new_location)
 			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
 			if (shouldCancelMove) {

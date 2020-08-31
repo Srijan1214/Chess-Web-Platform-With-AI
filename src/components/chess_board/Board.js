@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import { get_flipped_row_column, convert_fileRank_to_rowCol } from "../../utility_functions/Utility.js"
+import { Get_Flipped_Row_Column, Convert_FileRank_To_RowCol } from "../../utility_functions/Utility.js"
 import * as Board_input_handlers from "./Board_input_handlers"
 import * as Board_castle_performers from "./perform_castles"
 
@@ -166,7 +166,7 @@ class Board extends React.Component {
 			for (let column = 0; column < this.state.curPosition[row].length; column++) {
 				let [a, b] = [row, column]
 				if(this.props.get_user_color() === 1) {
-					let temp = get_flipped_row_column(row, column)
+					let temp = Get_Flipped_Row_Column(row, column)
 					a = temp.row
 					b = temp.column
 				}
@@ -217,7 +217,7 @@ class Board extends React.Component {
 	}
 
 	get_piece_val_at(location) {
-		const { row: row, column: column } = convert_fileRank_to_rowCol(location)
+		const { row: row, column: column } = Convert_FileRank_To_RowCol(location)
 		return this.state.curPosition[row][column]
 	}
 

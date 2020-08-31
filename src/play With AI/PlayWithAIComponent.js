@@ -1,6 +1,6 @@
 import React from "react"
 import _ from "lodash"
-import { convert_fileRank_to_rowCol, convert_rowCol_to_fileRank, get_flipped_square } from "../utility_functions/Utility"
+import { Convert_FileRank_To_RowCol, Convert_RowCol_To_FileRank, Get_Flipped_Square } from "../utility_functions/Utility"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
 import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
@@ -198,8 +198,8 @@ class PlayWithAIComponent extends React.Component {
 		}
 		this.GameBoard.PrintBoard()
 
-		const { row: new_r, column: new_c } = convert_fileRank_to_rowCol(new_location)
-		const { row: prev_r, column: prev_c } = convert_fileRank_to_rowCol(prev_location)
+		const { row: new_r, column: new_c } = Convert_FileRank_To_RowCol(new_location)
+		const { row: prev_r, column: prev_c } = Convert_FileRank_To_RowCol(prev_location)
 
 		const newPosition = _.cloneDeep(this.state.cur_position)
 		newPosition[new_r][new_c] = newPosition[prev_r][prev_c]
@@ -220,7 +220,7 @@ class PlayWithAIComponent extends React.Component {
 	callback_insert_promotion_piece = (piece_val, file_number) => {
 		let location = String.fromCharCode(97 + file_number - 1) + 8
 		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
-			location = get_flipped_square(location)
+			location = Get_Flipped_Square(location)
 		}
 		this._board.current._board.current.put_piece_on_board(
 			location,
@@ -336,7 +336,7 @@ class PlayWithAIComponent extends React.Component {
 		}
 		for(let row = 0; row < 8; row++) {
 			for(let column = 0; column < 8; column++) {
-				const location = convert_rowCol_to_fileRank(row, column)
+				const location = Convert_RowCol_To_FileRank(row, column)
 				const value = get_piece_value_from_piece_character(piece_character_array[row][column])
 				location_val_array.push({location: location, value: value})
 			}
