@@ -95,10 +95,10 @@ export function MakeMove (move){
 	this.m_history[this.m_hisPly].move = move
 	this.m_history[this.m_hisPly].m_fiftyMove = this.m_fiftyMove
 	this.m_history[this.m_hisPly].enPas = this.m_enPas
-	this.m_history[this.m_hisPly].castlePerm = this.castlePerm
+	this.m_history[this.m_hisPly].castlePerm = this.m_castlePerm
 
-	this.castlePerm &= CastlePerm[from]
-	this.castlePerm &= CastlePerm[to]
+	this.m_castlePerm &= CastlePerm[from]
+	this.m_castlePerm &= CastlePerm[to]
 	this.m_enPas = SQUARES.NO_SQ
 
 	this.HASH_CA()
@@ -157,7 +157,7 @@ export function TakeMove () {
 	if (this.m_enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
-	this.castlePerm = this.m_history[this.m_hisPly].castlePerm;
+	this.m_castlePerm = this.m_history[this.m_hisPly].castlePerm;
 	this.m_fiftyMove = this.m_history[this.m_hisPly].m_fiftyMove;
 	this.m_enPas = this.m_history[this.m_hisPly].enPas;
 

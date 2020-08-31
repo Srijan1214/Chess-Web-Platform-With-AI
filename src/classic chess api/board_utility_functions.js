@@ -96,10 +96,10 @@ export function PrintBoard () {
 	console.log("enPas:" + this.m_enPas)
 	line = ""
 
-	if (this.castlePerm & CASTLEBIT.WKCA) line += 'K'
-	if (this.castlePerm & CASTLEBIT.WQCA) line += 'Q'
-	if (this.castlePerm & CASTLEBIT.BKCA) line += 'k'
-	if (this.castlePerm & CASTLEBIT.BQCA) line += 'q'
+	if (this.m_castlePerm & CASTLEBIT.WKCA) line += 'K'
+	if (this.m_castlePerm & CASTLEBIT.WQCA) line += 'Q'
+	if (this.m_castlePerm & CASTLEBIT.BKCA) line += 'k'
+	if (this.m_castlePerm & CASTLEBIT.BQCA) line += 'q'
 	console.log("castle:" + line)
 	console.log("key:" + this.posKey.toString(16))
 }
@@ -145,7 +145,7 @@ export function GeneratePosKey () {
 		finalKey ^= PieceKeys[this.m_enPas]
 	}
 
-	finalKey ^= CastleKeys[this.castlePerm]
+	finalKey ^= CastleKeys[this.m_castlePerm]
 
 	return finalKey
 }
@@ -206,7 +206,7 @@ export function ResetBoard () {
 	this.m_fiftyMove = 0
 	this.m_ply = 0
 	this.m_hisPly = 0
-	this.castlePerm = 0
+	this.m_castlePerm = 0
 	this.poskey = 0
 	this.moveListStart[this.m_ply] = 0
 }
@@ -276,10 +276,10 @@ export function ParseFen (fen) {
 			break
 		}
 		switch (fen[fenCnt]) {
-			case 'K': this.castlePerm |= CASTLEBIT.WKCA; break
-			case 'Q': this.castlePerm |= CASTLEBIT.WQCA; break
-			case 'k': this.castlePerm |= CASTLEBIT.BKCA; break
-			case 'q': this.castlePerm |= CASTLEBIT.BQCA; break
+			case 'K': this.m_castlePerm |= CASTLEBIT.WKCA; break
+			case 'Q': this.m_castlePerm |= CASTLEBIT.WQCA; break
+			case 'k': this.m_castlePerm |= CASTLEBIT.BKCA; break
+			case 'q': this.m_castlePerm |= CASTLEBIT.BQCA; break
 			default: break
 		}
 		fenCnt++
@@ -405,7 +405,7 @@ export function HASH_PCE (pce, sq) {
 }
 
 export function HASH_CA () {
-	this.posKey ^= CastleKeys[this.castlePerm]
+	this.posKey ^= CastleKeys[this.m_castlePerm]
 }
 
 export function HASH_SIDE () {

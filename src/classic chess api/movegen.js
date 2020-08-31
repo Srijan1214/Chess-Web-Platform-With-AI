@@ -165,7 +165,7 @@ export function GenerateMoves () {
 			}
 		}
 
-		if (this.castlePerm & CASTLEBIT.WKCA) {
+		if (this.m_castlePerm & CASTLEBIT.WKCA) {
 			if (
 				this.m_pieces[SQUARES.F1] === PIECES.EMPTY &&
 				this.m_pieces[SQUARES.G1] === PIECES.EMPTY
@@ -191,7 +191,7 @@ export function GenerateMoves () {
 			}
 		}
 
-		if (this.castlePerm & CASTLEBIT.WQCA) {
+		if (this.m_castlePerm & CASTLEBIT.WQCA) {
 			if (
 				this.m_pieces[SQUARES.D1] === PIECES.EMPTY &&
 				this.m_pieces[SQUARES.C1] === PIECES.EMPTY &&
@@ -261,7 +261,7 @@ export function GenerateMoves () {
 			}
 		}
 
-		if (this.castlePerm & CASTLEBIT.BKCA) {
+		if (this.m_castlePerm & CASTLEBIT.BKCA) {
 			if (
 				this.m_pieces[SQUARES.F8] === PIECES.EMPTY &&
 				this.m_pieces[SQUARES.G8] === PIECES.EMPTY
@@ -287,7 +287,7 @@ export function GenerateMoves () {
 			}
 		}
 
-		if (this.castlePerm & CASTLEBIT.BQCA) {
+		if (this.m_castlePerm & CASTLEBIT.BQCA) {
 			if (
 				this.m_pieces[SQUARES.D8] === PIECES.EMPTY &&
 				this.m_pieces[SQUARES.C8] === PIECES.EMPTY &&
