@@ -10,8 +10,8 @@ export function get_move_status (from, to) {
 	let found = BOOL.FALSE
 	let index
 
-	for (index = this.moveListStart[this.m_ply]; index < this.moveListStart[this.m_ply + 1]; index++) {
-		Move = this.moveList[index]
+	for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
+		Move = this.m_moveList[index]
 		if (FROMSQ(Move) === from && TOSQ(Move) === to) {
 			found = true
 			break
@@ -45,8 +45,8 @@ export function move_piece(from, to, promoted = PIECES.EMPTY) {
 		let found = BOOL.FALSE
 		let index
 	
-		for (index = this.moveListStart[this.m_ply]; index < this.moveListStart[this.m_ply + 1]; index++) {
-			Move = this.moveList[index]
+		for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
+			Move = this.m_moveList[index]
 			if (FROMSQ(Move) === from && TOSQ(Move) === to) {
 				// Check for piece promotion if the from and to square satisfy
 				PromPce = PROMOTED(Move)

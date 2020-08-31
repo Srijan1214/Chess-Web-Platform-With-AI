@@ -10,18 +10,18 @@ export function ClearPiece (sq) {
 	this.HASH_PCE(pce, sq);
 
 	this.m_pieces[sq] = PIECES.EMPTY;
-	this.material[col] -= PieceVal[pce];
+	this.m_material[col] -= PieceVal[pce];
 
-	for (index = 0; index < this.pceNum[pce]; index++) {
-		if (this.pList[PCEINDEX(pce, index)] === sq) {
+	for (index = 0; index < this.m_pceNum[pce]; index++) {
+		if (this.m_pList[PCEINDEX(pce, index)] === sq) {
 			t_pceNum = index;
 			break;
 		}
 	}
 
-	this.pceNum[pce]--;
-	this.pList[PCEINDEX(pce, t_pceNum)] =
-		this.pList[PCEINDEX(pce, this.pceNum[pce])];
+	this.m_pceNum[pce]--;
+	this.m_pList[PCEINDEX(pce, t_pceNum)] =
+		this.m_pList[PCEINDEX(pce, this.m_pceNum[pce])];
 }
 
 export function AddPiece (sq, pce) {
@@ -30,9 +30,9 @@ export function AddPiece (sq, pce) {
 	this.HASH_PCE(pce, sq);
 
 	this.m_pieces[sq] = pce;
-	this.material[col] += PieceVal[pce];
-	this.pList[PCEINDEX(pce, this.pceNum[pce])] = sq;
-	this.pceNum[pce]++;
+	this.m_material[col] += PieceVal[pce];
+	this.m_pList[PCEINDEX(pce, this.m_pceNum[pce])] = sq;
+	this.m_pceNum[pce]++;
 };
 
 export function MovePiece (from, to) {
@@ -45,9 +45,9 @@ export function MovePiece (from, to) {
 	this.HASH_PCE(pce, to)
 	this.m_pieces[to] = pce
 
-	for (index = 0; index < this.pceNum[pce]; index++) {
-		if (this.pList[PCEINDEX(pce, index)] === from) {
-			this.pList[PCEINDEX(pce, index)] = to
+	for (index = 0; index < this.m_pceNum[pce]; index++) {
+		if (this.m_pList[PCEINDEX(pce, index)] === from) {
+			this.m_pList[PCEINDEX(pce, index)] = to
 			break
 		}
 	}
@@ -138,7 +138,7 @@ export function MakeMove (move){
 	this.m_side ^= 1
 	this.HASH_SIDE()
 
-	if (this.SqAttacked(this.pList[PCEINDEX(Kings[side], 0)], this.m_side)) {
+	if (this.SqAttacked(this.m_pList[PCEINDEX(Kings[side], 0)], this.m_side)) {
 		this.TakeMove()
 		return BOOL.FALSE
 	}

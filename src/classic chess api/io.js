@@ -42,8 +42,8 @@ export function PrintMoveList() {
 	let num = 1
 	console.log('MoveList:')
 
-	for (index = this.moveListStart[this.m_ply]; index < this.moveListStart[this.m_ply + 1]; index++) {
-		move = this.moveList[index]
+	for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
+		move = this.m_moveList[index]
 		console.log('Move:' + num + ':' + this.PrMove(move))
 		num++
 	}

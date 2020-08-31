@@ -9,11 +9,11 @@ export function MoveExists (move) {
 	let index;
 	let moveFound = NOMOVE;
 	for (
-		index = this.moveListStart[this.m_ply];
-		index < this.moveListStart[this.m_ply + 1];
+		index = this.m_moveListStart[this.m_ply];
+		index < this.m_moveListStart[this.m_ply + 1];
 		++index
 	) {
-		moveFound = this.moveList[index];
+		moveFound = this.m_moveList[index];
 		if (this.MakeMove(moveFound) === BOOL.FALSE) {
 			continue;
 		}
@@ -30,39 +30,39 @@ export function MOVE (from, to, captured, promoted, flag) {
 }
 
 export function AddCaptureMove (move) {
-	this.moveList[this.moveListStart[this.m_ply + 1]] = move;
-	this.moveScores[this.moveListStart[this.m_ply + 1]] =
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move;
+	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] =
 		MVVLVASCORES[CAPTURED(move) * 14 + this.m_pieces[FROMSQ(move)]] +
 		1000000;
-	this.moveListStart[this.m_ply + 1] += 1;
+	this.m_moveListStart[this.m_ply + 1] += 1;
 }
 
 export function AddQuietMove (move) {
-	this.moveList[this.moveListStart[this.m_ply + 1]] = move;
-	this.moveScores[this.moveListStart[this.m_ply + 1]] = 0;
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move;
+	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] = 0;
 
-	if (move === this.searchKillers[this.m_ply]) {
-		this.moveScores[
-			this.moveListStart[this.m_ply + 1]
+	if (move === this.m_searchKillers[this.m_ply]) {
+		this.m_moveScores[
+			this.m_moveListStart[this.m_ply + 1]
 		] = 900000;
-	} else if (move === this.searchKillers[this.m_ply + MAXDEPTH]) {
-		this.moveScores[
-			this.moveListStart[this.m_ply + 1]
+	} else if (move === this.m_searchKillers[this.m_ply + MAXDEPTH]) {
+		this.m_moveScores[
+			this.m_moveListStart[this.m_ply + 1]
 		] = 800000;
 	} else {
-		this.moveScores[this.moveListStart[this.m_ply + 1]] =
-			this.searchHistory[
+		this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] =
+			this.m_searchHistory[
 				this.m_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move)
 			];
 	}
 
-	this.moveListStart[this.m_ply + 1] += 1;
+	this.m_moveListStart[this.m_ply + 1] += 1;
 }
 
 export function AddEnPassantMove (move) {
-	this.moveList[this.moveListStart[this.m_ply + 1]] = move
-	this.moveScores[this.moveListStart[this.m_ply + 1]] = 105 + 1000000
-	this.moveListStart[this.m_ply + 1] += 1
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move
+	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] = 105 + 1000000
+	this.m_moveListStart[this.m_ply + 1] += 1
 }
 
 export function AddWhitePawnCaptureMove (from, to, cap) {
@@ -108,8 +108,8 @@ export function AddBlackPawnQuietMove (from, to) {
 }
 
 export function GenerateMoves () {
-	this.moveListStart[this.m_ply + 1] =
-		this.moveListStart[this.m_ply];
+	this.m_moveListStart[this.m_ply + 1] =
+		this.m_moveListStart[this.m_ply];
 
 	let pceType;
 	let pceNum;
@@ -123,8 +123,8 @@ export function GenerateMoves () {
 	if (this.m_side === COLOURS.WHITE) {
 		pceType = PIECES.wP;
 
-		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
-			sq = this.pList[PCEINDEX(pceType, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pceType]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (this.m_pieces[sq + 10] === PIECES.EMPTY) {
 				this.AddWhitePawnQuietMove(sq, sq + 10);
@@ -218,8 +218,8 @@ export function GenerateMoves () {
 	} else {
 		pceType = PIECES.bP;
 
-		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
-			sq = this.pList[PCEINDEX(pceType, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pceType]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (this.m_pieces[sq - 10] === PIECES.EMPTY) {
 				// Add Pawn Move
@@ -316,8 +316,8 @@ export function GenerateMoves () {
 	pce = LoopNonSlidePce[pceIndex++];
 
 	while (pce !== 0) {
-		for (pceNum = 0; pceNum < this.pceNum[pce]; pceNum++) {
-			sq = this.pList[PCEINDEX(pce, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pce]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pce, pceNum)];
 
 			for (index = 0; index < DirNum[pce]; index++) {
 				dir = PceDir[pce][index];
@@ -351,8 +351,8 @@ export function GenerateMoves () {
 	pce = LoopSlidePce[pceIndex++];
 
 	while (pce !== 0) {
-		for (pceNum = 0; pceNum < this.pceNum[pce]; pceNum++) {
-			sq = this.pList[PCEINDEX(pce, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pce]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pce, pceNum)];
 
 			for (index = 0; index < DirNum[pce]; index++) {
 				dir = PceDir[pce][index];
@@ -385,8 +385,8 @@ export function GenerateMoves () {
 }
 
 export function GenerateCaptures () {
-	this.moveListStart[this.m_ply + 1] =
-		this.moveListStart[this.m_ply];
+	this.m_moveListStart[this.m_ply + 1] =
+		this.m_moveListStart[this.m_ply];
 
 	let pceType;
 	let pceNum;
@@ -400,8 +400,8 @@ export function GenerateCaptures () {
 	if (this.m_side === COLOURS.WHITE) {
 		pceType = PIECES.wP;
 
-		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
-			sq = this.pList[PCEINDEX(pceType, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pceType]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (
 				SQOFFBOARD(sq + 9) === BOOL.FALSE &&
@@ -432,8 +432,8 @@ export function GenerateCaptures () {
 	} else {
 		pceType = PIECES.bP;
 
-		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
-			sq = this.pList[PCEINDEX(pceType, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pceType]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (
 				SQOFFBOARD(sq - 9) === BOOL.FALSE &&
@@ -466,8 +466,8 @@ export function GenerateCaptures () {
 	pce = LoopNonSlidePce[pceIndex++];
 
 	while (pce !== 0) {
-		for (pceNum = 0; pceNum < this.pceNum[pce]; pceNum++) {
-			sq = this.pList[PCEINDEX(pce, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pce]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pce, pceNum)];
 
 			for (index = 0; index < DirNum[pce]; index++) {
 				dir = PceDir[pce][index];
@@ -499,8 +499,8 @@ export function GenerateCaptures () {
 	pce = LoopSlidePce[pceIndex++];
 
 	while (pce !== 0) {
-		for (pceNum = 0; pceNum < this.pceNum[pce]; pceNum++) {
-			sq = this.pList[PCEINDEX(pce, pceNum)];
+		for (pceNum = 0; pceNum < this.m_pceNum[pce]; pceNum++) {
+			sq = this.m_pList[PCEINDEX(pce, pceNum)];
 
 			for (index = 0; index < DirNum[pce]; index++) {
 				dir = PceDir[pce][index];

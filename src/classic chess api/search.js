@@ -50,23 +50,23 @@ export default class AI {
 
 		for (
 			index = MoveNum;
-			index < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
+			index < this.GameBoard.m_moveListStart[this.GameBoard.m_ply + 1];
 			index++
 		) {
-			if (this.GameBoard.moveScores[index] > bestScore) {
-				bestScore = this.GameBoard.moveScores[index]
+			if (this.GameBoard.m_moveScores[index] > bestScore) {
+				bestScore = this.GameBoard.m_moveScores[index]
 				bestNum = index
 			}
 		}
 
 		if (bestNum !== MoveNum) {
-			let temp = this.GameBoard.moveScores[MoveNum]
-			this.GameBoard.moveScores[MoveNum] = this.GameBoard.moveScores[bestNum]
-			this.GameBoard.moveScores[bestNum] = temp
+			let temp = this.GameBoard.m_moveScores[MoveNum]
+			this.GameBoard.m_moveScores[MoveNum] = this.GameBoard.m_moveScores[bestNum]
+			this.GameBoard.m_moveScores[bestNum] = temp
 
-			temp = this.GameBoard.moveList[MoveNum]
-			this.GameBoard.moveList[MoveNum] = this.GameBoard.moveList[bestNum]
-			this.GameBoard.moveList[bestNum] = temp
+			temp = this.GameBoard.m_moveList[MoveNum]
+			this.GameBoard.m_moveList[MoveNum] = this.GameBoard.m_moveList[bestNum]
+			this.GameBoard.m_moveList[bestNum] = temp
 		}
 	}
 
@@ -74,8 +74,8 @@ export default class AI {
 		let index
 
 		for (index = 0; index < PVENTRIES; index++) {
-			this.GameBoard.PvTable[index].move = NOMOVE
-			this.GameBoard.PvTable[index].poskey = 0
+			this.GameBoard.m_PvTable[index].move = NOMOVE
+			this.GameBoard.m_PvTable[index].poskey = 0
 		}
 	}
 
@@ -96,7 +96,7 @@ export default class AI {
 			index < this.GameBoard.m_hisPly - 1;
 			index++
 		) {
-			if (this.GameBoard.poskey === this.GameBoard.m_history[index].poskey) {
+			if (this.GameBoard.m_poskey === this.GameBoard.m_history[index].poskey) {
 				return BOOL.TRUE
 			}
 		}
@@ -144,14 +144,14 @@ export default class AI {
 		// Order PvMove
 
 		for (
-			MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
-			MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
+			MoveNum = this.GameBoard.m_moveListStart[this.GameBoard.m_ply];
+			MoveNum < this.GameBoard.m_moveListStart[this.GameBoard.m_ply + 1];
 			++MoveNum
 		) {
 			// Pick Next Best Move
 			this.PickNextMove(MoveNum)
 
-			Move = this.GameBoard.moveList[MoveNum]
+			Move = this.GameBoard.m_moveList[MoveNum]
 			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
 				continue
 			}
@@ -210,7 +210,7 @@ export default class AI {
 		}
 
 		let InCheck = this.GameBoard.SqAttacked(
-			this.GameBoard.pList[PCEINDEX(Kings[this.GameBoard.m_side], 0)],
+			this.GameBoard.m_pList[PCEINDEX(Kings[this.GameBoard.m_side], 0)],
 			this.GameBoard.m_side ^ 1
 		)
 		if (InCheck === BOOL.TRUE) {
@@ -230,12 +230,12 @@ export default class AI {
 		let PvMove = this.ProbePvTable()
 		if (PvMove !== NOMOVE) {
 			for (
-				MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
-				MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
+				MoveNum = this.GameBoard.m_moveListStart[this.GameBoard.m_ply];
+				MoveNum < this.GameBoard.m_moveListStart[this.GameBoard.m_ply + 1];
 				++MoveNum
 			) {
-				if (this.GameBoard.moveList[MoveNum] === PvMove) {
-					this.GameBoard.moveScores[MoveNum] = 2000000
+				if (this.GameBoard.m_moveList[MoveNum] === PvMove) {
+					this.GameBoard.m_moveScores[MoveNum] = 2000000
 					break
 				}
 			}
@@ -245,14 +245,14 @@ export default class AI {
 		// Order PvMove
 
 		for (
-			MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
-			MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
+			MoveNum = this.GameBoard.m_moveListStart[this.GameBoard.m_ply];
+			MoveNum < this.GameBoard.m_moveListStart[this.GameBoard.m_ply + 1];
 			++MoveNum
 		) {
 			// Pick Next Best Move
 			this.PickNextMove(MoveNum)
 
-			Move = this.GameBoard.moveList[MoveNum]
+			Move = this.GameBoard.m_moveList[MoveNum]
 			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
 				continue
 			}
@@ -274,9 +274,9 @@ export default class AI {
 					// Update Killer Moves
 					if ((Move & MFLAGCAP) === 0) {
 						// NON Capture move
-						this.GameBoard.searchKillers[MAXDEPTH + this.GameBoard.m_ply] =
-							this.GameBoard.searchKillers[this.GameBoard.m_ply]
-						this.GameBoard.searchKillers[this.GameBoard.m_ply] = Move
+						this.GameBoard.m_searchKillers[MAXDEPTH + this.GameBoard.m_ply] =
+							this.GameBoard.m_searchKillers[this.GameBoard.m_ply]
+						this.GameBoard.m_searchKillers[this.GameBoard.m_ply] = Move
 					}
 
 					return beta
@@ -287,7 +287,7 @@ export default class AI {
 				// likely to be good
 				if ((Move & MFLAGCAP) === 0) {
 					// NON Capture move
-					this.GameBoard.searchHistory[
+					this.GameBoard.m_searchHistory[
 						this.GameBoard.m_pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)
 					] += depth * depth
 				}
@@ -315,11 +315,11 @@ export default class AI {
 		let index = 0
 
 		for (index = 0; index < 14 * BRD_SQ_NUM; ++index) {
-			this.GameBoard.searchHistory[index] = 0
+			this.GameBoard.m_searchHistory[index] = 0
 		}
 
 		for (index = 0; index < 3 * MAXDEPTH; ++index) {
-			this.GameBoard.searchKillers[index] = 0
+			this.GameBoard.m_searchKillers[index] = 0
 		}
 
 		this.ClearPvTable()
@@ -360,7 +360,7 @@ export default class AI {
 			PvNum = this.GetPvLine(currentDepth)
 			line += " Pv: "
 			for (c = 0; c < PvNum; c++) {
-				line += " " + this.GameBoard.PrMove(this.GameBoard.PvArray[c])
+				line += " " + this.GameBoard.PrMove(this.GameBoard.m_PvArray[c])
 			}
 			if (currentDepth !== 1) {
 				line +=

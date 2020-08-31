@@ -1,26 +1,26 @@
 import { PIECES, BOOL, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
 export function check_if_draw_due_to_material() {
-	if (this.pceNum[PIECES.wP] !== 0 || this.pceNum[PIECES.bP] !== 0)
+	if (this.m_pceNum[PIECES.wP] !== 0 || this.m_pceNum[PIECES.bP] !== 0)
 		return BOOL.FALSE
 	if (
-		this.pceNum[PIECES.wQ] !== 0 ||
-		this.pceNum[PIECES.bQ] !== 0 ||
-		this.pceNum[PIECES.wR] !== 0 ||
-		this.pceNum[PIECES.bR] !== 0
+		this.m_pceNum[PIECES.wQ] !== 0 ||
+		this.m_pceNum[PIECES.bQ] !== 0 ||
+		this.m_pceNum[PIECES.wR] !== 0 ||
+		this.m_pceNum[PIECES.bR] !== 0
 	)
 		return BOOL.FALSE
-	if (this.pceNum[PIECES.wB] > 1 || this.pceNum[PIECES.bB] > 1) {
+	if (this.m_pceNum[PIECES.wB] > 1 || this.m_pceNum[PIECES.bB] > 1) {
 		return BOOL.FALSE
 	}
-	if (this.pceNum[PIECES.wN] > 1 || this.pceNum[PIECES.bN] > 1) {
+	if (this.m_pceNum[PIECES.wN] > 1 || this.m_pceNum[PIECES.bN] > 1) {
 		return BOOL.FALSE
 	}
 
-	if (this.pceNum[PIECES.wN] !== 0 && this.pceNum[PIECES.wB] !== 0) {
+	if (this.m_pceNum[PIECES.wN] !== 0 && this.m_pceNum[PIECES.wB] !== 0) {
 		return BOOL.FALSE
 	}
-	if (this.pceNum[PIECES.bN] !== 0 && this.pceNum[PIECES.bB] !== 0) {
+	if (this.m_pceNum[PIECES.bN] !== 0 && this.m_pceNum[PIECES.bB] !== 0) {
 		return BOOL.FALSE
 	}
 
@@ -35,11 +35,11 @@ export function check_if_draw_due_to_stalemate() {
 	let found = 0
 
 	for (
-		MoveNum = this.moveListStart[this.m_ply];
-		MoveNum < this.moveListStart[this.m_ply + 1];
+		MoveNum = this.m_moveListStart[this.m_ply];
+		MoveNum < this.m_moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
-		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {
+		if (this.MakeMove(this.m_moveList[MoveNum]) === BOOL.FALSE) {
 			continue
 		}
 		found++
@@ -50,7 +50,7 @@ export function check_if_draw_due_to_stalemate() {
 	if (found !== 0) return BOOL.FALSE
 
 	let InCheck = this.SqAttacked(
-		this.pList[PCEINDEX(Kings[this.m_side], 0)],
+		this.m_pList[PCEINDEX(Kings[this.m_side], 0)],
 		this.m_side ^ 1
 	)
 
@@ -101,11 +101,11 @@ export function get_which_side_won() {
 	let found = 0
 
 	for (
-		MoveNum = this.moveListStart[this.m_ply];
-		MoveNum < this.moveListStart[this.m_ply + 1];
+		MoveNum = this.m_moveListStart[this.m_ply];
+		MoveNum < this.m_moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
-		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {
+		if (this.MakeMove(this.m_moveList[MoveNum]) === BOOL.FALSE) {
 			continue
 		}
 		found++
@@ -116,7 +116,7 @@ export function get_which_side_won() {
 	if (found !== 0) return COLOURS.NONE
 
 	let InCheck = this.SqAttacked(
-		this.pList[PCEINDEX(Kings[this.m_side], 0)],
+		this.m_pList[PCEINDEX(Kings[this.m_side], 0)],
 		this.m_side ^ 1
 	)
 

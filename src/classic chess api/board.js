@@ -16,18 +16,18 @@ export default class GameBoard {
 	m_ply = 0 // count of halfmove played in the search tree
 	m_enPas = 0
 	m_castlePerm = 0
-	material = new Array(2) // Cummulative piece weights for each side
-	pceNum = new Array(13) // Tells how many of each piece we have
-	pList = new Array(14 * 10)
-	poskey = 0
+	m_material = new Array(2) // Cummulative piece weights for each side
+	m_pceNum = new Array(13) // Tells how many of each piece we have
+	m_pList = new Array(14 * 10)
+	m_poskey = 0
 
-	moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES)
-	moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES)
-	moveListStart = new Array(MAXDEPTH)
-	PvTable = []
-	PvArray = new Array(MAXDEPTH)
-	searchHistory = new Array(14 * BRD_SQ_NUM)
-	searchKillers = new Array(3 * MAXDEPTH)
+	m_moveList = new Array(MAXDEPTH * MAXPOSITIONMOVES)
+	m_moveScores = new Array(MAXDEPTH * MAXPOSITIONMOVES)
+	m_moveListStart = new Array(MAXDEPTH)
+	m_PvTable = []
+	m_PvArray = new Array(MAXDEPTH)
+	m_searchHistory = new Array(14 * BRD_SQ_NUM)
+	m_searchKillers = new Array(3 * MAXDEPTH)
 
 	constructor() {
 		// Define Basic Member function

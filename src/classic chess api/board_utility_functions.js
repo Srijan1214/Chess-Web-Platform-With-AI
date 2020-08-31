@@ -17,7 +17,7 @@ export function InitBoardVars () {
 	}
 
 	for (index = 0; index < PVENTRIES; index++) {
-		this.PvTable.push({
+		this.m_PvTable.push({
 			move: NOMOVE,
 			posKey : 0
 		})
@@ -30,8 +30,8 @@ export function CheckBoard () {
 	let sq64, t_piece, t_pce_num, sq120 
 
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
-		for (t_pce_num = 0; t_pce_num < this.pceNum[t_piece]; ++t_pce_num) {
-			sq120 = this.pList[PCEINDEX(t_piece, t_pce_num)]
+		for (t_pce_num = 0; t_pce_num < this.m_pceNum[t_piece]; ++t_pce_num) {
+			sq120 = this.m_pList[PCEINDEX(t_piece, t_pce_num)]
 			if (this.m_pieces[sq120] !== t_piece) {
 				console.log('Error Pce Lists')
 				return BOOL.FALSE
@@ -47,14 +47,14 @@ export function CheckBoard () {
 	}
 
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
-		if (t_pceNum[t_piece] !== this.pceNum[t_piece]) {
+		if (t_pceNum[t_piece] !== this.m_pceNum[t_piece]) {
 			console.log('Error t_pceNum')
 			return BOOL.FALSE
 		}
 	}
 
-	if (t_material[COLOURS.WHITE] !== this.material[COLOURS.WHITE] ||
-		t_material[COLOURS.BLACK] !== this.material[COLOURS.BLACK]) {
+	if (t_material[COLOURS.WHITE] !== this.m_material[COLOURS.WHITE] ||
+		t_material[COLOURS.BLACK] !== this.m_material[COLOURS.BLACK]) {
 		console.log('Error t_material')
 		return BOOL.FALSE
 	}
@@ -154,8 +154,8 @@ export function PrintPieceLists () {
 	let piece, pceNum
 
 	for (piece = PIECES.wP; piece <= PIECES.bK; piece++) {
-		for (pceNum = 0; pceNum < this.pceNum[piece]; pceNum++) {
-			console.log('Piece ' + PceChar[piece] + ' on ' + this.PrSq(this.pList[PCEINDEX(piece, pceNum)]))
+		for (pceNum = 0; pceNum < this.m_pceNum[piece]; pceNum++) {
+			console.log('Piece ' + PceChar[piece] + ' on ' + this.PrSq(this.m_pList[PCEINDEX(piece, pceNum)]))
 		}
 	}
 }
@@ -164,15 +164,15 @@ export function UpdateListsMaterial () {
 	let piece, sq, index, colour
 
 	for (index = 0; index < 14 * 120; ++index) {
-		this.pList[index] = PIECES.EMPTY
+		this.m_pList[index] = PIECES.EMPTY
 	}
 
 	for (index = 0; index < 2; ++index) {
-		this.material[index] = 0
+		this.m_material[index] = 0
 	}
 
 	for (index = 0; index < 13; ++index) {
-		this.pceNum[index] = 0
+		this.m_pceNum[index] = 0
 	}
 
 	for (index = 0; index < 64; ++index) {
@@ -181,10 +181,10 @@ export function UpdateListsMaterial () {
 		if (piece !== PIECES.EMPTY) {
 			colour = PieceCol[piece]
 
-			this.material[colour] += PieceVal[piece]
+			this.m_material[colour] += PieceVal[piece]
 
-			this.pList[PCEINDEX(piece, this.pceNum[piece])] = sq
-			this.pceNum[piece]++
+			this.m_pList[PCEINDEX(piece, this.m_pceNum[piece])] = sq
+			this.m_pceNum[piece]++
 		}
 	}
 
@@ -207,8 +207,8 @@ export function ResetBoard () {
 	this.m_ply = 0
 	this.m_hisPly = 0
 	this.m_castlePerm = 0
-	this.poskey = 0
-	this.moveListStart[this.m_ply] = 0
+	this.m_poskey = 0
+	this.m_moveListStart[this.m_ply] = 0
 }
 
 export function ParseFen (fen) {
