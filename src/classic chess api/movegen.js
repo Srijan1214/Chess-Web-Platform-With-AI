@@ -151,13 +151,13 @@ export function GenerateMoves () {
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
 			}
-			if (this.enPas !== SQUARES.NO_SQ) {
-				if (sq + 9 === this.enPas) {
+			if (this.m_enPas !== SQUARES.NO_SQ) {
+				if (sq + 9 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq + 9, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
 				}
-				if (sq + 11 === this.enPas) {
+				if (sq + 11 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq + 11, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
@@ -247,13 +247,13 @@ export function GenerateMoves () {
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
 			}
-			if (this.enPas !== SQUARES.NO_SQ) {
-				if (sq - 9 === this.enPas) {
+			if (this.m_enPas !== SQUARES.NO_SQ) {
+				if (sq - 9 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq - 9, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
 				}
-				if (sq - 11 === this.enPas) {
+				if (sq - 11 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq - 11, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
@@ -416,13 +416,13 @@ export function GenerateCaptures () {
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
 			}
-			if (this.enPas !== SQUARES.NO_SQ) {
-				if (sq + 9 === this.enPas) {
+			if (this.m_enPas !== SQUARES.NO_SQ) {
+				if (sq + 9 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq + 9, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
 				}
-				if (sq + 11 === this.enPas) {
+				if (sq + 11 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq + 11, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
@@ -448,13 +448,13 @@ export function GenerateCaptures () {
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
 			}
-			if (this.enPas !== SQUARES.NO_SQ) {
-				if (sq - 9 === this.enPas) {
+			if (this.m_enPas !== SQUARES.NO_SQ) {
+				if (sq - 9 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq - 9, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);
 				}
-				if (sq - 11 === this.enPas) {
+				if (sq - 11 === this.m_enPas) {
 					this.AddEnPassantMove(
 						this.MOVE(sq, sq - 11, PIECES.EMPTY, PIECES.EMPTY, MFLAGEP)
 					);

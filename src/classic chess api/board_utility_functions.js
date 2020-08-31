@@ -93,7 +93,7 @@ export function PrintBoard () {
 
 	console.log(line)
 	console.log("side:" + SideChar[this.m_side])
-	console.log("enPas:" + this.enPas)
+	console.log("enPas:" + this.m_enPas)
 	line = ""
 
 	if (this.castlePerm & CASTLEBIT.WKCA) line += 'K'
@@ -141,8 +141,8 @@ export function GeneratePosKey () {
 		finalKey ^= SideKey
 	}
 
-	if (this.enPas !== SQUARES.NO_SQ) {
-		finalKey ^= PieceKeys[this.enPas]
+	if (this.m_enPas !== SQUARES.NO_SQ) {
+		finalKey ^= PieceKeys[this.m_enPas]
 	}
 
 	finalKey ^= CastleKeys[this.castlePerm]
@@ -202,7 +202,7 @@ export function ResetBoard () {
 	}
 
 	this.m_side = COLOURS.BOTH
-	this.enPas = SQUARES.NO_SQ
+	this.m_enPas = SQUARES.NO_SQ
 	this.m_fiftyMove = 0
 	this.m_ply = 0
 	this.m_hisPly = 0
@@ -290,7 +290,7 @@ export function ParseFen (fen) {
 		file = fen[fenCnt].charCodeAt() - 'a'.charCodeAt()
 		rank = fen[fenCnt + 1].charCodeAt() - '1'.charCodeAt()
 		console.log("fen[fenCnt]:" + fen[fenCnt] + " File:" + file + " Rank:" + rank)
-		this.enPas = FR2SQ(file, rank)
+		this.m_enPas = FR2SQ(file, rank)
 	}
 
 	this.posKey = this.GeneratePosKey()
@@ -413,5 +413,5 @@ export function HASH_SIDE () {
 }
 
 export function HASH_EP () {
-	this.posKey ^= PieceKeys[this.enPas]
+	this.posKey ^= PieceKeys[this.m_enPas]
 }

@@ -14,7 +14,7 @@ export default class GameBoard {
 	m_hisPly = 0 // count of every halfmove played
 	m_history = []
 	m_ply = 0 // count of halfmove played in the search tree
-	enPas = 0
+	m_enPas = 0
 	castlePerm = 0
 	material = new Array(2) // Cummulative piece weights for each side
 	pceNum = new Array(13) // Tells how many of each piece we have
