@@ -55,7 +55,7 @@ class BoardInterface extends React.Component {
 	}
 
 	componentDidMount() {
-		this.load_images()
+		this.LoadImagesFromServer()
 		const canvas = this.chess_board_canvas.current
 		const dpi = window.devicePixelRatio;
 		function fix_dpi() {
@@ -65,15 +65,15 @@ class BoardInterface extends React.Component {
 			canvas.setAttribute('width', style_width * dpi);
 		}
 		fix_dpi()
-		this.draw_board(canvas)
+		this.DrawBoard(canvas)
 	}
 
 	componentDidUpdate() {
 		const canvas = this.chess_board_canvas.current
 		canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
-		this.draw_board(canvas)
+		this.DrawBoard(canvas)
 		if (this.state.are_images_loaded) {
-			this.put_starting_pieces_on_board(canvas)
+			this.FillCanvasWithPieceImages(canvas)
 			if (this.state.current_image !== null) {
 				const ctx = canvas.getContext("2d")
 				const dx = canvas.width / 8
@@ -98,7 +98,7 @@ class BoardInterface extends React.Component {
 		)
 	}
 
-	draw_board(canvas) {
+	DrawBoard(canvas) {
 		const ctx = canvas.getContext("2d")
 		const dx = canvas.width / 8
 		const dy = canvas.height / 8
@@ -113,7 +113,7 @@ class BoardInterface extends React.Component {
 		}
 	}
 
-	load_images() {
+	LoadImagesFromServer() {
 		let images = [
 			"white_bish", "black_bish", "white_knight", "black_knight",
 			"white_rook", "black_rook", "white_queen", "black_queen", "white_king",
@@ -149,7 +149,7 @@ class BoardInterface extends React.Component {
 		}))
 	}
 
-	put_piece_at(x, y, img, value) {
+	PutPieceImageAt(x, y, img, value) {
 		const canvas = this.chess_board_canvas.current
 		if (value !== 0) {
 			const dx = canvas.width / 8
@@ -161,7 +161,7 @@ class BoardInterface extends React.Component {
 		}
 	}
 
-	put_starting_pieces_on_board(canvas) {
+	FillCanvasWithPieceImages(canvas) {
 		for (let row = 0; row < this.state.curPosition.length; row++) {
 			for (let column = 0; column < this.state.curPosition[row].length; column++) {
 				let [a, b] = [row, column]
@@ -170,12 +170,12 @@ class BoardInterface extends React.Component {
 					a = temp.row
 					b = temp.column
 				}
-				this.put_piece_at(b + 1, a + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - row][column]]], this.state.curPosition[7 - row][column])
+				this.PutPieceImageAt(b + 1, a + 1, this.state.img_dict[this.piece_to_pice_val_dict[this.state.curPosition[7 - row][column]]], this.state.curPosition[7 - row][column])
 			}
 		}
 	}
 
-	cancelMove(newState) {
+	StopMouseInputAndCanelMove(newState) {
 		if (this.state.old_image_value !== 0) {
 			newState.curPosition = _.cloneDeep(this.state.curPosition)
 			newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = this.state.old_image_value
@@ -199,7 +199,7 @@ class BoardInterface extends React.Component {
 		this.setState(newState)
 	}
 
-	put_multiple_pieces_on_board(location_val_array) {
+	PutMultiplePiecesOnBoard(location_val_array) {
 		let newState = {}
 		// clone deep is important as we do not wish to manipulate the previous reference. 
 		// i.e we might alter the positions array as this.state.curPosition exists inside positions
@@ -216,12 +216,12 @@ class BoardInterface extends React.Component {
 		this.setState(newState)
 	}
 
-	get_piece_val_at(location) {
+	GetPieceValueAt(location) {
 		const { row: row, column: column } = Convert_FileRank_To_RowCol(location)
 		return this.state.curPosition[row][column]
 	}
 
-	makeMove = (prev_location, new_location) => {
+	MovePieceInsideInterface = (prev_location, new_location) => {
 		let prev_row = 8 - parseInt(prev_location[1])
 		let prev_column = (prev_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
@@ -240,13 +240,13 @@ class BoardInterface extends React.Component {
 		this.setState(newState)
 	}
 
-	block_user_input = () => {
+	BlockUserInput = () => {
 		const newState = {}
 		newState.should_block_user_input = true
 		this.setState(newState)
 	}
 
-	unblock_user_input = () => {
+	UnBlockUserInput = () => {
 		const newState = {}
 		newState.should_block_user_input = false
 		this.setState(newState)

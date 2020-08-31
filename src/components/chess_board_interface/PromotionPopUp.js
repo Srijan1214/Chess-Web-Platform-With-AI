@@ -67,7 +67,7 @@ class PromotionPopUp extends React.Component {
 
 
 	componentDidMount() {
-		this.load_images()
+		this.LoadImagesFromServer()
 		const canvas = this._canvas.current
 		const dpi = window.devicePixelRatio;
 		function fix_dpi() {
@@ -86,11 +86,11 @@ class PromotionPopUp extends React.Component {
 		// Draw
 		if (this.state.are_images_loaded) {
 			// Draw Pieces
-			this.put_starting_pieces_on_board(canvas)
+			this.FillCanvasWithPieceImages(canvas)
 		}
 	}
 
-	load_images() {
+	LoadImagesFromServer() {
 		let images = [
 			"white_bish", "black_bish", "white_knight", "black_knight",
 			"white_rook", "black_rook", "white_queen", "black_queen", "white_king",
@@ -125,21 +125,21 @@ class PromotionPopUp extends React.Component {
 		}))
 	}
 
-	put_starting_pieces_on_board(canvas) {
+	FillCanvasWithPieceImages(canvas) {
 		if (this.props.GetUserColor() === 0) {
-			this.put_piece_at(1, this.state.img_dict["white_queen"])
-			this.put_piece_at(2, this.state.img_dict["white_rook"])
-			this.put_piece_at(3, this.state.img_dict["white_bish"])
-			this.put_piece_at(4, this.state.img_dict["white_knight"])
+			this.PutPieceImageAt(1, this.state.img_dict["white_queen"])
+			this.PutPieceImageAt(2, this.state.img_dict["white_rook"])
+			this.PutPieceImageAt(3, this.state.img_dict["white_bish"])
+			this.PutPieceImageAt(4, this.state.img_dict["white_knight"])
 		} else if (this.props.GetUserColor() === 1) {
-			this.put_piece_at(1, this.state.img_dict["black_queen"])
-			this.put_piece_at(2, this.state.img_dict["black_rook"])
-			this.put_piece_at(3, this.state.img_dict["black_bish"])
-			this.put_piece_at(4, this.state.img_dict["black_knight"])
+			this.PutPieceImageAt(1, this.state.img_dict["black_queen"])
+			this.PutPieceImageAt(2, this.state.img_dict["black_rook"])
+			this.PutPieceImageAt(3, this.state.img_dict["black_bish"])
+			this.PutPieceImageAt(4, this.state.img_dict["black_knight"])
 		}
 	}
 
-	put_piece_at(n, img) {
+	PutPieceImageAt(n, img) {
 		const canvas = this._canvas.current
 		const dx = canvas.width 
 		const dy = canvas.height / 4

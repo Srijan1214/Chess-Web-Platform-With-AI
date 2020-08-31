@@ -94,15 +94,15 @@ class PlayWithAIComponent extends React.Component {
 			else if (move.promotedPiece === PIECES.bN) piece_val = 13
 			const location_val_1 = {location: move.from, value: 0}
 			const location_val_2 = {location: move.to, value: piece_val}
-			this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
+			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2])
 		}else if(move.enPass) {
 			const piece_val = (this.GetUserColor() === 0)? 11: 1
 			const location_val_1 = {location: move.from, value: 0}
 			const location_val_2 = {location: move.to, value: piece_val}
 			const location_val_3 = {location: move.to[0] + move.from[1], value: 0}
-			this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2, location_val_3])
+			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2, location_val_3])
 		} else {
-			this._board.current._board.current.makeMove(move.from, move.to)
+			this._board.current._board.current.MovePieceInsideInterface(move.from, move.to)
 		}
 		this.GameBoard.MakeMove(move.move)
 		this.GameBoard.PrintBoard()
@@ -133,12 +133,12 @@ class PlayWithAIComponent extends React.Component {
 		//creating timeout to make it asyncronous and not block the main program
 		// TODO might user worker later but it is a big pain to implement.
 		setTimeout(() => {
-			this._board.current._board.current.block_user_input()
+			this._board.current._board.current.BlockUserInput()
 			this.PlayMoveFromAI()
 			const newState = {}
 			newState.who_moves = !this.state.who_moves
 			this.setState(newState, () => {
-				this._board.current._board.current.unblock_user_input()
+				this._board.current._board.current.UnBlockUserInput()
 				//Checks if Game Ends
 				if(this.GameBoard.CheckIfDrawnPosition()) {
 					this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
@@ -192,7 +192,7 @@ class PlayWithAIComponent extends React.Component {
 				const rank = prev_location[1]
 
 				const location_val_1 = {location: file + rank, value: 0}
-				this._board.current._board.current.put_multiple_pieces_on_board([location_val_1])
+				this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1])
 
 			}
 			this.GameBoard.MovePieceStringLocations(prev_location, new_location)
@@ -223,10 +223,8 @@ class PlayWithAIComponent extends React.Component {
 		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
 			location = Get_Flipped_Square(location)
 		}
-		this._board.current._board.current.put_piece_on_board(
-			location,
-			piece_val
-		)
+		const location_val = {location: location, value: piece_val}
+		this._board.current._board.current.PutMultiplePiecesOnBoard([location_val])
 
 		let promPiece
 		if (piece_val === 9) promPiece = PIECES.wQ
@@ -253,7 +251,7 @@ class PlayWithAIComponent extends React.Component {
 		const location_val_1 = {location: this.state.prev_location, value: pawn_val}
 		const location_val_2 = {location: this.state.new_location, value: 0}
 
-		this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
+		this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2])
 		this._board.current.HidePromotionSelectionMenu()
 	}
 
@@ -342,7 +340,7 @@ class PlayWithAIComponent extends React.Component {
 				location_val_array.push({location: location, value: value})
 			}
 		}
-		this._board.current._board.current.put_multiple_pieces_on_board(location_val_array)
+		this._board.current._board.current.PutMultiplePiecesOnBoard(location_val_array)
 	}
 
 	componentDidMount() {

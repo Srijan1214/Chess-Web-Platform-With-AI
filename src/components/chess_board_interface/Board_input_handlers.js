@@ -42,7 +42,7 @@ export function Outside_mouseClickHandler(event) {
 			this.setState(newState)
 		} else if (event.button === 2) {
 			const newState = {}
-			this.cancelMove(newState)
+			this.StopMouseInputAndCanelMove(newState)
 			this.setState(newState)
 		}
 	}
@@ -93,7 +93,7 @@ export function Outside_mouseUpHandler(event) {
 			}
 
 			const newState = {}
-			let shouldCancelMove = (((this.state.curPosition[row][column] < 10 && this.state.curPosition[row][column] !== 0)
+			let shouldStopMouseInputAndCanelMove = (((this.state.curPosition[row][column] < 10 && this.state.curPosition[row][column] !== 0)
 				&& this.state.old_image_value < 10) ||
 				(this.state.curPosition[row][column] > 10 && this.state.old_image_value > 10)) &&
 				(!(this.state.old_image_position[0] === row && (this.state.old_image_position[1] === column)))
@@ -102,9 +102,9 @@ export function Outside_mouseUpHandler(event) {
 			const new_location = Convert_RowCol_To_FileRank(row, column)
 			const prev_location = Convert_RowCol_To_FileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.GetMoveStatus(prev_location, new_location)
-			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
-			if (shouldCancelMove) {
-				this.cancelMove(newState)
+			shouldStopMouseInputAndCanelMove = shouldStopMouseInputAndCanelMove || !moveStatus.isValidMove
+			if (shouldStopMouseInputAndCanelMove) {
+				this.StopMouseInputAndCanelMove(newState)
 				newState.current_image = null
 				newState.old_image_value = 0
 				newState.dragging = false
@@ -128,7 +128,7 @@ export function Outside_mouseUpHandler(event) {
 			newState.old_image_value = 0
 			newState.dragging = false
 			this.setState(newState, () => {
-				if (!shouldCancelMove) {
+				if (!shouldStopMouseInputAndCanelMove) {
 					this.props.CallbackToIndicateMoveIsPlayed(
 						prev_location,
 						new_location
@@ -142,7 +142,7 @@ export function Outside_mouseUpHandler(event) {
 export function Outside_MouseOutHandler(event) {
 	if (this) {
 		const newState = {}
-		this.cancelMove(newState)
+		this.StopMouseInputAndCanelMove(newState)
 		this.setState(newState)
 	}
 }
