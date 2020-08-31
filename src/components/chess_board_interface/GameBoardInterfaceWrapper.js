@@ -16,14 +16,14 @@ class GameBoardInterfaceWrapper extends React.Component {
 			restart_button_confirmation_visibility: false,
 			radio_button_user_color: 0,
 		}
-		this.show_end_game_menu_bar = this.show_end_game_menu_bar.bind(this)
-		this.hide_end_game_menu_bar = this.hide_end_game_menu_bar.bind(this)
-		this.show_promotion_selection_menu = this.show_promotion_selection_menu.bind(this)
-		this.hide_promotion_selection_menu = this.hide_promotion_selection_menu.bind(this)
-		this.show_restart_game_confirmation = this.show_restart_game_confirmation.bind(this)
-		this.hide_restart_game_confirmation = this.hide_restart_game_confirmation.bind(this)
-		this.radio_button_change_listener = this.radio_button_change_listener.bind(this)
-		this.restart_button_handler = this.restart_button_handler.bind(this)
+		this.ShowEndGameMenuBar = this.ShowEndGameMenuBar.bind(this)
+		this.HideEndGameMenuBar = this.HideEndGameMenuBar.bind(this)
+		this.ShowPromotionSelectionMenu = this.ShowPromotionSelectionMenu.bind(this)
+		this.HidePromotionSelectionMenu = this.HidePromotionSelectionMenu.bind(this)
+		this.ShowRestartGameConfirmation = this.ShowRestartGameConfirmation.bind(this)
+		this.HideRestartGameConfirmation = this.HideRestartGameConfirmation.bind(this)
+		this.RadioButtonChangeListener = this.RadioButtonChangeListener.bind(this)
+		this.RestartButtonHandler = this.RestartButtonHandler.bind(this)
 	}
 
 	render() {
@@ -85,7 +85,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 					style={{width:0.2 * this.props.width}}
 				>
 					<div style= {{color:"grey", fontSize:"large"}}> <b> <u>Select Side</u> </b></div>
-					<div style= {{color: "grey", margin:"18%"}} onChange={this.radio_button_change_listener}>
+					<div style= {{color: "grey", margin:"18%"}} onChange={this.RadioButtonChangeListener}>
 						<div>
 							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.GetUserColor() === 0}></input>
 							<label htmlFor="white_radio_id">White</label>
@@ -100,13 +100,13 @@ class GameBoardInterfaceWrapper extends React.Component {
 					<div style={{ width:"100%", textAlign:"center" }}>
 						<div className = {this.state.restart_button_confirmation_visibility ? "none_display" : ""}>
 							<button className="bottom_button button_highlight_on_hover" style={{width:"90%", height:0.6 * 0.1 *this.props.height, marginTop:"14%",}} 
-								onClick={this.restart_button_handler}> Restart Game </button>
+								onClick={this.RestartButtonHandler}> Restart Game </button>
 						</div>
 						<div style={{width:"100%"}} className = {this.state.restart_button_confirmation_visibility ? "" : "none_display"}>
 							<button className="confirmation_button_left_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
-								onClick={this.hide_restart_game_confirmation}>✕</button>
+								onClick={this.HideRestartGameConfirmation}>✕</button>
 							<button className="confirmation_button_right_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
-								onClick={() => {this.props.CallbackButtonclickRestartGame(); this.hide_restart_game_confirmation()}}>
+								onClick={() => {this.props.CallbackButtonclickRestartGame(); this.HideRestartGameConfirmation()}}>
 								✓
 							</button>
 						</div>
@@ -117,53 +117,53 @@ class GameBoardInterfaceWrapper extends React.Component {
 		)
 	}
 
-	show_end_game_menu_bar() {
+	ShowEndGameMenuBar() {
 		const newState = {}
 		newState.game_end_menu_visibility = true
 		this.setState(newState)
 	}
 
-	hide_end_game_menu_bar() {
+	HideEndGameMenuBar() {
 		const newState = {}
 		newState.game_end_menu_visibility = false
 		this.setState(newState)
 	}
 
-	show_promotion_selection_menu(file_number) {
-		this._PromotionPopUp.current.show_promotion_selection_menu(file_number)
+	ShowPromotionSelectionMenu(file_number) {
+		this._PromotionPopUp.current.ShowPromotionSelectionMenu(file_number)
 	}
 
-	hide_promotion_selection_menu() {
-		this._PromotionPopUp.current.hide_promotion_selection_menu()
+	HidePromotionSelectionMenu() {
+		this._PromotionPopUp.current.HidePromotionSelectionMenu()
 	}
 
-	show_restart_game_confirmation () {
+	ShowRestartGameConfirmation () {
 		const newState = {}
 		newState.restart_button_confirmation_visibility = true
 		this.setState(newState)
 	}
 	
-	hide_restart_game_confirmation () {
+	HideRestartGameConfirmation () {
 		const newState = {}
 		newState.restart_button_confirmation_visibility = false
 		this.setState(newState)
 	}
 
-	set_game_end_message(message) {
+	SetGameEndMessage(message) {
 		const newState = {}
 		newState.game_end_text = message
 		this.setState(newState)
 	}
 
-	restart_button_handler() {
+	RestartButtonHandler() {
 		if(this.state.game_end_menu_visibility) {
 			this.props.CallbackButtonclickRestartGame()
 		}else {
-			this.show_restart_game_confirmation()
+			this.ShowRestartGameConfirmation()
 		}
 	}
 
-	radio_button_change_listener (event) {
+	RadioButtonChangeListener (event) {
 		const newState = {}
 		if (event.target.value === "White") {
 			newState.radio_button_user_color = 0

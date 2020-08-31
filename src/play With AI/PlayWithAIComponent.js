@@ -113,20 +113,20 @@ class PlayWithAIComponent extends React.Component {
 	PerformAIMoveBlocking = () => {
 		//Checks if Game Ends
 		if(this.GameBoard.CheckIfDrawnPosition()) {
-			this._board.current.set_game_end_message("The Game Is A Draw!!!")
-			this._board.current.show_end_game_menu_bar()
+			this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
+			this._board.current.ShowEndGameMenuBar()
 			return
 		}
 
 		if(this.GameBoard.GetWhichSideWon() === COLOURS.WHITE) {
-			this._board.current.set_game_end_message("WHITE WON!!!")
-			this._board.current.show_end_game_menu_bar()
+			this._board.current.SetGameEndMessage("WHITE WON!!!")
+			this._board.current.ShowEndGameMenuBar()
 			return
 		}
 
 		if(this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
-			this._board.current.set_game_end_message("BLACK WON!!!")
-			this._board.current.show_end_game_menu_bar()
+			this._board.current.SetGameEndMessage("BLACK WON!!!")
+			this._board.current.ShowEndGameMenuBar()
 			return
 		}
 
@@ -141,20 +141,20 @@ class PlayWithAIComponent extends React.Component {
 				this._board.current._board.current.unblock_user_input()
 				//Checks if Game Ends
 				if(this.GameBoard.CheckIfDrawnPosition()) {
-					this._board.current.set_game_end_message("The Game Is A Draw!!!")
-					this._board.current.show_end_game_menu_bar()
+					this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
+					this._board.current.ShowEndGameMenuBar()
 					return
 				}
 
 				if(this.GameBoard.GetWhichSideWon() === COLOURS.WHITE) {
-					this._board.current.set_game_end_message("WHITE WON!!!")
-					this._board.current.show_end_game_menu_bar()
+					this._board.current.SetGameEndMessage("WHITE WON!!!")
+					this._board.current.ShowEndGameMenuBar()
 					return
 				}
 
 				if(this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
-					this._board.current.set_game_end_message("BLACK WON!!!")
-					this._board.current.show_end_game_menu_bar()
+					this._board.current.SetGameEndMessage("BLACK WON!!!")
+					this._board.current.ShowEndGameMenuBar()
 					return
 				}
 			})
@@ -180,7 +180,7 @@ class PlayWithAIComponent extends React.Component {
 				if(this.state.user_color === 1) {
 					file_number = 9 - file_number
 				}
-				this._board.current.show_promotion_selection_menu(file_number)
+				this._board.current.ShowPromotionSelectionMenu(file_number)
 				const newState = {}
 				newState.prev_location = prev_location
 				newState.new_location = new_location
@@ -254,7 +254,7 @@ class PlayWithAIComponent extends React.Component {
 		const location_val_2 = {location: this.state.new_location, value: 0}
 
 		this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
-		this._board.current.hide_promotion_selection_menu()
+		this._board.current.HidePromotionSelectionMenu()
 	}
 
 	CallbackButtonclickTakeback = () => {
@@ -271,8 +271,8 @@ class PlayWithAIComponent extends React.Component {
 		}
 
 		if(accept_draw) {
-			this._board.current.set_game_end_message("The Game Is A Draw!!!")
-			this._board.current.show_end_game_menu_bar()
+			this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
+			this._board.current.ShowEndGameMenuBar()
 		}
 	}
 
@@ -284,8 +284,8 @@ class PlayWithAIComponent extends React.Component {
 			game_end_text = "WHITE WINS"
 		}
 
-		this._board.current.set_game_end_message(game_end_text)
-		this._board.current.show_end_game_menu_bar()
+		this._board.current.SetGameEndMessage(game_end_text)
+		this._board.current.ShowEndGameMenuBar()
 	}
 
 	CallbackButtonclickRestartGame = () => {
@@ -295,7 +295,7 @@ class PlayWithAIComponent extends React.Component {
 		this.setState(newState, () =>  {
 			this.GameBoard.Set_Board_To_Start_Position()
 			this.ForceInterfaceSyncWithBackend()
-			this._board.current.hide_end_game_menu_bar()
+			this._board.current.HideEndGameMenuBar()
 			setTimeout(()=>{
 				if(this.state.user_color === 1) {
 					this.PlayMoveFromAI()

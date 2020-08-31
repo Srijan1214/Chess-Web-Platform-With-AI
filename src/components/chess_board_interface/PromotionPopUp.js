@@ -48,7 +48,7 @@ class PromotionPopUp extends React.Component {
 		)
 	}
 
-	show_promotion_selection_menu(file_number = 1) {
+	ShowPromotionSelectionMenu(file_number = 1) {
 		if (file_number < 1) file_number = 1
 		if (file_number > 8) file_number = 8
 		file_number=Math.floor(file_number)
@@ -59,7 +59,7 @@ class PromotionPopUp extends React.Component {
 		this.setState(newState)
 	}
 
-	hide_promotion_selection_menu() {
+	HidePromotionSelectionMenu() {
 		const newState = {}
 		newState.promotion_selection_visibility = false
 		this.setState(newState)
@@ -195,7 +195,7 @@ class PromotionPopUp extends React.Component {
 					piece_value += 10
 				}
 				this.props.CallbackInsertPromotionPiece(piece_value, this.state.file_number)
-				this.hide_promotion_selection_menu()
+				this.HidePromotionSelectionMenu()
 			}
 		}
 
