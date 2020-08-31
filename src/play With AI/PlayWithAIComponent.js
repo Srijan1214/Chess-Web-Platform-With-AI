@@ -302,14 +302,6 @@ class PlayWithAIComponent extends React.Component {
 		})
 	}
 
-	callback_buttonclick_analyze = () => {
-
-	}
-
-	callback_buttonclick_home_page = () => {
-
-	}
-
 	// Makes the display chess board position match up to the position in the GameBoard logic
 	ForceInterfaceSyncWithBackend() {
 		const piece_character_array = this.GameBoard.GiveBoardArray()
