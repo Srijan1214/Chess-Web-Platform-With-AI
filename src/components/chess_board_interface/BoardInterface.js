@@ -44,7 +44,6 @@ class BoardInterface extends React.Component {
 		this.MouseDragHandler = Board_input_handlers.Outside_MouseDragHandler.bind(this)
 		this.MouseUpHandler = Board_input_handlers.Outside_MouseUpHandler.bind(this)
 		this.MouseRightClickHandler = Board_input_handlers.Outside_MouseRightClickHandler.bind(this)
-		this.KeyboardPressHandler = Board_input_handlers.Outside_KeyboardPressHandler.bind(this)
 		this.MouseOutsideDragHandler = Board_input_handlers.Outside_MouseOutHandler.bind(this)
 
 		// castling function
@@ -92,7 +91,7 @@ class BoardInterface extends React.Component {
 				<canvas id="chess_board" style={styling} ref={this.chess_board_canvas} onMouseDown={this.MouseClickHandler}
 					onMouseMove={this.MouseDragHandler} onMouseUp={this.MouseUpHandler}
 					onMouseOut={this.MouseOutsideDragHandler}
-					onContextMenu={this.MouseRightClickHandler} onKeyDown={this.KeyboardPressHandler}
+					onContextMenu={this.MouseRightClickHandler}
 					tabIndex="0"></canvas>
 			</div>
 		)
