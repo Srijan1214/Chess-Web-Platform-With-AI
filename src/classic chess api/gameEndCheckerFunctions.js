@@ -1,6 +1,6 @@
 import { PIECES, BOOL, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
-export function check_if_draw_due_to_material() {
+export function CheckIfDrawDueToMaterial() {
 	if (this.m_pceNum[PIECES.wP] !== 0 || this.m_pceNum[PIECES.bP] !== 0)
 		return BOOL.FALSE
 	if (
@@ -28,7 +28,7 @@ export function check_if_draw_due_to_material() {
 }
 
 // returns BOOL.FALSE if no stalemate
-export function check_if_draw_due_to_stalemate() {
+export function CheckIfDrawDueToStalemate() {
 	this.GenerateMoves()
 
 	let MoveNum = 0
@@ -74,7 +74,7 @@ export function ThreeFoldRep() {
 	return repetitions
 }
 
-export function check_if_drawn_position() {
+export function CheckIfDrawnPosition() {
 	if (this.m_fiftyMove >= 100) {
 		return BOOL.TRUE
 	}
@@ -83,18 +83,18 @@ export function check_if_drawn_position() {
 		return BOOL.TRUE
 	}
 
-	if (this.check_if_draw_due_to_material() === BOOL.TRUE) {
+	if (this.CheckIfDrawDueToMaterial() === BOOL.TRUE) {
 		return BOOL.TRUE
 	}
 
-	if (this.check_if_draw_due_to_stalemate() === BOOL.TRUE) {
+	if (this.CheckIfDrawDueToStalemate() === BOOL.TRUE) {
 		return BOOL.TRUE
 	}
 	return BOOL.FALSE
 }
 
 // returns COLORS.NONE if no side is winning
-export function get_which_side_won() {
+export function GetWhichSideWon() {
 	this.GenerateMoves()
 
 	let MoveNum = 0

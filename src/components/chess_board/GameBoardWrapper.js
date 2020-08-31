@@ -41,7 +41,7 @@ class GameBoardWrapper extends React.Component {
 					callback_to_indicate_move_is_played={
 						this.props.callback_to_indicate_move_is_played
 					}
-					get_move_status={this.props.get_move_status}
+					GetMoveStatus={this.props.GetMoveStatus}
 				/>
 				<div
 					className={

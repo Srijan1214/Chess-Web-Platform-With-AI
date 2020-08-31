@@ -101,7 +101,7 @@ export function Outside_mouseUpHandler(event) {
 				&& this.state.curPosition[row][column] !== 0
 			const new_location = convert_rowCol_to_fileRank(row, column)
 			const prev_location = convert_rowCol_to_fileRank(this.state.old_image_position[0], this.state.old_image_position[1])
-			const moveStatus = this.props.get_move_status(prev_location, new_location)
+			const moveStatus = this.props.GetMoveStatus(prev_location, new_location)
 			shouldCancelMove = shouldCancelMove || !moveStatus.isValidMove
 			if (shouldCancelMove) {
 				this.cancelMove(newState)

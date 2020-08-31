@@ -2,7 +2,7 @@ import * as movegen from "./movegen.js"
 import * as makeMove from "./makeMove.js"
 import * as Outside_function from "./board_utility_functions.js"
 import * as debug_io from "./io.js"
-import { get_move_status, move_piece } from "./moveParser.js"
+import { GetMoveStatus, MovePieceStringLocations } from "./moveParser.js"
 import * as gameEndCheckers from "./gameEndCheckerFunctions.js"
 import * as boardInterfaceFunctions from "./board_interface_functions"
 import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
@@ -68,15 +68,15 @@ export default class GameBoard {
 		this.MoveExists = movegen.MoveExists.bind(this)
 
 		// MoveParser function
-		this.get_move_status = get_move_status.bind(this)
-		this.move_piece = move_piece.bind(this)
+		this.GetMoveStatus = GetMoveStatus.bind(this)
+		this.MovePieceStringLocations = MovePieceStringLocations.bind(this)
 
 		// GameEndChecker Functions
-		this.check_if_draw_due_to_material = gameEndCheckers.check_if_draw_due_to_material.bind(this)
+		this.CheckIfDrawDueToMaterial = gameEndCheckers.CheckIfDrawDueToMaterial.bind(this)
 		this.ThreeFoldRep = gameEndCheckers.ThreeFoldRep.bind(this)
-		this.check_if_drawn_position = gameEndCheckers.check_if_drawn_position.bind(this)
-		this.get_which_side_won = gameEndCheckers.get_which_side_won.bind(this)
-		this.check_if_draw_due_to_stalemate = gameEndCheckers.check_if_draw_due_to_stalemate.bind(this)
+		this.CheckIfDrawnPosition = gameEndCheckers.CheckIfDrawnPosition.bind(this)
+		this.GetWhichSideWon = gameEndCheckers.GetWhichSideWon.bind(this)
+		this.CheckIfDrawDueToStalemate = gameEndCheckers.CheckIfDrawDueToStalemate.bind(this)
 
 		// Board Interface Functions
 		this.Set_Board_To_Start_Position = boardInterfaceFunctions.Set_Board_To_Start_Position.bind(this)

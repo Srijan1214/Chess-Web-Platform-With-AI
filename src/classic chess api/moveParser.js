@@ -1,6 +1,6 @@
 import { PIECES, NOMOVE, BOOL, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
 
-export function get_move_status (from, to) {
+export function GetMoveStatus (from, to) {
 	// TODO
 	this.GenerateMoves() // will be better if this is called before the check.
 	from = (from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
@@ -34,7 +34,7 @@ export function get_move_status (from, to) {
 	return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false, enPass_move: ((Move & MFLAGEP) !==0)}
 }
 
-export function move_piece(from, to, promoted = PIECES.EMPTY) {
+export function MovePieceStringLocations(from, to, promoted = PIECES.EMPTY) {
 		// TODO
 		this.GenerateMoves() // will be better if this is called before the check.
 		from = (from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
