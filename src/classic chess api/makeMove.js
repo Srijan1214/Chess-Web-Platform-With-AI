@@ -93,7 +93,7 @@ export function MakeMove (move){
 	this.HASH_CA()
 
 	this.history[this.hisPly].move = move
-	this.history[this.hisPly].fiftyMove = this.fiftyMove
+	this.history[this.hisPly].m_fiftyMove = this.m_fiftyMove
 	this.history[this.hisPly].enPas = this.enPas
 	this.history[this.hisPly].castlePerm = this.castlePerm
 
@@ -104,18 +104,18 @@ export function MakeMove (move){
 	this.HASH_CA()
 
 	let captured = CAPTURED(move)
-	this.fiftyMove++
+	this.m_fiftyMove++
 
 	if (captured !== PIECES.EMPTY) {
 		this.ClearPiece(to)
-		this.fiftyMove = 0
+		this.m_fiftyMove = 0
 	}
 
 	this.hisPly++
 	this.ply++
 
 	if (PiecePawn[this.m_pieces[from]] === BOOL.TRUE) {
-		this.fiftyMove = 0
+		this.m_fiftyMove = 0
 		if ((move & MFLAGPS) !== 0) {
 			if (side === COLOURS.WHITE) {
 				this.enPas = from + 10
@@ -158,7 +158,7 @@ export function TakeMove () {
 	this.HASH_CA();
 
 	this.castlePerm = this.history[this.hisPly].castlePerm;
-	this.fiftyMove = this.history[this.hisPly].fiftyMove;
+	this.m_fiftyMove = this.history[this.hisPly].m_fiftyMove;
 	this.enPas = this.history[this.hisPly].enPas;
 
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();

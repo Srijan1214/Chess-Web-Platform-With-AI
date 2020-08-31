@@ -92,7 +92,7 @@ export default class AI {
 		let index = 0
 
 		for (
-			index = this.GameBoard.hisPly - this.GameBoard.fiftyMove;
+			index = this.GameBoard.hisPly - this.GameBoard.m_fiftyMove;
 			index < this.GameBoard.hisPly - 1;
 			index++
 		) {
@@ -112,7 +112,7 @@ export default class AI {
 
 		// Check Rep() Fifty Move
 		if (
-			(this.IsRepetition() || this.GameBoard.fiftyMove >= 100) &&
+			(this.IsRepetition() || this.GameBoard.m_fiftyMove >= 100) &&
 			this.GameBoard.ply !== 0
 		) {
 			return 0
@@ -199,7 +199,7 @@ export default class AI {
 
 		// Check Rep() Fifty Move
 		if (
-			(this.IsRepetition() || this.GameBoard.fiftyMove >= 100) &&
+			(this.IsRepetition() || this.GameBoard.m_fiftyMove >= 100) &&
 			this.GameBoard.ply !== 0
 		) {
 			return 0

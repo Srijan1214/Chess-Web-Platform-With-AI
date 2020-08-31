@@ -11,7 +11,7 @@ export function InitBoardVars () {
 			move : NOMOVE,
 			castlePerm : 0,
 			enPas : 0,
-			fiftyMove : 0,
+			m_fiftyMove : 0,
 			posKey : 0
 		})
 	}
@@ -203,7 +203,7 @@ export function ResetBoard () {
 
 	this.m_side = COLOURS.BOTH
 	this.enPas = SQUARES.NO_SQ
-	this.fiftyMove = 0
+	this.m_fiftyMove = 0
 	this.ply = 0
 	this.hisPly = 0
 	this.castlePerm = 0

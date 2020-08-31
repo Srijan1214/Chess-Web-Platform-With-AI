@@ -75,7 +75,7 @@ export function ThreeFoldRep() {
 }
 
 export function check_if_drawn_position() {
-	if (this.fiftyMove >= 100) {
+	if (this.m_fiftyMove >= 100) {
 		return BOOL.TRUE
 	}
 

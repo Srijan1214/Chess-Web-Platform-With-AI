@@ -10,7 +10,7 @@ import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./def
 export default class GameBoard {
 	m_pieces = new Array(BRD_SQ_NUM)
 	m_side = COLOURS.WHITE
-	fiftyMove = 0
+	m_fiftyMove = 0
 	hisPly = 0 // count of every halfmove played
 	history = []
 	ply = 0 // count of halfmove played in the search tree
