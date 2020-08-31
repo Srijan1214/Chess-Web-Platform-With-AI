@@ -92,8 +92,8 @@ export default class AI {
 		let index = 0
 
 		for (
-			index = this.GameBoard.hisPly - this.GameBoard.m_fiftyMove;
-			index < this.GameBoard.hisPly - 1;
+			index = this.GameBoard.m_hisPly - this.GameBoard.m_fiftyMove;
+			index < this.GameBoard.m_hisPly - 1;
 			index++
 		) {
 			if (this.GameBoard.poskey === this.GameBoard.history[index].poskey) {

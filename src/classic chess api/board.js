@@ -11,7 +11,7 @@ export default class GameBoard {
 	m_pieces = new Array(BRD_SQ_NUM)
 	m_side = COLOURS.WHITE
 	m_fiftyMove = 0
-	hisPly = 0 // count of every halfmove played
+	m_hisPly = 0 // count of every halfmove played
 	history = []
 	ply = 0 // count of halfmove played in the search tree
 	enPas = 0

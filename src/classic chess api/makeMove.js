@@ -58,7 +58,7 @@ export function MakeMove (move){
 	let to = TOSQ(move)
 	let side = this.m_side
 
-	this.history[this.hisPly].posKey = this.posKey
+	this.history[this.m_hisPly].posKey = this.posKey
 
 	if ((move & MFLAGEP) !== 0) {
 		if (side === COLOURS.WHITE) {
@@ -92,10 +92,10 @@ export function MakeMove (move){
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP()
 	this.HASH_CA()
 
-	this.history[this.hisPly].move = move
-	this.history[this.hisPly].m_fiftyMove = this.m_fiftyMove
-	this.history[this.hisPly].enPas = this.enPas
-	this.history[this.hisPly].castlePerm = this.castlePerm
+	this.history[this.m_hisPly].move = move
+	this.history[this.m_hisPly].m_fiftyMove = this.m_fiftyMove
+	this.history[this.m_hisPly].enPas = this.enPas
+	this.history[this.m_hisPly].castlePerm = this.castlePerm
 
 	this.castlePerm &= CastlePerm[from]
 	this.castlePerm &= CastlePerm[to]
@@ -111,7 +111,7 @@ export function MakeMove (move){
 		this.m_fiftyMove = 0
 	}
 
-	this.hisPly++
+	this.m_hisPly++
 	this.ply++
 
 	if (PiecePawn[this.m_pieces[from]] === BOOL.TRUE) {
@@ -147,19 +147,19 @@ export function MakeMove (move){
 }
 
 export function TakeMove () {
-	this.hisPly--;
+	this.m_hisPly--;
 	this.ply--;
 
-	let move = this.history[this.hisPly].move;
+	let move = this.history[this.m_hisPly].move;
 	let from = FROMSQ(move);
 	let to = TOSQ(move);
 
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
-	this.castlePerm = this.history[this.hisPly].castlePerm;
-	this.m_fiftyMove = this.history[this.hisPly].m_fiftyMove;
-	this.enPas = this.history[this.hisPly].enPas;
+	this.castlePerm = this.history[this.m_hisPly].castlePerm;
+	this.m_fiftyMove = this.history[this.m_hisPly].m_fiftyMove;
+	this.enPas = this.history[this.m_hisPly].enPas;
 
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();

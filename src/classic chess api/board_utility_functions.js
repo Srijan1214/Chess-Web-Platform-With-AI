@@ -205,7 +205,7 @@ export function ResetBoard () {
 	this.enPas = SQUARES.NO_SQ
 	this.m_fiftyMove = 0
 	this.ply = 0
-	this.hisPly = 0
+	this.m_hisPly = 0
 	this.castlePerm = 0
 	this.poskey = 0
 	this.moveListStart[this.ply] = 0

@@ -66,7 +66,7 @@ export function ThreeFoldRep() {
 	let index = 0
 	let repetitions = 0
 
-	for (index = 0; index < this.hisPly; index++) {
+	for (index = 0; index < this.m_hisPly; index++) {
 		if (this.history[index].posKey === this.posKey) {
 			repetitions++
 		}
