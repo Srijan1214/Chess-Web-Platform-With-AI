@@ -3,7 +3,7 @@ import BoardInterface from "./BoardInterface"
 import PromotionPopUp from "./PromotionPopUp"
 import './GameBoardWrapperStyle.css'
 
-class GameBoardWrapper extends React.Component {
+class GameBoardInterfaceWrapper extends React.Component {
 	constructor(props) {
 		super(props)
 		this.width = props.width * 1.20
@@ -175,4 +175,4 @@ class GameBoardWrapper extends React.Component {
 
 }
 
-export default GameBoardWrapper
+export default GameBoardInterfaceWrapper
