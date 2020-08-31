@@ -7,7 +7,7 @@ export function InitBoardVars () {
 	let index = 0
 
 	for(index = 0; index < MAXGAMEMOVES; index++) {
-		this.history.push({
+		this.m_history.push({
 			move : NOMOVE,
 			castlePerm : 0,
 			enPas : 0,

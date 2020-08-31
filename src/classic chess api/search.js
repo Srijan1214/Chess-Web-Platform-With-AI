@@ -96,7 +96,7 @@ export default class AI {
 			index < this.GameBoard.m_hisPly - 1;
 			index++
 		) {
-			if (this.GameBoard.poskey === this.GameBoard.history[index].poskey) {
+			if (this.GameBoard.poskey === this.GameBoard.m_history[index].poskey) {
 				return BOOL.TRUE
 			}
 		}

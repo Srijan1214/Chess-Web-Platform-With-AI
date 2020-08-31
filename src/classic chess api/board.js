@@ -12,7 +12,7 @@ export default class GameBoard {
 	m_side = COLOURS.WHITE
 	m_fiftyMove = 0
 	m_hisPly = 0 // count of every halfmove played
-	history = []
+	m_history = []
 	ply = 0 // count of halfmove played in the search tree
 	enPas = 0
 	castlePerm = 0

@@ -58,7 +58,7 @@ export function MakeMove (move){
 	let to = TOSQ(move)
 	let side = this.m_side
 
-	this.history[this.m_hisPly].posKey = this.posKey
+	this.m_history[this.m_hisPly].posKey = this.posKey
 
 	if ((move & MFLAGEP) !== 0) {
 		if (side === COLOURS.WHITE) {
@@ -92,10 +92,10 @@ export function MakeMove (move){
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP()
 	this.HASH_CA()
 
-	this.history[this.m_hisPly].move = move
-	this.history[this.m_hisPly].m_fiftyMove = this.m_fiftyMove
-	this.history[this.m_hisPly].enPas = this.enPas
-	this.history[this.m_hisPly].castlePerm = this.castlePerm
+	this.m_history[this.m_hisPly].move = move
+	this.m_history[this.m_hisPly].m_fiftyMove = this.m_fiftyMove
+	this.m_history[this.m_hisPly].enPas = this.enPas
+	this.m_history[this.m_hisPly].castlePerm = this.castlePerm
 
 	this.castlePerm &= CastlePerm[from]
 	this.castlePerm &= CastlePerm[to]
@@ -150,16 +150,16 @@ export function TakeMove () {
 	this.m_hisPly--;
 	this.ply--;
 
-	let move = this.history[this.m_hisPly].move;
+	let move = this.m_history[this.m_hisPly].move;
 	let from = FROMSQ(move);
 	let to = TOSQ(move);
 
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
-	this.castlePerm = this.history[this.m_hisPly].castlePerm;
-	this.m_fiftyMove = this.history[this.m_hisPly].m_fiftyMove;
-	this.enPas = this.history[this.m_hisPly].enPas;
+	this.castlePerm = this.m_history[this.m_hisPly].castlePerm;
+	this.m_fiftyMove = this.m_history[this.m_hisPly].m_fiftyMove;
+	this.enPas = this.m_history[this.m_hisPly].enPas;
 
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
