@@ -216,7 +216,7 @@ class BoardInterface extends React.Component {
 	}
 
 	GetPieceValueAt(location) {
-		const { row: row, column: column } = Convert_FileRank_To_RowCol(location)
+		const { row, column} = Convert_FileRank_To_RowCol(location)
 		return this.state.curPosition[row][column]
 	}
 

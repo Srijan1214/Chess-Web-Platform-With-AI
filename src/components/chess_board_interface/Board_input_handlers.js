@@ -24,7 +24,7 @@ export function Outside_MouseClickHandler(event) {
 			let column = parseInt((x / (canvas_width - 1)) * 8)
 
 			if (this.props.GetUserColor() === 1) {
-				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
+				;({ row , column } = Get_Flipped_Row_Column(row, column))
 			}
 
 			const newState = {}
@@ -89,7 +89,7 @@ export function Outside_MouseUpHandler(event) {
 
 
 			if (this.props.GetUserColor() === 1) {
-				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
+				;({ row , column } = Get_Flipped_Row_Column(row, column))
 			}
 
 			const newState = {}
