@@ -17,7 +17,7 @@ function Perft(depth) {
 	let index
 	let move
 
-	for (index = GameBoard.moveListStart[GameBoard.ply]; index < GameBoard.moveListStart[GameBoard.ply + 1]; ++index) {
+	for (index = GameBoard.moveListStart[GameBoard.m_ply]; index < GameBoard.moveListStart[GameBoard.m_ply + 1]; ++index) {
 
 		move = GameBoard.moveList[index]
 		if (MakeMove(move) == BOOL.FALSE) {
@@ -41,8 +41,8 @@ export const PerftTest = (depth) => {
 	let move;
 	let moveNum = 0;
 	for (
-		index = GameBoard.moveListStart[GameBoard.ply];
-		index < GameBoard.moveListStart[GameBoard.ply + 1];
+		index = GameBoard.moveListStart[GameBoard.m_ply];
+		index < GameBoard.moveListStart[GameBoard.m_ply + 1];
 		++index
 	) {
 		move = GameBoard.moveList[index];

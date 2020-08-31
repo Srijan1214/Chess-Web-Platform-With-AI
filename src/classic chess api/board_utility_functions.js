@@ -204,11 +204,11 @@ export function ResetBoard () {
 	this.m_side = COLOURS.BOTH
 	this.enPas = SQUARES.NO_SQ
 	this.m_fiftyMove = 0
-	this.ply = 0
+	this.m_ply = 0
 	this.m_hisPly = 0
 	this.castlePerm = 0
 	this.poskey = 0
-	this.moveListStart[this.ply] = 0
+	this.moveListStart[this.m_ply] = 0
 }
 
 export function ParseFen (fen) {

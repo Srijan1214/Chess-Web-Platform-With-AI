@@ -9,8 +9,8 @@ export function MoveExists (move) {
 	let index;
 	let moveFound = NOMOVE;
 	for (
-		index = this.moveListStart[this.ply];
-		index < this.moveListStart[this.ply + 1];
+		index = this.moveListStart[this.m_ply];
+		index < this.moveListStart[this.m_ply + 1];
 		++index
 	) {
 		moveFound = this.moveList[index];
@@ -30,39 +30,39 @@ export function MOVE (from, to, captured, promoted, flag) {
 }
 
 export function AddCaptureMove (move) {
-	this.moveList[this.moveListStart[this.ply + 1]] = move;
-	this.moveScores[this.moveListStart[this.ply + 1]] =
+	this.moveList[this.moveListStart[this.m_ply + 1]] = move;
+	this.moveScores[this.moveListStart[this.m_ply + 1]] =
 		MVVLVASCORES[CAPTURED(move) * 14 + this.m_pieces[FROMSQ(move)]] +
 		1000000;
-	this.moveListStart[this.ply + 1] += 1;
+	this.moveListStart[this.m_ply + 1] += 1;
 }
 
 export function AddQuietMove (move) {
-	this.moveList[this.moveListStart[this.ply + 1]] = move;
-	this.moveScores[this.moveListStart[this.ply + 1]] = 0;
+	this.moveList[this.moveListStart[this.m_ply + 1]] = move;
+	this.moveScores[this.moveListStart[this.m_ply + 1]] = 0;
 
-	if (move === this.searchKillers[this.ply]) {
+	if (move === this.searchKillers[this.m_ply]) {
 		this.moveScores[
-			this.moveListStart[this.ply + 1]
+			this.moveListStart[this.m_ply + 1]
 		] = 900000;
-	} else if (move === this.searchKillers[this.ply + MAXDEPTH]) {
+	} else if (move === this.searchKillers[this.m_ply + MAXDEPTH]) {
 		this.moveScores[
-			this.moveListStart[this.ply + 1]
+			this.moveListStart[this.m_ply + 1]
 		] = 800000;
 	} else {
-		this.moveScores[this.moveListStart[this.ply + 1]] =
+		this.moveScores[this.moveListStart[this.m_ply + 1]] =
 			this.searchHistory[
 				this.m_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move)
 			];
 	}
 
-	this.moveListStart[this.ply + 1] += 1;
+	this.moveListStart[this.m_ply + 1] += 1;
 }
 
 export function AddEnPassantMove (move) {
-	this.moveList[this.moveListStart[this.ply + 1]] = move
-	this.moveScores[this.moveListStart[this.ply + 1]] = 105 + 1000000
-	this.moveListStart[this.ply + 1] += 1
+	this.moveList[this.moveListStart[this.m_ply + 1]] = move
+	this.moveScores[this.moveListStart[this.m_ply + 1]] = 105 + 1000000
+	this.moveListStart[this.m_ply + 1] += 1
 }
 
 export function AddWhitePawnCaptureMove (from, to, cap) {
@@ -108,8 +108,8 @@ export function AddBlackPawnQuietMove (from, to) {
 }
 
 export function GenerateMoves () {
-	this.moveListStart[this.ply + 1] =
-		this.moveListStart[this.ply];
+	this.moveListStart[this.m_ply + 1] =
+		this.moveListStart[this.m_ply];
 
 	let pceType;
 	let pceNum;
@@ -385,8 +385,8 @@ export function GenerateMoves () {
 }
 
 export function GenerateCaptures () {
-	this.moveListStart[this.ply + 1] =
-		this.moveListStart[this.ply];
+	this.moveListStart[this.m_ply + 1] =
+		this.moveListStart[this.m_ply];
 
 	let pceType;
 	let pceNum;

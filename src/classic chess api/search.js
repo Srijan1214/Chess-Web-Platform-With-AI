@@ -50,7 +50,7 @@ export default class AI {
 
 		for (
 			index = MoveNum;
-			index < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
+			index < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
 			index++
 		) {
 			if (this.GameBoard.moveScores[index] > bestScore) {
@@ -113,12 +113,12 @@ export default class AI {
 		// Check Rep() Fifty Move
 		if (
 			(this.IsRepetition() || this.GameBoard.m_fiftyMove >= 100) &&
-			this.GameBoard.ply !== 0
+			this.GameBoard.m_ply !== 0
 		) {
 			return 0
 		}
 
-		if (this.GameBoard.ply > MAXDEPTH - 1) {
+		if (this.GameBoard.m_ply > MAXDEPTH - 1) {
 			return this.EvalPosition()
 		}
 
@@ -144,8 +144,8 @@ export default class AI {
 		// Order PvMove
 
 		for (
-			MoveNum = this.GameBoard.moveListStart[this.GameBoard.ply];
-			MoveNum < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
+			MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
+			MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
 			++MoveNum
 		) {
 			// Pick Next Best Move
@@ -200,12 +200,12 @@ export default class AI {
 		// Check Rep() Fifty Move
 		if (
 			(this.IsRepetition() || this.GameBoard.m_fiftyMove >= 100) &&
-			this.GameBoard.ply !== 0
+			this.GameBoard.m_ply !== 0
 		) {
 			return 0
 		}
 
-		if (this.GameBoard.ply > MAXDEPTH - 1) {
+		if (this.GameBoard.m_ply > MAXDEPTH - 1) {
 			return this.EvalPosition()
 		}
 
@@ -230,8 +230,8 @@ export default class AI {
 		let PvMove = this.ProbePvTable()
 		if (PvMove !== NOMOVE) {
 			for (
-				MoveNum = this.GameBoard.moveListStart[this.GameBoard.ply];
-				MoveNum < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
+				MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
+				MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
 				++MoveNum
 			) {
 				if (this.GameBoard.moveList[MoveNum] === PvMove) {
@@ -245,8 +245,8 @@ export default class AI {
 		// Order PvMove
 
 		for (
-			MoveNum = this.GameBoard.moveListStart[this.GameBoard.ply];
-			MoveNum < this.GameBoard.moveListStart[this.GameBoard.ply + 1];
+			MoveNum = this.GameBoard.moveListStart[this.GameBoard.m_ply];
+			MoveNum < this.GameBoard.moveListStart[this.GameBoard.m_ply + 1];
 			++MoveNum
 		) {
 			// Pick Next Best Move
@@ -274,9 +274,9 @@ export default class AI {
 					// Update Killer Moves
 					if ((Move & MFLAGCAP) === 0) {
 						// NON Capture move
-						this.GameBoard.searchKillers[MAXDEPTH + this.GameBoard.ply] =
-							this.GameBoard.searchKillers[this.GameBoard.ply]
-						this.GameBoard.searchKillers[this.GameBoard.ply] = Move
+						this.GameBoard.searchKillers[MAXDEPTH + this.GameBoard.m_ply] =
+							this.GameBoard.searchKillers[this.GameBoard.m_ply]
+						this.GameBoard.searchKillers[this.GameBoard.m_ply] = Move
 					}
 
 					return beta
@@ -298,7 +298,7 @@ export default class AI {
 
 		if (Legal === 0) {
 			if (InCheck === BOOL.TRUE) {
-				return -MATE + this.GameBoard.ply
+				return -MATE + this.GameBoard.m_ply
 			} else {
 				return 0
 			}
@@ -323,7 +323,7 @@ export default class AI {
 		}
 
 		this.ClearPvTable()
-		this.GameBoard.ply = 0
+		this.GameBoard.m_ply = 0
 		this.SearchController.nodes = 0
 		this.SearchController.fh = 0
 		this.SearchController.fhf = 0

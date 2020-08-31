@@ -13,7 +13,7 @@ export default class GameBoard {
 	m_fiftyMove = 0
 	m_hisPly = 0 // count of every halfmove played
 	m_history = []
-	ply = 0 // count of halfmove played in the search tree
+	m_ply = 0 // count of halfmove played in the search tree
 	enPas = 0
 	castlePerm = 0
 	material = new Array(2) // Cummulative piece weights for each side

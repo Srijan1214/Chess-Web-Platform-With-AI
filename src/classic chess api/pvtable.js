@@ -14,7 +14,7 @@ export function GetPvLine(depth) {
 		move = this.ProbePvTable()
 	}
 
-	while (this.GameBoard.ply > 0) {
+	while (this.GameBoard.m_ply > 0) {
 		this.GameBoard.TakeMove()
 	}
 

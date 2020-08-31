@@ -3,7 +3,7 @@ import { START_FEN } from "./defs.js"
 export function TakeBack_Move() {
 	if(this.m_hisPly > 0) {
 		this.TakeMove()
-		this.ply = 0
+		this.m_ply = 0
 	}
 }
 

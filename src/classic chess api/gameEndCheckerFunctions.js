@@ -35,8 +35,8 @@ export function check_if_draw_due_to_stalemate() {
 	let found = 0
 
 	for (
-		MoveNum = this.moveListStart[this.ply];
-		MoveNum < this.moveListStart[this.ply + 1];
+		MoveNum = this.moveListStart[this.m_ply];
+		MoveNum < this.moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
 		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {
@@ -101,8 +101,8 @@ export function get_which_side_won() {
 	let found = 0
 
 	for (
-		MoveNum = this.moveListStart[this.ply];
-		MoveNum < this.moveListStart[this.ply + 1];
+		MoveNum = this.moveListStart[this.m_ply];
+		MoveNum < this.moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
 		if (this.MakeMove(this.moveList[MoveNum]) === BOOL.FALSE) {

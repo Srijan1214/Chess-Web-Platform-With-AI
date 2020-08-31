@@ -42,7 +42,7 @@ export function PrintMoveList() {
 	let num = 1
 	console.log('MoveList:')
 
-	for (index = this.moveListStart[this.ply]; index < this.moveListStart[this.ply + 1]; index++) {
+	for (index = this.moveListStart[this.m_ply]; index < this.moveListStart[this.m_ply + 1]; index++) {
 		move = this.moveList[index]
 		console.log('Move:' + num + ':' + this.PrMove(move))
 		num++

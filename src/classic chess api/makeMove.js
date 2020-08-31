@@ -112,7 +112,7 @@ export function MakeMove (move){
 	}
 
 	this.m_hisPly++
-	this.ply++
+	this.m_ply++
 
 	if (PiecePawn[this.m_pieces[from]] === BOOL.TRUE) {
 		this.m_fiftyMove = 0
@@ -148,7 +148,7 @@ export function MakeMove (move){
 
 export function TakeMove () {
 	this.m_hisPly--;
-	this.ply--;
+	this.m_ply--;
 
 	let move = this.m_history[this.m_hisPly].move;
 	let from = FROMSQ(move);
