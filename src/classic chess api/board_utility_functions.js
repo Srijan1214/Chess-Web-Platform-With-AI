@@ -72,14 +72,14 @@ export function CheckBoard () {
 }
 
 export function PrintBoard () {
-	let sq, file, rank, piece
+	let square_120, file, rank, piece
 
 	console.log("\nGame Board:\n")
 	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 		let line = (RankChar[rank] + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			sq = FR2SQ(file, rank)
-			piece = this.m_pieces[sq]
+			square_120 = FR2SQ(file, rank)
+			piece = this.m_pieces[square_120]
 			line += (" " + PceChar[piece] + " ")
 		}
 		console.log(line)
@@ -112,12 +112,12 @@ export function GiveBoardArray () {
 	}
 
 	const retArray = makeArray(8, 8)
-	let sq, file, rank, piece
+	let square_120, file, rank, piece
 
 	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			sq = FR2SQ(file, rank)
-			piece = this.m_pieces[sq]
+			square_120 = FR2SQ(file, rank)
+			piece = this.m_pieces[square_120]
 			retArray[7 - rank][file] = PceChar[piece]
 		}
 	}
@@ -126,14 +126,14 @@ export function GiveBoardArray () {
 }
 
 export function GeneratePosKey () {
-	let sq = 0
+	let square_120 = 0
 	let finalKey = 0
 	let piece = PIECES.EMPTY
 
-	for (sq = 0; sq < BRD_SQ_NUM; sq++) {
-		piece = this.m_pieces[sq]
+	for (square_120 = 0; square_120 < BRD_SQ_NUM; square_120++) {
+		piece = this.m_pieces[square_120]
 		if (piece !== PIECES.EMPTY && piece !== SQUARES.OFFBOARD) {
-			finalKey ^= PieceKeys[(piece * 120) + sq]
+			finalKey ^= PieceKeys[(piece * 120) + square_120]
 		}
 	}
 
@@ -161,7 +161,7 @@ export function PrintPieceLists () {
 }
 
 export function UpdateListsMaterial () {
-	let piece, sq, index, colour
+	let piece, square_120, index, colour
 
 	for (index = 0; index < 14 * 120; ++index) {
 		this.m_pList[index] = PIECES.EMPTY
@@ -176,14 +176,14 @@ export function UpdateListsMaterial () {
 	}
 
 	for (index = 0; index < 64; ++index) {
-		sq = SQ120(index)
-		piece = this.m_pieces[sq]
+		square_120 = SQ120(index)
+		piece = this.m_pieces[square_120]
 		if (piece !== PIECES.EMPTY) {
 			colour = PieceCol[piece]
 
 			this.m_material[colour] += PieceVal[piece]
 
-			this.m_pList[PCEINDEX(piece, this.m_pceNum[piece])] = sq
+			this.m_pList[PCEINDEX(piece, this.m_pceNum[piece])] = square_120
 			this.m_pceNum[piece]++
 		}
 	}
@@ -211,7 +211,7 @@ export function ResetBoard () {
 	this.m_moveListStart[this.m_ply] = 0
 }
 
-export function ParseFen (fen) {
+export function ParseFen (a_fen) {
 	this.ResetBoard()
 
 	let rank = RANKS.RANK_8
@@ -222,9 +222,9 @@ export function ParseFen (fen) {
 	let sq120 = 0
 	let fenCnt = 0
 
-	while ((rank >= RANKS.RANK_1) && fenCnt < fen.length) {
+	while ((rank >= RANKS.RANK_1) && fenCnt < a_fen.length) {
 		count = 1
-		switch (fen[fenCnt]) {
+		switch (a_fen[fenCnt]) {
 			case 'p': piece = PIECES.bP; break
 			case 'r': piece = PIECES.bR; break
 			case 'n': piece = PIECES.bN; break
@@ -247,7 +247,7 @@ export function ParseFen (fen) {
 			case '7':
 			case '8':
 				piece = PIECES.EMPTY
-				count = fen[fenCnt].charCodeAt() - '0'.charCodeAt()
+				count = a_fen[fenCnt].charCodeAt() - '0'.charCodeAt()
 				break
 
 			case '/':
@@ -268,14 +268,14 @@ export function ParseFen (fen) {
 		fenCnt++
 	}
 
-	this.m_side = (fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
+	this.m_side = (a_fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
 	fenCnt += 2
 
 	for (index = 0; index < 4; index++) {
-		if (fen[fenCnt] === ' ') {
+		if (a_fen[fenCnt] === ' ') {
 			break
 		}
-		switch (fen[fenCnt]) {
+		switch (a_fen[fenCnt]) {
 			case 'K': this.m_castlePerm |= CASTLEBIT.WKCA; break
 			case 'Q': this.m_castlePerm |= CASTLEBIT.WQCA; break
 			case 'k': this.m_castlePerm |= CASTLEBIT.BKCA; break
@@ -286,10 +286,10 @@ export function ParseFen (fen) {
 	}
 	fenCnt++
 
-	if (fen[fenCnt] !== '-') {
-		file = fen[fenCnt].charCodeAt() - 'a'.charCodeAt()
-		rank = fen[fenCnt + 1].charCodeAt() - '1'.charCodeAt()
-		console.log("fen[fenCnt]:" + fen[fenCnt] + " File:" + file + " Rank:" + rank)
+	if (a_fen[fenCnt] !== '-') {
+		file = a_fen[fenCnt].charCodeAt() - 'a'.charCodeAt()
+		rank = a_fen[fenCnt + 1].charCodeAt() - '1'.charCodeAt()
+		console.log("a_fen[fenCnt]:" + a_fen[fenCnt] + " File:" + file + " Rank:" + rank)
 		this.m_enPas = FR2SQ(file, rank)
 	}
 
@@ -301,15 +301,15 @@ export function ParseFen (fen) {
 
 export function PrintSqAttacked () {
 
-	let sq, file, rank, piece
+	let square_120, file, rank, piece
 
 	console.log("\nAttacked:\n")
 
 	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
 		let line = ((rank + 1) + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
-			sq = FR2SQ(file, rank)
-			if (this.SqAttacked(sq, this.m_side) === BOOL.TRUE) piece = "X"
+			square_120 = FR2SQ(file, rank)
+			if (this.SqAttacked(square_120, this.m_side) === BOOL.TRUE) piece = "X"
 			else piece = "-"
 			line += (" " + piece + " ")
 		}
@@ -320,32 +320,32 @@ export function PrintSqAttacked () {
 
 }
 
-export function SqAttacked (sq, side)  {
-	let pce;
+export function SqAttacked (a_square_120, a_side)  {
+	let piece_val;
 	let index;
 
-	if (side === COLOURS.WHITE) {
+	if (a_side === COLOURS.WHITE) {
 		if (
-			this.m_pieces[sq - 11] === PIECES.wP ||
-			this.m_pieces[sq - 9] === PIECES.wP
+			this.m_pieces[a_square_120 - 11] === PIECES.wP ||
+			this.m_pieces[a_square_120 - 9] === PIECES.wP
 		) {
 			return BOOL.TRUE;
 		}
 	} else {
 		if (
-			this.m_pieces[sq + 11] === PIECES.bP ||
-			this.m_pieces[sq + 9] === PIECES.bP
+			this.m_pieces[a_square_120 + 11] === PIECES.bP ||
+			this.m_pieces[a_square_120 + 9] === PIECES.bP
 		) {
 			return BOOL.TRUE;
 		}
 	}
 
 	for (index = 0; index < 8; index++) {
-		pce = this.m_pieces[sq + KnDir[index]];
+		piece_val = this.m_pieces[a_square_120 + KnDir[index]];
 		if (
-			pce !== SQUARES.OFFBOARD &&
-			PieceCol[pce] === side &&
-			PieceKnight[pce] === BOOL.TRUE
+			piece_val !== SQUARES.OFFBOARD &&
+			PieceCol[piece_val] === a_side &&
+			PieceKnight[piece_val] === BOOL.TRUE
 		) {
 			return BOOL.TRUE;
 		}
@@ -353,45 +353,45 @@ export function SqAttacked (sq, side)  {
 
 	for (index = 0; index < 4; index++) {
 		let dir = RkDir[index];
-		let t_sq = sq + dir;
-		let pce = this.m_pieces[t_sq];
-		while (pce !== SQUARES.OFFBOARD) {
-			if (pce !== PIECES.EMPTY) {
-				if (PieceRookQueen[pce] === BOOL.TRUE && PieceCol[pce] === side) {
+		let t_sq = a_square_120 + dir;
+		let piece_val = this.m_pieces[t_sq];
+		while (piece_val !== SQUARES.OFFBOARD) {
+			if (piece_val !== PIECES.EMPTY) {
+				if (PieceRookQueen[piece_val] === BOOL.TRUE && PieceCol[piece_val] === a_side) {
 					return BOOL.TRUE;
 				}
 				break;
 			}
 			t_sq += dir;
-			pce = this.m_pieces[t_sq];
+			piece_val = this.m_pieces[t_sq];
 		}
 	}
 
 	for (index = 0; index < 4; index++) {
 		let dir = BiDir[index];
-		let t_sq = sq + dir;
-		let pce = this.m_pieces[t_sq];
-		while (pce !== SQUARES.OFFBOARD) {
-			if (pce !== PIECES.EMPTY) {
+		let t_sq = a_square_120 + dir;
+		let piece_val = this.m_pieces[t_sq];
+		while (piece_val !== SQUARES.OFFBOARD) {
+			if (piece_val !== PIECES.EMPTY) {
 				if (
-					PieceBishopQueen[pce] === BOOL.TRUE &&
-					PieceCol[pce] === side
+					PieceBishopQueen[piece_val] === BOOL.TRUE &&
+					PieceCol[piece_val] === a_side
 				) {
 					return BOOL.TRUE;
 				}
 				break;
 			}
 			t_sq += dir;
-			pce = this.m_pieces[t_sq];
+			piece_val = this.m_pieces[t_sq];
 		}
 	}
 
 	for (index = 0; index < 8; index++) {
-		pce = this.m_pieces[sq + KiDir[index]];
+		piece_val = this.m_pieces[a_square_120 + KiDir[index]];
 		if (
-			pce !== SQUARES.OFFBOARD &&
-			PieceCol[pce] === side &&
-			PieceKing[pce] === BOOL.TRUE
+			piece_val !== SQUARES.OFFBOARD &&
+			PieceCol[piece_val] === a_side &&
+			PieceKing[piece_val] === BOOL.TRUE
 		) {
 			return BOOL.TRUE;
 		}
@@ -400,8 +400,8 @@ export function SqAttacked (sq, side)  {
 	return BOOL.FALSE;
 };
 
-export function HASH_PCE (pce, sq) {
-	this.posKey ^= PieceKeys[(pce * 120) + sq]
+export function HASH_PCE (a_piece_value, a_square_120) {
+	this.posKey ^= PieceKeys[(a_piece_value * 120) + a_square_120]
 }
 
 export function HASH_CA () {
