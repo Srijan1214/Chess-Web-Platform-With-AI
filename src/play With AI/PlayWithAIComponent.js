@@ -3,7 +3,7 @@ import _ from "lodash"
 import { Convert_FileRank_To_RowCol, Convert_RowCol_To_FileRank, Get_Flipped_Square } from "../utility_functions/Utility"
 import GameBoard from "../classic chess api/board.js"
 import AI from "../classic chess api/search.js"
-import GameBoardWrapper from "../components/chess_board/GameBoardWrapper"
+import GameBoardInterfaceWrapper from "../components/chess_board_interface/GameBoardInterfaceWrapper"
 import { COLOURS, PIECES } from "../classic chess api/defs"
 
 
@@ -43,7 +43,7 @@ class PlayWithAIComponent extends React.Component {
 	render() {
 		return (
 			<div>
-				<GameBoardWrapper height={600} width={600} ref={this._board}
+				<GameBoardInterfaceWrapper height={600} width={600} ref={this._board}
 					user_color={this.state.user_color}
 					get_user_color={this.get_user_color}
 					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
