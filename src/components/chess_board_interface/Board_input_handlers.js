@@ -23,7 +23,7 @@ export function Outside_mouseClickHandler(event) {
 			let row = parseInt((y / (canvas_height - 1)) * 8)
 			let column = parseInt((x / (canvas_width - 1)) * 8)
 
-			if (this.props.get_user_color() === 1) {
+			if (this.props.GetUserColor() === 1) {
 				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
 			}
 
@@ -88,7 +88,7 @@ export function Outside_mouseUpHandler(event) {
 			let column = parseInt((x / (canvas_width - 1)) * 8)
 
 
-			if (this.props.get_user_color() === 1) {
+			if (this.props.GetUserColor() === 1) {
 				;({ row : row, column : column } = Get_Flipped_Row_Column(row, column))
 			}
 
@@ -129,7 +129,7 @@ export function Outside_mouseUpHandler(event) {
 			newState.dragging = false
 			this.setState(newState, () => {
 				if (!shouldCancelMove) {
-					this.props.callback_to_indicate_move_is_played(
+					this.props.CallbackToIndicateMoveIsPlayed(
 						prev_location,
 						new_location
 					)

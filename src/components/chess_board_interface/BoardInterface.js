@@ -165,7 +165,7 @@ class BoardInterface extends React.Component {
 		for (let row = 0; row < this.state.curPosition.length; row++) {
 			for (let column = 0; column < this.state.curPosition[row].length; column++) {
 				let [a, b] = [row, column]
-				if(this.props.get_user_color() === 1) {
+				if(this.props.GetUserColor() === 1) {
 					let temp = Get_Flipped_Row_Column(row, column)
 					a = temp.row
 					b = temp.column

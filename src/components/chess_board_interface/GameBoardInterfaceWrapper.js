@@ -36,10 +36,10 @@ class GameBoardInterfaceWrapper extends React.Component {
 					height={this.props.height}
 					width={this.props.width}
 					user_color={this.props.user_color}
-					get_user_color={this.props.get_user_color}
+					GetUserColor={this.props.GetUserColor}
 					ref={this._board}
-					callback_to_indicate_move_is_played={
-						this.props.callback_to_indicate_move_is_played
+					CallbackToIndicateMoveIsPlayed={
+						this.props.CallbackToIndicateMoveIsPlayed
 					}
 					GetMoveStatus={this.props.GetMoveStatus}
 				/>
@@ -56,10 +56,10 @@ class GameBoardInterfaceWrapper extends React.Component {
 					width={this.props.width}
 					height={this.props.height}
 					user_color={this.props.user_color}
-					get_user_color={this.props.get_user_color}
+					GetUserColor={this.props.GetUserColor}
 					ref={this._PromotionPopUp}
-					callback_insert_promotion_piece={this.props.callback_insert_promotion_piece}
-					callback_cancel_promotion_layout={this.props.callback_cancel_promotion_layout}
+					CallbackInsertPromotionPiece={this.props.CallbackInsertPromotionPiece}
+					CallbackCancelPromotionLayout={this.props.CallbackCancelPromotionLayout}
 				></PromotionPopUp>
 				<div className="bottom_interface_container"> 
 					<div className={"bottom_buttons_container " +
@@ -68,9 +68,9 @@ class GameBoardInterfaceWrapper extends React.Component {
 						: "")}
 						style={{width:this.props.width}}
 					>
-						<button className="bottom_button button_highlight_on_hover" onClick={this.props.callback_buttonclick_offer_draw}> Offer Draw </button>
-						<button className="bottom_button button_highlight_on_hover" onClick={this.props.callback_buttonclick_takeback}> Take Back </button>
-						<button className="bottom_button button_highlight_on_hover" onClick={this.props.callback_buttonclick_resign}> Resign </button>
+						<button className="bottom_button button_highlight_on_hover" onClick={this.props.CallbackButtonclickOfferDraw}> Offer Draw </button>
+						<button className="bottom_button button_highlight_on_hover" onClick={this.props.CallbackButtonclickTakeback}> Take Back </button>
+						<button className="bottom_button button_highlight_on_hover" onClick={this.props.CallbackButtonclickResign}> Resign </button>
 					</div>
 					<div className={"bottom_buttons_container " +
 						(this.state.game_end_menu_visibility
@@ -87,11 +87,11 @@ class GameBoardInterfaceWrapper extends React.Component {
 					<div style= {{color:"grey", fontSize:"large"}}> <b> <u>Select Side</u> </b></div>
 					<div style= {{color: "grey", margin:"18%"}} onChange={this.radio_button_change_listener}>
 						<div>
-							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.get_user_color() === 0}></input>
+							<input type="radio" id="white_radio_id" name="color" value="White" defaultChecked={this.props.GetUserColor() === 0}></input>
 							<label htmlFor="white_radio_id">White</label>
 						</div>
 						<div>
-							<input type="radio" id="black_radio_id" name="color" value="Black" defaultChecked={this.props.get_user_color() === 1}></input>
+							<input type="radio" id="black_radio_id" name="color" value="Black" defaultChecked={this.props.GetUserColor() === 1}></input>
 							<label htmlFor="black_radio_id">Black</label>
 						</div>
 					</div>
@@ -106,7 +106,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 							<button className="confirmation_button_left_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
 								onClick={this.hide_restart_game_confirmation}>✕</button>
 							<button className="confirmation_button_right_side button_highlight_on_hover" style={{width:"45%", height:0.6 * 0.1 *this.props.height, marginTop:"14%"}}
-								onClick={() => {this.props.callback_buttonclick_restart_game(); this.hide_restart_game_confirmation()}}>
+								onClick={() => {this.props.CallbackButtonclickRestartGame(); this.hide_restart_game_confirmation()}}>
 								✓
 							</button>
 						</div>
@@ -157,7 +157,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 
 	restart_button_handler() {
 		if(this.state.game_end_menu_visibility) {
-			this.props.callback_buttonclick_restart_game()
+			this.props.CallbackButtonclickRestartGame()
 		}else {
 			this.show_restart_game_confirmation()
 		}

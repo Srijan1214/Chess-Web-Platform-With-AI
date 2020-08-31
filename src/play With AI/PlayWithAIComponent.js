@@ -36,7 +36,7 @@ class PlayWithAIComponent extends React.Component {
 		this.setState(newState)
 	}
 
-	get_user_color = () => {
+	GetUserColor = () => {
 		return this.state.user_color
 	}
 
@@ -45,14 +45,14 @@ class PlayWithAIComponent extends React.Component {
 			<div>
 				<GameBoardInterfaceWrapper height={600} width={600} ref={this._board}
 					user_color={this.state.user_color}
-					get_user_color={this.get_user_color}
-					callback_to_indicate_move_is_played={this.callback_to_indicate_move_is_played}
-					callback_insert_promotion_piece={this.callback_insert_promotion_piece}
-					callback_cancel_promotion_layout={this.callback_cancel_promotion_layout}
-					callback_buttonclick_takeback={this.callback_buttonclick_takeback}
-					callback_buttonclick_restart_game={this.callback_buttonclick_restart_game}
-					callback_buttonclick_resign={this.callback_buttonclick_resign}
-					callback_buttonclick_offer_draw={this.callback_buttonclick_offer_draw}
+					GetUserColor={this.GetUserColor}
+					CallbackToIndicateMoveIsPlayed={this.CallbackToIndicateMoveIsPlayed}
+					CallbackInsertPromotionPiece={this.CallbackInsertPromotionPiece}
+					CallbackCancelPromotionLayout={this.CallbackCancelPromotionLayout}
+					CallbackButtonclickTakeback={this.CallbackButtonclickTakeback}
+					CallbackButtonclickRestartGame={this.CallbackButtonclickRestartGame}
+					CallbackButtonclickResign={this.CallbackButtonclickResign}
+					CallbackButtonclickOfferDraw={this.CallbackButtonclickOfferDraw}
 					callback_set_user_color={this.callback_set_user_color}
 					GetMoveStatus={this.GetMoveStatus}
 				/>
@@ -60,18 +60,18 @@ class PlayWithAIComponent extends React.Component {
 		)
 	}
 
-	setFEN = (fenStr) => {
+	SetFEN = (fenStr) => {
 		this.GameBoard.ParseFen(fenStr)
-		this.force_interface_sync_with_backend()
+		this.ForceInterfaceSyncWithBackend()
 	}
 
-	getMoveFromAI = () => {
+	GetMoveFromAI = () => {
 		const move = this.standard_ai.SearchPosition()
 		return move
 	}
 
-	playMoveFromAI = () => {
-		const move = this.getMoveFromAI()
+	PlayMoveFromAI = () => {
+		const move = this.GetMoveFromAI()
 		if(move.isCastling){
 			if(move.to === 'g1') {
 				this._board.current._board.current.perform_white_king_side_castle(this._board.current._board.current.state.curPosition)
@@ -96,7 +96,7 @@ class PlayWithAIComponent extends React.Component {
 			const location_val_2 = {location: move.to, value: piece_val}
 			this._board.current._board.current.put_multiple_pieces_on_board([location_val_1, location_val_2])
 		}else if(move.enPass) {
-			const piece_val = (this.get_user_color() === 0)? 11: 1
+			const piece_val = (this.GetUserColor() === 0)? 11: 1
 			const location_val_1 = {location: move.from, value: 0}
 			const location_val_2 = {location: move.to, value: piece_val}
 			const location_val_3 = {location: move.to[0] + move.from[1], value: 0}
@@ -109,7 +109,8 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	//this function blocks user input while AI is processing
-	perform_AI_move_blocking = () => {
+	// this also plays the ai move while checking if game ended
+	PerformAIMoveBlocking = () => {
 		//Checks if Game Ends
 		if(this.GameBoard.CheckIfDrawnPosition()) {
 			this._board.current.set_game_end_message("The Game Is A Draw!!!")
@@ -133,7 +134,7 @@ class PlayWithAIComponent extends React.Component {
 		// TODO might user worker later but it is a big pain to implement.
 		setTimeout(() => {
 			this._board.current._board.current.block_user_input()
-			this.playMoveFromAI()
+			this.PlayMoveFromAI()
 			const newState = {}
 			newState.who_moves = !this.state.who_moves
 			this.setState(newState, () => {
@@ -160,7 +161,7 @@ class PlayWithAIComponent extends React.Component {
 		}, 10)
 	}
 
-	callback_to_indicate_move_is_played = (prev_location, new_location) => {
+	CallbackToIndicateMoveIsPlayed = (prev_location, new_location) => {
 		const moveStatus = this.GameBoard.GetMoveStatus(prev_location, new_location)
 		if(moveStatus.isValidMove){
 			if(moveStatus.castle_move) {
@@ -209,7 +210,7 @@ class PlayWithAIComponent extends React.Component {
 		newState.who_moves = !this.state.who_moves
 		newState.cur_position = newPosition
 		this.setState(newState, () => {
-			this.perform_AI_move_blocking()
+			this.PerformAIMoveBlocking()
 		})
 	}
 
@@ -217,7 +218,7 @@ class PlayWithAIComponent extends React.Component {
 		return this.GameBoard.GetMoveStatus(prev_location, new_location)
 	}
 
-	callback_insert_promotion_piece = (piece_val, file_number) => {
+	CallbackInsertPromotionPiece = (piece_val, file_number) => {
 		let location = String.fromCharCode(97 + file_number - 1) + 8
 		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
 			location = Get_Flipped_Square(location)
@@ -242,12 +243,12 @@ class PlayWithAIComponent extends React.Component {
 		const newState = {}
 		newState.who_moves = !this.state.who_moves
 		this.setState(newState, () => {
-			this.perform_AI_move_blocking()
+			this.PerformAIMoveBlocking()
 		})
 
 	}
 
-	callback_cancel_promotion_layout = () => {
+	CallbackCancelPromotionLayout = () => {
 		const pawn_val = (this.state.user_color === 0) ? 1 : 11
 		const location_val_1 = {location: this.state.prev_location, value: pawn_val}
 		const location_val_2 = {location: this.state.new_location, value: 0}
@@ -256,13 +257,13 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.hide_promotion_selection_menu()
 	}
 
-	callback_buttonclick_takeback = () => {
+	CallbackButtonclickTakeback = () => {
 		this.GameBoard.TakeBack_Move()
 		this.GameBoard.TakeBack_Move()
-		this.force_interface_sync_with_backend()
+		this.ForceInterfaceSyncWithBackend()
 	}
 
-	callback_buttonclick_offer_draw = () => {
+	CallbackButtonclickOfferDraw = () => {
 		let accept_draw = false
 
 		if(this.standard_ai.GetBestScore() < -100) {
@@ -275,7 +276,7 @@ class PlayWithAIComponent extends React.Component {
 		}
 	}
 
-	callback_buttonclick_resign = () => {
+	CallbackButtonclickResign = () => {
 		let game_end_text
 		if(this.state.user_color === 0) {
 			game_end_text = "BLACK WINS"
@@ -287,17 +288,17 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.show_end_game_menu_bar()
 	}
 
-	callback_buttonclick_restart_game = () => {
+	CallbackButtonclickRestartGame = () => {
 		const newState = {}
 		newState.user_color = this._board.current.state.radio_button_user_color
 		newState.who_moves = 0
 		this.setState(newState, () =>  {
 			this.GameBoard.Set_Board_To_Start_Position()
-			this.force_interface_sync_with_backend()
+			this.ForceInterfaceSyncWithBackend()
 			this._board.current.hide_end_game_menu_bar()
 			setTimeout(()=>{
 				if(this.state.user_color === 1) {
-					this.playMoveFromAI()
+					this.PlayMoveFromAI()
 				}
 			}, 10)
 		})
@@ -312,7 +313,7 @@ class PlayWithAIComponent extends React.Component {
 	}
 
 	// Makes the display chess board position match up to the position in the GameBoard logic
-	force_interface_sync_with_backend() {
+	ForceInterfaceSyncWithBackend() {
 		const piece_character_array = this.GameBoard.GiveBoardArray()
 		const location_val_array = []
 
@@ -346,7 +347,7 @@ class PlayWithAIComponent extends React.Component {
 
 	componentDidMount() {
 		if(this.state.user_color === 1) {
-			this.playMoveFromAI()
+			this.PlayMoveFromAI()
 		} else {
 
 		}

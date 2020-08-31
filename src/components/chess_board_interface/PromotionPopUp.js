@@ -126,12 +126,12 @@ class PromotionPopUp extends React.Component {
 	}
 
 	put_starting_pieces_on_board(canvas) {
-		if (this.props.get_user_color() === 0) {
+		if (this.props.GetUserColor() === 0) {
 			this.put_piece_at(1, this.state.img_dict["white_queen"])
 			this.put_piece_at(2, this.state.img_dict["white_rook"])
 			this.put_piece_at(3, this.state.img_dict["white_bish"])
 			this.put_piece_at(4, this.state.img_dict["white_knight"])
-		} else if (this.props.get_user_color() === 1) {
+		} else if (this.props.GetUserColor() === 1) {
 			this.put_piece_at(1, this.state.img_dict["black_queen"])
 			this.put_piece_at(2, this.state.img_dict["black_rook"])
 			this.put_piece_at(3, this.state.img_dict["black_bish"])
@@ -188,13 +188,13 @@ class PromotionPopUp extends React.Component {
 				piece_value = 3
 			}else {
 				piece_value = -1
-				this.props.callback_cancel_promotion_layout()
+				this.props.CallbackCancelPromotionLayout()
 			}
 			if (piece_value !== -1){
-				if (this.props.get_user_color() === 1) {
+				if (this.props.GetUserColor() === 1) {
 					piece_value += 10
 				}
-				this.props.callback_insert_promotion_piece(piece_value, this.state.file_number)
+				this.props.CallbackInsertPromotionPiece(piece_value, this.state.file_number)
 				this.hide_promotion_selection_menu()
 			}
 		}
