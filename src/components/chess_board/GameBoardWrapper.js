@@ -1,5 +1,5 @@
 import React from "react"
-import Board from "./Board"
+import BoardInterface from "./BoardInterface"
 import PromotionPopUp from "./PromotionPopUp"
 import './GameBoardWrapperStyle.css'
 
@@ -32,7 +32,7 @@ class GameBoardWrapper extends React.Component {
 				className="board_canvas_wrapper bordered"
 				style={{ height: this.height, width: this.width }}
 			>
-				<Board
+				<BoardInterface
 					height={this.props.height}
 					width={this.props.width}
 					user_color={this.props.user_color}

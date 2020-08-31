@@ -4,7 +4,7 @@ import { Get_Flipped_Row_Column, Convert_FileRank_To_RowCol } from "../../utilit
 import * as Board_input_handlers from "./Board_input_handlers"
 import * as Board_castle_performers from "./perform_castles"
 
-class Board extends React.Component {
+class BoardInterface extends React.Component {
 	constructor(props) {
 		super(props)
 		const startPosition =[
@@ -254,4 +254,4 @@ class Board extends React.Component {
 }
 
 
-export default Board
+export default BoardInterface
