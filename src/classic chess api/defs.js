@@ -1,29 +1,41 @@
+// Generates random 32 bit numbers to facilitate in hashing keys.
+// Hashing keys is necessary to know how many times the same position is repeated.
 export const RAND_32 = () => {
 	return (Math.floor((Math.random() * 255) + 1) << 23) | (Math.floor((Math.random() * 255) + 1) << 16)
 		| (Math.floor((Math.random() * 255) + 1) << 8) | (Math.floor((Math.random() * 255) + 1))
 }
 
+// A piece-value dictionary to make code more descriptive than a number literal.
 export const PIECES = {
 	EMPTY: 0, wP: 1, wN: 2, wB: 3, wR: 4, wQ: 5, wK: 6,
 	bP: 7, bN: 8, bB: 9, bR: 10, bQ: 11, bK: 12
 }
 
+// Number of squares in the large board.
 export const BRD_SQ_NUM = 120
 
+// A File-value dictionary to make code more descriptive than a number literal.
 export const FILES = {
 	FILE_A: 0, FILE_B: 1, FILE_C: 2, FILE_D: 3,
 	FILE_E: 4, FILE_F: 5, FILE_G: 6, FILE_H: 7, FILE_NONE: 8
 }
 
+// A rank-value dictionary to make code more descriptive than a number literal.
 export const RANKS = {
 	RANK_1: 0, RANK_2: 1, RANK_3: 2, RANK_4: 3,
 	RANK_5: 4, RANK_6: 5, RANK_7: 6, RANK_8: 7, RANK_NONE: 8
 }
 
+// A side color-value dictionary to make code more descriptive than a number literal.
 export const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2, NONE: -1 }
 
+// The m_castle_bit number keeps track of weather castling is possible and
+// Performing bitwise AND with each number will tell if that particular castling is possible or not.
+// e.g WKCA stands for White-King-Side-Castle
 export const CASTLEBIT = { WKCA: 1, WQCA: 2, BKCA: 4, BQCA: 8 }
 
+// The location-"120-size-array-index" dictionary that helps to be more descriptive of
+// which square we are using in the 120-size-array.
 export const SQUARES = {
 	A1: 21, B1: 22, C1: 23, D1: 24, E1: 25, F1: 26, G1: 27, H1: 28,
 	A8: 91, B8: 92, C8: 93, D8: 94, E8: 95, F8: 96, G8: 97, H8: 98,
@@ -32,7 +44,11 @@ export const SQUARES = {
 
 export const BOOL = { FALSE: 0, TRUE: 1 }
 
+// The max game moves. This is used because the game is obviously not going above this number
+// and it helps make move search tree simpler and highly efficient.
 export const MAXGAMEMOVES = 2048
+
+
 export const MAXPOSITIONMOVES = 256
 export const MAXDEPTH = 64
 export const INFINITE = 30000
@@ -111,8 +127,6 @@ function InitHashKeys(){
 	for(index = 0; index < 14 * 120; index++){
 		PieceKeys[index] = RAND_32()
 	}
-
-	// SideKey = RAND_32()
 
 	for(index = 0; index < 16; index++){
 		CastleKeys[index] = RAND_32()
