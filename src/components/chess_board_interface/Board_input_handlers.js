@@ -4,7 +4,7 @@ import {
 } from "../../utility_functions/Utility.js"
 import { Get_Flipped_Row_Column } from "../../utility_functions/Utility.js"
 
-export function Outside_mouseClickHandler(event) {
+export function Outside_MouseClickHandler(event) {
 	if (this) {
 		if (event.button === 0) {
 			if(this.state.should_block_user_input){
@@ -48,7 +48,7 @@ export function Outside_mouseClickHandler(event) {
 	}
 }
 
-export function Outside_mouseDragHandler(event) {
+export function Outside_MouseDragHandler(event) {
 	if (this && event.button === 0) {
 		if (this.state.dragging) {
 			let rect = event.currentTarget.getBoundingClientRect();
@@ -68,7 +68,7 @@ export function Outside_mouseDragHandler(event) {
 	}
 }
 
-export function Outside_mouseUpHandler(event) {
+export function Outside_MouseUpHandler(event) {
 	if (this) {
 		if (event.button === 0 ) {
 			//necessary check to ensure that holding right click will not cause bugs

@@ -74,13 +74,13 @@ class PlayWithAIComponent extends React.Component {
 		const move = this.GetMoveFromAI()
 		if(move.isCastling){
 			if(move.to === 'g1') {
-				this._board.current._board.current.perform_white_king_side_castle(this._board.current._board.current.state.curPosition)
+				this._board.current._board.current.PerformWhiteKingSideCastle(this._board.current._board.current.state.curPosition)
 			}else if (move.to === 'c1'){
-				this._board.current._board.current.perform_white_queen_side_castle(this._board.current._board.current.state.curPosition)
+				this._board.current._board.current.PerformWhiteQueenSideCastle(this._board.current._board.current.state.curPosition)
 			}else if (move.to === 'g8') {
-				this._board.current._board.current.perform_black_king_side_castle(this._board.current._board.current.state.curPosition)
+				this._board.current._board.current.PerformBlackKingSideCastle(this._board.current._board.current.state.curPosition)
 			}else if (move.to === 'c8'){
-				this._board.current._board.current.perform_black_queen_side_castle(this._board.current._board.current.state.curPosition)
+				this._board.current._board.current.PerformBlackQueenSideCastle(this._board.current._board.current.state.curPosition)
 			}
 		} else if (move.promotedPiece !== PIECES.EMPTY) {
 			let piece_val = 0
@@ -166,13 +166,13 @@ class PlayWithAIComponent extends React.Component {
 		if(moveStatus.isValidMove){
 			if(moveStatus.castle_move) {
 				if(new_location === 'g1') {
-					this._board.current._board.current.perform_white_king_side_castle(this._board.current._board.current.state.curPosition)
+					this._board.current._board.current.PerformWhiteKingSideCastle(this._board.current._board.current.state.curPosition)
 				}else if (new_location === 'c1'){
-					this._board.current._board.current.perform_white_queen_side_castle(this._board.current._board.current.state.curPosition)
+					this._board.current._board.current.PerformWhiteQueenSideCastle(this._board.current._board.current.state.curPosition)
 				}else if (new_location === 'g8') {
-					this._board.current._board.current.perform_black_king_side_castle(this._board.current._board.current.state.curPosition)
+					this._board.current._board.current.PerformBlackKingSideCastle(this._board.current._board.current.state.curPosition)
 				}else if (new_location === 'c8'){
-					this._board.current._board.current.perform_black_queen_side_castle(this._board.current._board.current.state.curPosition)
+					this._board.current._board.current.PerformBlackQueenSideCastle(this._board.current._board.current.state.curPosition)
 				}
 			}
 			if(moveStatus.promotion_move) {

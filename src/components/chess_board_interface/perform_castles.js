@@ -8,25 +8,25 @@ import {
 // the following functions clears all the pieces 
 // in the way to allow for castlings
 
-export function perform_white_king_side_castle() {
+export function PerformWhiteKingSideCastle() {
 	const newState = {}
 	newState.curPosition = Get_White_King_Side_Castle_Array(this.state.curPosition)
 	this.setState(newState)
 }
 
-export function perform_white_queen_side_castle() {
+export function PerformWhiteQueenSideCastle() {
 	const newState = {}
 	newState.curPosition= Get_White_Queen_Side_Castle_Array(this.state.curPosition)
 	this.setState(newState)
 }
 
-export function perform_black_king_side_castle() {
+export function PerformBlackKingSideCastle() {
 	const newState = {}
 	newState.curPosition = Get_Black_King_Side_Castle_Array(this.state.curPosition)
 	this.setState(newState)
 }
 
-export function perform_black_queen_side_castle() {
+export function PerformBlackQueenSideCastle() {
 	const newState = {}
 	newState.curPosition = Get_Black_Queen_Side_Castle_Array(this.state.curPosition)
 	this.setState(newState)

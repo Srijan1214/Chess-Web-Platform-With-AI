@@ -40,18 +40,18 @@ class BoardInterface extends React.Component {
 			14: "black_king", 1: "white_pawn", 11: "black_pawn"
 		}
 		this.chess_board_canvas = React.createRef();
-		this.mouseClickHandler = Board_input_handlers.Outside_mouseClickHandler.bind(this)
-		this.mouseDragHandler = Board_input_handlers.Outside_mouseDragHandler.bind(this)
-		this.mouseUpHandler = Board_input_handlers.Outside_mouseUpHandler.bind(this)
+		this.MouseClickHandler = Board_input_handlers.Outside_MouseClickHandler.bind(this)
+		this.MouseDragHandler = Board_input_handlers.Outside_MouseDragHandler.bind(this)
+		this.MouseUpHandler = Board_input_handlers.Outside_MouseUpHandler.bind(this)
 		this.MouseRightClickHandler = Board_input_handlers.Outside_MouseRightClickHandler.bind(this)
 		this.KeyboardPressHandler = Board_input_handlers.Outside_KeyboardPressHandler.bind(this)
-		this.mouseOutHandler = Board_input_handlers.Outside_MouseOutHandler.bind(this)
+		this.MouseOutsideDragHandler = Board_input_handlers.Outside_MouseOutHandler.bind(this)
 
 		// castling function
-		this.perform_white_king_side_castle = Board_castle_performers.perform_white_king_side_castle.bind(this)
-		this.perform_white_queen_side_castle = Board_castle_performers.perform_white_queen_side_castle.bind(this)
-		this.perform_black_king_side_castle = Board_castle_performers.perform_black_king_side_castle.bind(this)
-		this.perform_black_queen_side_castle = Board_castle_performers.perform_black_queen_side_castle.bind(this)
+		this.PerformWhiteKingSideCastle = Board_castle_performers.PerformWhiteKingSideCastle.bind(this)
+		this.PerformWhiteQueenSideCastle = Board_castle_performers.PerformWhiteQueenSideCastle.bind(this)
+		this.PerformBlackKingSideCastle = Board_castle_performers.PerformBlackKingSideCastle.bind(this)
+		this.PerformBlackQueenSideCastle = Board_castle_performers.PerformBlackQueenSideCastle.bind(this)
 	}
 
 	componentDidMount() {
@@ -89,9 +89,9 @@ class BoardInterface extends React.Component {
 		const styling = { height: this.state.canvas_height, width: this.state.canvas_width, margins: 0, padding: 0, backgroundColor: "darkgrey" }
 		return (
 			<div>
-				<canvas id="chess_board" style={styling} ref={this.chess_board_canvas} onMouseDown={this.mouseClickHandler}
-					onMouseMove={this.mouseDragHandler} onMouseUp={this.mouseUpHandler}
-					onMouseOut={this.mouseOutHandler}
+				<canvas id="chess_board" style={styling} ref={this.chess_board_canvas} onMouseDown={this.MouseClickHandler}
+					onMouseMove={this.MouseDragHandler} onMouseUp={this.MouseUpHandler}
+					onMouseOut={this.MouseOutsideDragHandler}
 					onContextMenu={this.MouseRightClickHandler} onKeyDown={this.KeyboardPressHandler}
 					tabIndex="0"></canvas>
 			</div>
