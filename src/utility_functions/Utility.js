@@ -1,17 +1,17 @@
 import _ from "lodash"
 
-export function Convert_RowCol_To_FileRank(a_row, column) {
-	return String.fromCharCode(97 + column) + (8 - a_row)
+export function Convert_RowCol_To_FileRank(a_row, a_column) {
+	return String.fromCharCode(97 + a_column) + (8 - a_row)
 }
 
-export function Convert_FileRank_To_RowCol(location) {
-	const column = location.charCodeAt(0) - 97
-	const row = 8 - parseInt(location[1])
+export function Convert_FileRank_To_RowCol(a_location) {
+	const column = a_location.charCodeAt(0) - 97
+	const row = 8 - parseInt(a_location[1])
 	return { row: row, column: column }
 }
 
-export function Get_White_King_Side_Castle_Array(curPosition) {
-	const temp = _.cloneDeep(curPosition)
+export function Get_White_King_Side_Castle_Array(a_curPosition) {
+	const temp = _.cloneDeep(a_curPosition)
 	const { row: r1, column: c1 } = Convert_FileRank_To_RowCol("e1")
 	const { row: r2, column: c2 } = Convert_FileRank_To_RowCol("f1")
 	const { row: r3, column: c3 } = Convert_FileRank_To_RowCol("g1")
@@ -25,8 +25,8 @@ export function Get_White_King_Side_Castle_Array(curPosition) {
 	return temp
 }
 
-export function Get_White_Queen_Side_Castle_Array(curPosition) {
-	const temp = _.cloneDeep(curPosition)
+export function Get_White_Queen_Side_Castle_Array(a_curPosition) {
+	const temp = _.cloneDeep(a_curPosition)
 	const { row: r1, column: c1 } = Convert_FileRank_To_RowCol("e1")
 	const { row: r2, column: c2 } = Convert_FileRank_To_RowCol("d1")
 	const { row: r3, column: c3 } = Convert_FileRank_To_RowCol("c1")
@@ -42,8 +42,8 @@ export function Get_White_Queen_Side_Castle_Array(curPosition) {
 	return temp
 }
 
-export function Get_Black_King_Side_Castle_Array(curPosition) {
-	const temp = _.cloneDeep(curPosition)
+export function Get_Black_King_Side_Castle_Array(a_curPosition) {
+	const temp = _.cloneDeep(a_curPosition)
 	const { row: r1, column: c1 } = Convert_FileRank_To_RowCol("e8")
 	const { row: r2, column: c2 } = Convert_FileRank_To_RowCol("f8")
 	const { row: r3, column: c3 } = Convert_FileRank_To_RowCol("g8")
@@ -57,8 +57,8 @@ export function Get_Black_King_Side_Castle_Array(curPosition) {
 	return temp
 }
 
-export function Get_Black_Queen_Side_Castle_Array(curPosition) {
-	const temp = _.cloneDeep(curPosition)
+export function Get_Black_Queen_Side_Castle_Array(a_curPosition) {
+	const temp = _.cloneDeep(a_curPosition)
 	const { row: r1, column: c1 } = Convert_FileRank_To_RowCol("e8")
 	const { row: r2, column: c2 } = Convert_FileRank_To_RowCol("d8")
 	const { row: r3, column: c3 } = Convert_FileRank_To_RowCol("c8")
@@ -76,21 +76,21 @@ export function Get_Black_Queen_Side_Castle_Array(curPosition) {
 
 // converts [row, column] from white perspective to black's perspective.
 // and vice versa
-export function Get_Flipped_Row_Column(a_row, column) {
+export function Get_Flipped_Row_Column(a_row, a_column) {
 	a_row = 7 - a_row
-	column = 7 - column
-	return { row: a_row, column: column }
+	a_column = 7 - a_column
+	return { row: a_row, column: a_column }
 }
 
 // converts square(e.g "a3") from white perspective to black's perspective (e.g "h6").
 // and vice versa
-export function Get_Flipped_Square(location) {
-	let file = location[0]
+export function Get_Flipped_Square(a_location) {
+	let file = a_location[0]
 	file = file.charCodeAt(0) - 97
 	// file = file + 7 - 2 * file
 	file = 7 - file
 	file = String.fromCharCode(file + 97)
-	let rank = location[1]
+	let rank = a_location[1]
 	rank = parseInt(rank) - 1
 	rank = 7 - rank + 1
 	return file + rank
