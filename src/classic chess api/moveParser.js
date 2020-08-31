@@ -52,7 +52,7 @@ export function move_piece(from, to, promoted = PIECES.EMPTY) {
 				PromPce = PROMOTED(Move)
 				if (promoted !== PIECES.EMPTY) {
 					if(PromPce === promoted){
-							if (this.side === COLOURS.WHITE) {
+							if (this.m_side === COLOURS.WHITE) {
 								if (PromPce === PIECES.wQ || PromPce === PIECES.wR || PromPce === PIECES.wB || PromPce === PIECES.wN) {
 								found = BOOL.TRUE
 								break

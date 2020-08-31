@@ -131,7 +131,7 @@ export function EvalPosition () {
 		score -= this.BishopPair;
 	}
 
-	if (this.GameBoard.side === COLOURS.WHITE) {
+	if (this.GameBoard.m_side === COLOURS.WHITE) {
 		return score;
 	} else {
 		return -score;

@@ -59,8 +59,8 @@ export function CheckBoard () {
 		return BOOL.FALSE
 	}
 
-	if (this.side !== COLOURS.WHITE && this.side !== COLOURS.BLACK) {
-		console.log('Error this.side')
+	if (this.m_side !== COLOURS.WHITE && this.m_side !== COLOURS.BLACK) {
+		console.log('Error this.m_side')
 		return BOOL.FALSE
 	}
 
@@ -92,7 +92,7 @@ export function PrintBoard () {
 	}
 
 	console.log(line)
-	console.log("side:" + SideChar[this.side])
+	console.log("side:" + SideChar[this.m_side])
 	console.log("enPas:" + this.enPas)
 	line = ""
 
@@ -137,7 +137,7 @@ export function GeneratePosKey () {
 		}
 	}
 
-	if (this.side === COLOURS.WHITE) {
+	if (this.m_side === COLOURS.WHITE) {
 		finalKey ^= SideKey
 	}
 
@@ -201,7 +201,7 @@ export function ResetBoard () {
 		this.m_pieces[SQ120(index)] = PIECES.EMPTY
 	}
 
-	this.side = COLOURS.BOTH
+	this.m_side = COLOURS.BOTH
 	this.enPas = SQUARES.NO_SQ
 	this.fiftyMove = 0
 	this.ply = 0
@@ -268,7 +268,7 @@ export function ParseFen (fen) {
 		fenCnt++
 	}
 
-	this.side = (fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
+	this.m_side = (fen[fenCnt] === 'w') ? COLOURS.WHITE : COLOURS.BLACK
 	fenCnt += 2
 
 	for (index = 0; index < 4; index++) {
@@ -309,7 +309,7 @@ export function PrintSqAttacked () {
 		let line = ((rank + 1) + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file, rank)
-			if (this.SqAttacked(sq, this.side) === BOOL.TRUE) piece = "X"
+			if (this.SqAttacked(sq, this.m_side) === BOOL.TRUE) piece = "X"
 			else piece = "-"
 			line += (" " + piece + " ")
 		}

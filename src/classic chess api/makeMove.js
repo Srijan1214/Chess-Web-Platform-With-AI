@@ -56,7 +56,7 @@ export function MovePiece (from, to) {
 export function MakeMove (move){
 	let from = FROMSQ(move)
 	let to = TOSQ(move)
-	let side = this.side
+	let side = this.m_side
 
 	this.history[this.hisPly].posKey = this.posKey
 
@@ -135,10 +135,10 @@ export function MakeMove (move){
 		this.AddPiece(to, prPce)
 	}
 
-	this.side ^= 1
+	this.m_side ^= 1
 	this.HASH_SIDE()
 
-	if (this.SqAttacked(this.pList[PCEINDEX(Kings[side], 0)], this.side)) {
+	if (this.SqAttacked(this.pList[PCEINDEX(Kings[side], 0)], this.m_side)) {
 		this.TakeMove()
 		return BOOL.FALSE
 	}
@@ -164,11 +164,11 @@ export function TakeMove () {
 	if (this.enPas !== SQUARES.NO_SQ) this.HASH_EP();
 	this.HASH_CA();
 
-	this.side ^= 1;
+	this.m_side ^= 1;
 	this.HASH_SIDE();
 
 	if ((MFLAGEP & move) !== 0) {
-		if (this.side === COLOURS.WHITE) {
+		if (this.m_side === COLOURS.WHITE) {
 			this.AddPiece(to - 10, PIECES.bP);
 		} else {
 			this.AddPiece(to + 10, PIECES.wP);

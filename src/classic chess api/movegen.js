@@ -120,7 +120,7 @@ export function GenerateMoves () {
 	let dir;
 	let index;
 
-	if (this.side === COLOURS.WHITE) {
+	if (this.m_side === COLOURS.WHITE) {
 		pceType = PIECES.wP;
 
 		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
@@ -312,7 +312,7 @@ export function GenerateMoves () {
 			}
 		}
 	}
-	pceIndex = LoopNonSlideIndex[this.side];
+	pceIndex = LoopNonSlideIndex[this.m_side];
 	pce = LoopNonSlidePce[pceIndex++];
 
 	while (pce !== 0) {
@@ -328,7 +328,7 @@ export function GenerateMoves () {
 				}
 
 				if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
-					if (PieceCol[this.m_pieces[t_sq]] !== this.side) {
+					if (PieceCol[this.m_pieces[t_sq]] !== this.m_side) {
 						this.AddCaptureMove(
 							this.MOVE(
 								sq,
@@ -347,7 +347,7 @@ export function GenerateMoves () {
 		pce = LoopNonSlidePce[pceIndex++];
 	}
 
-	pceIndex = LoopSlideIndex[this.side];
+	pceIndex = LoopSlideIndex[this.m_side];
 	pce = LoopSlidePce[pceIndex++];
 
 	while (pce !== 0) {
@@ -361,7 +361,7 @@ export function GenerateMoves () {
 				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
 					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
-							PieceCol[this.m_pieces[t_sq]] !== this.side
+							PieceCol[this.m_pieces[t_sq]] !== this.m_side
 						) {
 							this.AddCaptureMove(
 								this.MOVE(
@@ -397,7 +397,7 @@ export function GenerateCaptures () {
 	let dir;
 	let index;
 
-	if (this.side === COLOURS.WHITE) {
+	if (this.m_side === COLOURS.WHITE) {
 		pceType = PIECES.wP;
 
 		for (pceNum = 0; pceNum < this.pceNum[pceType]; pceNum++) {
@@ -462,7 +462,7 @@ export function GenerateCaptures () {
 			}
 		}
 	}
-	pceIndex = LoopNonSlideIndex[this.side];
+	pceIndex = LoopNonSlideIndex[this.m_side];
 	pce = LoopNonSlidePce[pceIndex++];
 
 	while (pce !== 0) {
@@ -478,7 +478,7 @@ export function GenerateCaptures () {
 				}
 
 				if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
-					if (PieceCol[this.m_pieces[t_sq]] !== this.side) {
+					if (PieceCol[this.m_pieces[t_sq]] !== this.m_side) {
 						this.AddCaptureMove(
 							this.MOVE(
 								sq,
@@ -495,7 +495,7 @@ export function GenerateCaptures () {
 		pce = LoopNonSlidePce[pceIndex++];
 	}
 
-	pceIndex = LoopSlideIndex[this.side];
+	pceIndex = LoopSlideIndex[this.m_side];
 	pce = LoopSlidePce[pceIndex++];
 
 	while (pce !== 0) {
@@ -509,7 +509,7 @@ export function GenerateCaptures () {
 				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
 					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
-							PieceCol[this.m_pieces[t_sq]] !== this.side
+							PieceCol[this.m_pieces[t_sq]] !== this.m_side
 						) {
 							this.AddCaptureMove(
 								this.MOVE(

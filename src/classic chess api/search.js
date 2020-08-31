@@ -210,8 +210,8 @@ export default class AI {
 		}
 
 		let InCheck = this.GameBoard.SqAttacked(
-			this.GameBoard.pList[PCEINDEX(Kings[this.GameBoard.side], 0)],
-			this.GameBoard.side ^ 1
+			this.GameBoard.pList[PCEINDEX(Kings[this.GameBoard.m_side], 0)],
+			this.GameBoard.m_side ^ 1
 		)
 		if (InCheck === BOOL.TRUE) {
 			depth++

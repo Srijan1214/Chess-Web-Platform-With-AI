@@ -50,8 +50,8 @@ export function check_if_draw_due_to_stalemate() {
 	if (found !== 0) return BOOL.FALSE
 
 	let InCheck = this.SqAttacked(
-		this.pList[PCEINDEX(Kings[this.side], 0)],
-		this.side ^ 1
+		this.pList[PCEINDEX(Kings[this.m_side], 0)],
+		this.m_side ^ 1
 	)
 
 	if (InCheck === BOOL.TRUE) {
@@ -116,12 +116,12 @@ export function get_which_side_won() {
 	if (found !== 0) return COLOURS.NONE
 
 	let InCheck = this.SqAttacked(
-		this.pList[PCEINDEX(Kings[this.side], 0)],
-		this.side ^ 1
+		this.pList[PCEINDEX(Kings[this.m_side], 0)],
+		this.m_side ^ 1
 	)
 
 	if (InCheck === BOOL.TRUE) {
-		if (this.side === COLOURS.WHITE) {
+		if (this.m_side === COLOURS.WHITE) {
 			// black wins
 			return COLOURS.BLACK
 		} else {
