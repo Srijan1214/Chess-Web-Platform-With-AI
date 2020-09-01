@@ -4,18 +4,18 @@ import {
 } from "../../utility_functions/Utility.js"
 import { Get_Flipped_Row_Column } from "../../utility_functions/Utility.js"
 
-export function Outside_MouseClickHandler(event) {
+export function Outside_MouseClickHandler(a_event) {
 	if (this) {
-		if (event.button === 0) {
+		if (a_event.button === 0) {
 			if(this.state.should_block_user_input){
 				return
 			}
-			let rect = event.currentTarget.getBoundingClientRect();
-			let x = event.clientX - rect.left;
-			let y = event.clientY - rect.top;
+			let rect = a_event.currentTarget.getBoundingClientRect();
+			let x = a_event.clientX - rect.left;
+			let y = a_event.clientY - rect.top;
 
-			let canvas_width = event.currentTarget.width
-			let canvas_height = event.currentTarget.height
+			let canvas_width = a_event.currentTarget.width
+			let canvas_height = a_event.currentTarget.height
 
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
@@ -40,7 +40,7 @@ export function Outside_MouseClickHandler(event) {
 			newState.old_image_position = [row, column]
 			newState.current_image_position = [x, y]
 			this.setState(newState)
-		} else if (event.button === 2) {
+		} else if (a_event.button === 2) {
 			const newState = {}
 			this.StopMouseInputAndCanelMove(newState)
 			this.setState(newState)
@@ -48,15 +48,15 @@ export function Outside_MouseClickHandler(event) {
 	}
 }
 
-export function Outside_MouseDragHandler(event) {
-	if (this && event.button === 0) {
+export function Outside_MouseDragHandler(a_event) {
+	if (this && a_event.button === 0) {
 		if (this.state.dragging) {
-			let rect = event.currentTarget.getBoundingClientRect();
-			let x = event.clientX - rect.left;
-			let y = event.clientY - rect.top;
+			let rect = a_event.currentTarget.getBoundingClientRect();
+			let x = a_event.clientX - rect.left;
+			let y = a_event.clientY - rect.top;
 
-			let canvas_width = event.currentTarget.width
-			let canvas_height = event.currentTarget.height
+			let canvas_width = a_event.currentTarget.width
+			let canvas_height = a_event.currentTarget.height
 
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
@@ -68,18 +68,18 @@ export function Outside_MouseDragHandler(event) {
 	}
 }
 
-export function Outside_MouseUpHandler(event) {
+export function Outside_MouseUpHandler(a_event) {
 	if (this) {
-		if (event.button === 0 ) {
+		if (a_event.button === 0 ) {
 			//necessary check to ensure that holding right click will not cause bugs
 			if(!this.state.dragging) 
 				return
-			let rect = event.currentTarget.getBoundingClientRect();
-			let x = event.clientX - rect.left;
-			let y = event.clientY - rect.top;
+			let rect = a_event.currentTarget.getBoundingClientRect();
+			let x = a_event.clientX - rect.left;
+			let y = a_event.clientY - rect.top;
 
-			let canvas_width = event.currentTarget.width
-			let canvas_height = event.currentTarget.height
+			let canvas_width = a_event.currentTarget.width
+			let canvas_height = a_event.currentTarget.height
 
 			x = x * canvas_width / this.state.canvas_width
 			y = y * canvas_height / this.state.canvas_height
@@ -139,7 +139,7 @@ export function Outside_MouseUpHandler(event) {
 	}
 }
 
-export function Outside_MouseOutHandler(event) {
+export function Outside_MouseOutHandler(a_event) {
 	if (this) {
 		const newState = {}
 		this.StopMouseInputAndCanelMove(newState)
@@ -147,8 +147,8 @@ export function Outside_MouseOutHandler(event) {
 	}
 }
 
-export function Outside_MouseRightClickHandler(event) {
+export function Outside_MouseRightClickHandler(a_event) {
 	if (this) {
-		event.preventDefault()
+		a_event.preventDefault()
 	}
 }
