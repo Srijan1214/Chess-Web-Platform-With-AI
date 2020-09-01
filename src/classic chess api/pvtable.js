@@ -1,10 +1,10 @@
 import { NOMOVE, BOOL, PVENTRIES } from "./defs.js"
 
-export function GetPvLine(depth) {
+export function GetPvLine(a_depth) {
 	let move = this.ProbePvTable()
 	let count = 0
 
-	while (move !== NOMOVE && count < depth) {
+	while (move !== NOMOVE && count < a_depth) {
 		if (this.GameBoard.MoveExists(move) === BOOL.TRUE) {
 			this.GameBoard.MakeMove(move)
 			this.GameBoard.m_PvArray[count++] = move

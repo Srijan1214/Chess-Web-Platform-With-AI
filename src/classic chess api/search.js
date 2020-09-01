@@ -39,17 +39,17 @@ export default class AI {
 		this.SetGameBoard(GameBoard)
 	}
 
-	SetGameBoard(GameBoard) {
-		this.GameBoard = GameBoard
+	SetGameBoard(a_GameBoard) {
+		this.GameBoard = a_GameBoard
 	}
 
-	PickNextMove(MoveNum) {
+	PickNextMove(a_move_number) {
 		let index = 0
 		let bestScore = -1
-		let bestNum = MoveNum
+		let bestNum = a_move_number
 
 		for (
-			index = MoveNum;
+			index = a_move_number;
 			index < this.GameBoard.m_moveListStart[this.GameBoard.m_ply + 1];
 			index++
 		) {
@@ -59,13 +59,13 @@ export default class AI {
 			}
 		}
 
-		if (bestNum !== MoveNum) {
-			let temp = this.GameBoard.m_moveScores[MoveNum]
-			this.GameBoard.m_moveScores[MoveNum] = this.GameBoard.m_moveScores[bestNum]
+		if (bestNum !== a_move_number) {
+			let temp = this.GameBoard.m_moveScores[a_move_number]
+			this.GameBoard.m_moveScores[a_move_number] = this.GameBoard.m_moveScores[bestNum]
 			this.GameBoard.m_moveScores[bestNum] = temp
 
-			temp = this.GameBoard.m_moveList[MoveNum]
-			this.GameBoard.m_moveList[MoveNum] = this.GameBoard.m_moveList[bestNum]
+			temp = this.GameBoard.m_moveList[a_move_number]
+			this.GameBoard.m_moveList[a_move_number] = this.GameBoard.m_moveList[bestNum]
 			this.GameBoard.m_moveList[bestNum] = temp
 		}
 	}
@@ -102,7 +102,7 @@ export default class AI {
 		}
 	}
 
-	Quiescence(alpha, beta) {
+	Quiescence(a_alpha, a_beta) {
 		// Check Time Up
 		if ((this.SearchController.nodes & 2047) === 0) {
 			this.CheckUp()
@@ -124,19 +124,19 @@ export default class AI {
 
 		let Score = this.EvalPosition()
 
-		if (Score >= beta) {
-			return beta
+		if (Score >= a_beta) {
+			return a_beta
 		}
 
-		if (Score > alpha) {
-			alpha = Score
+		if (Score > a_alpha) {
+			a_alpha = Score
 		}
 
 		this.GameBoard.GenerateCaptures()
 
 		let MoveNum = 0
 		let Legal = 0
-		let OldAlpha = alpha
+		let OldAlpha = a_alpha
 		let BestMove = NOMOVE
 		let Move = NOMOVE
 
@@ -156,7 +156,7 @@ export default class AI {
 				continue
 			}
 			Legal++
-			Score = -this.Quiescence(-beta, -alpha)
+			Score = -this.Quiescence(-a_beta, -a_alpha)
 
 			this.GameBoard.TakeMove()
 
@@ -164,30 +164,30 @@ export default class AI {
 				return 0
 			}
 
-			if (Score > alpha) {
-				if (Score >= beta) {
+			if (Score > a_alpha) {
+				if (Score >= a_beta) {
 					if (Legal === 1) {
 						this.SearchController.fhf += 1
 					}
 					this.SearchController.fh += 1
 
-					return beta
+					return a_beta
 				}
-				alpha = Score
+				a_alpha = Score
 				BestMove = Move
 			}
 		}
 
-		if (alpha !== OldAlpha) {
+		if (a_alpha !== OldAlpha) {
 			this.StorePvMove(BestMove)
 		}
 
-		return alpha
+		return a_alpha
 	}
 
-	AlphaBeta(alpha, beta, depth) {
-		if (depth <= 0) {
-			return this.Quiescence(alpha, beta)
+	AlphaBeta(a_alpha, a_beta, a_depth) {
+		if (a_depth <= 0) {
+			return this.Quiescence(a_alpha, a_beta)
 		}
 
 		// Check Time Up
@@ -214,7 +214,7 @@ export default class AI {
 			this.GameBoard.m_side ^ 1
 		)
 		if (InCheck === BOOL.TRUE) {
-			depth++
+			a_depth++
 		}
 
 		let Score = -INFINITE
@@ -223,7 +223,7 @@ export default class AI {
 
 		let MoveNum = 0
 		let Legal = 0
-		let OldAlpha = alpha
+		let OldAlpha = a_alpha
 		let BestMove = NOMOVE
 		let Move = NOMOVE
 
@@ -257,15 +257,15 @@ export default class AI {
 				continue
 			}
 			Legal++
-			Score = -this.AlphaBeta(-beta, -alpha, depth - 1)
+			Score = -this.AlphaBeta(-a_beta, -a_alpha, a_depth - 1)
 
 			this.GameBoard.TakeMove()
 			if (this.SearchController.stop === BOOL.TRUE) {
 				return 0
 			}
 
-			if (Score > alpha) {
-				if (Score >= beta) {
+			if (Score > a_alpha) {
+				if (Score >= a_beta) {
 					if (Legal === 1) {
 						this.SearchController.fhf += 1
 					}
@@ -279,7 +279,7 @@ export default class AI {
 						this.GameBoard.m_searchKillers[this.GameBoard.m_ply] = Move
 					}
 
-					return beta
+					return a_beta
 				}
 
 				// Piece history Moves prunning
@@ -289,9 +289,9 @@ export default class AI {
 					// NON Capture move
 					this.GameBoard.m_searchHistory[
 						this.GameBoard.m_pieces[FROMSQ(Move)] * BRD_SQ_NUM + TOSQ(Move)
-					] += depth * depth
+					] += a_depth * a_depth
 				}
-				alpha = Score
+				a_alpha = Score
 				BestMove = Move
 			}
 		}
@@ -304,11 +304,11 @@ export default class AI {
 			}
 		}
 
-		if (alpha !== OldAlpha) {
+		if (a_alpha !== OldAlpha) {
 			this.StorePvMove(BestMove)
 		}
 
-		return alpha
+		return a_alpha
 	}
 
 	ClearForSearch() {

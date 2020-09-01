@@ -1,10 +1,10 @@
 import { PIECES, NOMOVE, BOOL, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
 
-export function GetMoveStatus (from, to) {
+export function GetMoveStatus (a_from, a_to) {
 	// TODO
 	this.GenerateMoves() // will be better if this is called before the check.
-	from = (from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
-	to = (to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
+	a_from = (a_from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
+	a_to = (a_to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 
 	let Move = NOMOVE
 	let found = BOOL.FALSE
@@ -12,7 +12,7 @@ export function GetMoveStatus (from, to) {
 
 	for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
 		Move = this.m_moveList[index]
-		if (FROMSQ(Move) === from && TOSQ(Move) === to) {
+		if (FROMSQ(Move) === a_from && TOSQ(Move) === a_to) {
 			found = true
 			break
 		}
@@ -34,11 +34,11 @@ export function GetMoveStatus (from, to) {
 	return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false, enPass_move: ((Move & MFLAGEP) !==0)}
 }
 
-export function MovePieceStringLocations(from, to, promoted = PIECES.EMPTY) {
+export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY) {
 		// TODO
 		this.GenerateMoves() // will be better if this is called before the check.
-		from = (from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
-		to = (to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
+		a_from = (a_from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
+		a_to = (a_to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 		
 		let Move = NOMOVE
 		let PromPce = PIECES.EMPTY
@@ -47,11 +47,11 @@ export function MovePieceStringLocations(from, to, promoted = PIECES.EMPTY) {
 	
 		for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
 			Move = this.m_moveList[index]
-			if (FROMSQ(Move) === from && TOSQ(Move) === to) {
+			if (FROMSQ(Move) === a_from && TOSQ(Move) === a_to) {
 				// Check for piece promotion if the from and to square satisfy
 				PromPce = PROMOTED(Move)
-				if (promoted !== PIECES.EMPTY) {
-					if(PromPce === promoted){
+				if (a_promoted !== PIECES.EMPTY) {
+					if(PromPce === a_promoted){
 							if (this.m_side === COLOURS.WHITE) {
 								if (PromPce === PIECES.wQ || PromPce === PIECES.wR || PromPce === PIECES.wB || PromPce === PIECES.wN) {
 								found = BOOL.TRUE

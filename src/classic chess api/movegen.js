@@ -3,7 +3,7 @@ import {PIECES, NOMOVE, BOOL, CAPTURED, FROMSQ, MAXDEPTH, BRD_SQ_NUM, TOSQ, RANK
 	RanksBrd,
 	DirNum, PceDir,LoopNonSlidePce, LoopNonSlideIndex,LoopSlidePce, LoopSlideIndex, PieceCol } from "./defs.js"
 
-export function MoveExists (move) {
+export function MoveExists (a_move_number) {
 	this.GenerateMoves();
 
 	let index;
@@ -18,92 +18,92 @@ export function MoveExists (move) {
 			continue;
 		}
 		this.TakeMove();
-		if (move === moveFound) {
+		if (a_move_number === moveFound) {
 			return BOOL.TRUE;
 		}
 	}
 	return BOOL.FALSE;
 };
 
-export function MOVE (from, to, captured, promoted, flag) {
-	return from | (to << 7) | (captured << 14) | (promoted << 20) | flag;
+export function MOVE (a_from, a_to, a_captured, a_promoted, a_flag) {
+	return a_from | (a_to << 7) | (a_captured << 14) | (a_promoted << 20) | a_flag;
 }
 
-export function AddCaptureMove (move) {
-	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move;
+export function AddCaptureMove (a_move_number) {
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = a_move_number;
 	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] =
-		MVVLVASCORES[CAPTURED(move) * 14 + this.m_pieces[FROMSQ(move)]] +
+		MVVLVASCORES[CAPTURED(a_move_number) * 14 + this.m_pieces[FROMSQ(a_move_number)]] +
 		1000000;
 	this.m_moveListStart[this.m_ply + 1] += 1;
 }
 
-export function AddQuietMove (move) {
-	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move;
+export function AddQuietMove (a_move_number) {
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = a_move_number;
 	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] = 0;
 
-	if (move === this.m_searchKillers[this.m_ply]) {
+	if (a_move_number === this.m_searchKillers[this.m_ply]) {
 		this.m_moveScores[
 			this.m_moveListStart[this.m_ply + 1]
 		] = 900000;
-	} else if (move === this.m_searchKillers[this.m_ply + MAXDEPTH]) {
+	} else if (a_move_number === this.m_searchKillers[this.m_ply + MAXDEPTH]) {
 		this.m_moveScores[
 			this.m_moveListStart[this.m_ply + 1]
 		] = 800000;
 	} else {
 		this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] =
 			this.m_searchHistory[
-				this.m_pieces[FROMSQ(move)] * BRD_SQ_NUM + TOSQ(move)
+				this.m_pieces[FROMSQ(a_move_number)] * BRD_SQ_NUM + TOSQ(a_move_number)
 			];
 	}
 
 	this.m_moveListStart[this.m_ply + 1] += 1;
 }
 
-export function AddEnPassantMove (move) {
-	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = move
+export function AddEnPassantMove (a_move_number) {
+	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = a_move_number
 	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] = 105 + 1000000
 	this.m_moveListStart[this.m_ply + 1] += 1
 }
 
-export function AddWhitePawnCaptureMove (from, to, cap) {
-	if (RanksBrd[from] === RANKS.RANK_7) {
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.wQ, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.wR, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.wB, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.wN, 0))
+export function AddWhitePawnCaptureMove (a_from, a_to, a_cap) {
+	if (RanksBrd[a_from] === RANKS.RANK_7) {
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.wQ, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.wR, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.wB, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.wN, 0))
 	}
-	this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.EMPTY, 0))
+	this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.EMPTY, 0))
 }
 
-export function AddBlackPawnCaptureMove (from, to, cap) {
-	if (RanksBrd[from] === RANKS.RANK_2) {
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.bQ, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.bR, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.bB, 0))
-		this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.bN, 0))
+export function AddBlackPawnCaptureMove (a_from, a_to, a_cap) {
+	if (RanksBrd[a_from] === RANKS.RANK_2) {
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.bQ, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.bR, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.bB, 0))
+		this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.bN, 0))
 	}
-	this.AddCaptureMove(this.MOVE(from, to, cap, PIECES.EMPTY, 0))
+	this.AddCaptureMove(this.MOVE(a_from, a_to, a_cap, PIECES.EMPTY, 0))
 }
 
-export function AddWhitePawnQuietMove (from, to) {
-	if (RanksBrd[from] === RANKS.RANK_7) {
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.wQ, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.wR, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.wB, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.wN, 0))
+export function AddWhitePawnQuietMove (a_from, a_to) {
+	if (RanksBrd[a_from] === RANKS.RANK_7) {
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.wQ, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.wR, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.wB, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.wN, 0))
 	} else {
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.EMPTY, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.EMPTY, 0))
 	}
 }
 
-export function AddBlackPawnQuietMove (from, to) {
-	if (RanksBrd[from] === RANKS.RANK_2) {
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.bQ, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.bR, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.bB, 0))
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.bN, 0))
+export function AddBlackPawnQuietMove (a_from, a_to) {
+	if (RanksBrd[a_from] === RANKS.RANK_2) {
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.bQ, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.bR, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.bB, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.bN, 0))
 	} else {
-		this.AddQuietMove(this.MOVE(from, to, PIECES.EMPTY, PIECES.EMPTY, 0))
+		this.AddQuietMove(this.MOVE(a_from, a_to, PIECES.EMPTY, PIECES.EMPTY, 0))
 	}
 }
 

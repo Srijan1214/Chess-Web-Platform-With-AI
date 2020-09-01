@@ -6,8 +6,8 @@ import GameBoard from "./board.js"
 
 let perft_leafNodes
 
-function Perft(depth) {
-	if (depth == 0) {
+function Perft(a_depth) {
+	if (a_depth == 0) {
 		perft_leafNodes++
 		return
 	}
@@ -23,16 +23,16 @@ function Perft(depth) {
 		if (MakeMove(move) == BOOL.FALSE) {
 			continue
 		}
-		Perft(depth - 1)
+		Perft(a_depth - 1)
 		TakeMove()
 	}
 
 	return
 }
 
-export const PerftTest = (depth) => {
+export const PerftTest = (a_depth) => {
 	GameBoard.PrintBoard();
-	console.log("Starting Test To Depth:" + depth);
+	console.log("Starting Test To Depth:" + a_depth);
 	perft_leafNodes = 0;
 
 	GenerateMoves();
@@ -51,7 +51,7 @@ export const PerftTest = (depth) => {
 		}
 		moveNum++;
 		let cumnodes = perft_leafNodes;
-		Perft(depth - 1);
+		Perft(a_depth - 1);
 		TakeMove();
 		let oldnodes = perft_leafNodes - cumnodes;
 		console.log("move:" + moveNum + " " + PrMove(move) + " " + oldnodes);
