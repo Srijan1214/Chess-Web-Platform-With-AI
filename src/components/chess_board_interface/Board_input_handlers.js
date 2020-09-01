@@ -42,7 +42,7 @@ export function Outside_MouseClickHandler(a_event) {
 			this.setState(newState)
 		} else if (a_event.button === 2) {
 			const newState = {}
-			this.StopMouseInputAndCanelMove(newState)
+			this.StopMouseInputAndCancelMove(newState)
 			this.setState(newState)
 		}
 	}
@@ -93,7 +93,7 @@ export function Outside_MouseUpHandler(a_event) {
 			}
 
 			const newState = {}
-			let shouldStopMouseInputAndCanelMove = (((this.state.curPosition[row][column] < 10 && this.state.curPosition[row][column] !== 0)
+			let shouldStopMouseInputAndCancelMove = (((this.state.curPosition[row][column] < 10 && this.state.curPosition[row][column] !== 0)
 				&& this.state.old_image_value < 10) ||
 				(this.state.curPosition[row][column] > 10 && this.state.old_image_value > 10)) &&
 				(!(this.state.old_image_position[0] === row && (this.state.old_image_position[1] === column)))
@@ -102,9 +102,9 @@ export function Outside_MouseUpHandler(a_event) {
 			const new_location = Convert_RowCol_To_FileRank(row, column)
 			const prev_location = Convert_RowCol_To_FileRank(this.state.old_image_position[0], this.state.old_image_position[1])
 			const moveStatus = this.props.GetMoveStatus(prev_location, new_location)
-			shouldStopMouseInputAndCanelMove = shouldStopMouseInputAndCanelMove || !moveStatus.isValidMove
-			if (shouldStopMouseInputAndCanelMove) {
-				this.StopMouseInputAndCanelMove(newState)
+			shouldStopMouseInputAndCancelMove = shouldStopMouseInputAndCancelMove || !moveStatus.isValidMove
+			if (shouldStopMouseInputAndCancelMove) {
+				this.StopMouseInputAndCancelMove(newState)
 				newState.current_image = null
 				newState.old_image_value = 0
 				newState.dragging = false
@@ -128,7 +128,7 @@ export function Outside_MouseUpHandler(a_event) {
 			newState.old_image_value = 0
 			newState.dragging = false
 			this.setState(newState, () => {
-				if (!shouldStopMouseInputAndCanelMove) {
+				if (!shouldStopMouseInputAndCancelMove) {
 					this.props.CallbackToIndicateMoveIsPlayed(
 						prev_location,
 						new_location
@@ -142,7 +142,7 @@ export function Outside_MouseUpHandler(a_event) {
 export function Outside_MouseOutHandler(a_event) {
 	if (this) {
 		const newState = {}
-		this.StopMouseInputAndCanelMove(newState)
+		this.StopMouseInputAndCancelMove(newState)
 		this.setState(newState)
 	}
 }

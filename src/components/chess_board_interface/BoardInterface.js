@@ -97,15 +97,15 @@ class BoardInterface extends React.Component {
 		)
 	}
 
-	DrawBoard(canvas) {
-		const ctx = canvas.getContext("2d")
-		const dx = canvas.width / 8
-		const dy = canvas.height / 8
+	DrawBoard(a_canvas) {
+		const ctx = a_canvas.getContext("2d")
+		const dx = a_canvas.width / 8
+		const dy = a_canvas.height / 8
 		ctx.fillStyle = "grey"
 		for (let index = 1; index < 9; index += 2) {
 			for (let j = 0; j < 9; j++) {
-				let x1 = canvas.width - j * dx
-				let y1 = canvas.height - index * dy
+				let x1 = a_canvas.width - j * dx
+				let y1 = a_canvas.height - index * dy
 				if (j % 2 === 1) { y1 -= dy }
 				ctx.fillRect(x1, y1, dx, dy)
 			}
@@ -148,19 +148,19 @@ class BoardInterface extends React.Component {
 		}))
 	}
 
-	PutPieceImageAt(x, y, img, value) {
+	PutPieceImageAt(a_x, a_y, a_img, a_value) {
 		const canvas = this.chess_board_canvas.current
-		if (value !== 0) {
+		if (a_value !== 0) {
 			const dx = canvas.width / 8
 			const dy = canvas.height / 8
 
 			const ctx = canvas.getContext("2d")
 
-			ctx.drawImage(img, (x - 1) * dx, canvas.height - (y) * dy, dx, dy);
+			ctx.drawImage(a_img, (a_x - 1) * dx, canvas.height - (a_y) * dy, dx, dy);
 		}
 	}
 
-	FillCanvasWithPieceImages(canvas) {
+	FillCanvasWithPieceImages() {
 		for (let row = 0; row < this.state.curPosition.length; row++) {
 			for (let column = 0; column < this.state.curPosition[row].length; column++) {
 				let [a, b] = [row, column]
@@ -174,37 +174,37 @@ class BoardInterface extends React.Component {
 		}
 	}
 
-	StopMouseInputAndCanelMove(newState) {
+	StopMouseInputAndCancelMove(a_newState) {
 		if (this.state.old_image_value !== 0) {
-			newState.curPosition = _.cloneDeep(this.state.curPosition)
-			newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = this.state.old_image_value
-			newState.dragging = false
-			newState.current_image = null
-			newState.old_image_value = 0
+			a_newState.curPosition = _.cloneDeep(this.state.curPosition)
+			a_newState.curPosition[this.state.old_image_position[0]][this.state.old_image_position[1]] = this.state.old_image_value
+			a_newState.dragging = false
+			a_newState.current_image = null
+			a_newState.old_image_value = 0
 		}
 	}
 
-	put_piece_on_board(new_location, value) {
-		let row = 8 - parseInt(new_location[1])
-		let column = (new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
+	put_piece_on_board(a_new_location, a_value) {
+		let row = 8 - parseInt(a_new_location[1])
+		let column = (a_new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
 		let newState = {}
 		// clone deep is important as we do not wish to manipulate the previous reference. 
 		// i.e we might alter the positions array as this.state.curPosition exists inside positions
 		const temp = _.cloneDeep(this.state.curPosition)
-		temp[row][column] = value
+		temp[row][column] = a_value
 		newState.positions = this.state.positions.concat([temp])
 		newState.curPosition = temp
 		this.setState(newState)
 	}
 
-	PutMultiplePiecesOnBoard(location_val_array) {
+	PutMultiplePiecesOnBoard(a_location_val_array) {
 		let newState = {}
 		// clone deep is important as we do not wish to manipulate the previous reference. 
 		// i.e we might alter the positions array as this.state.curPosition exists inside positions
 
 		const temp = _.cloneDeep(this.state.curPosition)
-		for(const ele of location_val_array) {
+		for(const ele of a_location_val_array) {
 			let row = 8 - parseInt(ele.location[1])
 			let column = (ele.location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 			temp[row][column] = ele.value
@@ -215,17 +215,17 @@ class BoardInterface extends React.Component {
 		this.setState(newState)
 	}
 
-	GetPieceValueAt(location) {
-		const { row, column} = Convert_FileRank_To_RowCol(location)
+	GetPieceValueAt(a_location) {
+		const { row, column} = Convert_FileRank_To_RowCol(a_location)
 		return this.state.curPosition[row][column]
 	}
 
-	MovePieceInsideInterface = (prev_location, new_location) => {
-		let prev_row = 8 - parseInt(prev_location[1])
-		let prev_column = (prev_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
+	MovePieceInsideInterface = (a_prev_location, a_new_location) => {
+		let prev_row = 8 - parseInt(a_prev_location[1])
+		let prev_column = (a_prev_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
-		let new_row = 8 - parseInt(new_location[1])
-		let new_column = (new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
+		let new_row = 8 - parseInt(a_new_location[1])
+		let new_column = (a_new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 
 		const newState = {}
 		// clone deep is important as we do not wish to manipulate the previous reference. 
