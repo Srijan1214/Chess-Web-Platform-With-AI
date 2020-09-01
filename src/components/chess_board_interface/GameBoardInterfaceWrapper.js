@@ -129,8 +129,8 @@ class GameBoardInterfaceWrapper extends React.Component {
 		this.setState(newState)
 	}
 
-	ShowPromotionSelectionMenu(file_number) {
-		this._PromotionPopUp.current.ShowPromotionSelectionMenu(file_number)
+	ShowPromotionSelectionMenu(a_file_number) {
+		this._PromotionPopUp.current.ShowPromotionSelectionMenu(a_file_number)
 	}
 
 	HidePromotionSelectionMenu() {
@@ -149,9 +149,9 @@ class GameBoardInterfaceWrapper extends React.Component {
 		this.setState(newState)
 	}
 
-	SetGameEndMessage(message) {
+	SetGameEndMessage(a_message) {
 		const newState = {}
-		newState.game_end_text = message
+		newState.game_end_text = a_message
 		this.setState(newState)
 	}
 
@@ -163,9 +163,9 @@ class GameBoardInterfaceWrapper extends React.Component {
 		}
 	}
 
-	RadioButtonChangeListener (event) {
+	RadioButtonChangeListener (a_event) {
 		const newState = {}
-		if (event.target.value === "White") {
+		if (a_event.target.value === "White") {
 			newState.radio_button_user_color = 0
 		} else {
 			newState.radio_button_user_color = 1

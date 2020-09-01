@@ -184,7 +184,7 @@ class BoardInterface extends React.Component {
 		}
 	}
 
-	put_piece_on_board(a_new_location, a_value) {
+	PutPieceOnBoard(a_new_location, a_value) {
 		let row = 8 - parseInt(a_new_location[1])
 		let column = (a_new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
 

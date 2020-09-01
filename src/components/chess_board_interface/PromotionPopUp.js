@@ -48,13 +48,13 @@ class PromotionPopUp extends React.Component {
 		)
 	}
 
-	ShowPromotionSelectionMenu(file_number = 1) {
-		if (file_number < 1) file_number = 1
-		if (file_number > 8) file_number = 8
-		file_number=Math.floor(file_number)
+	ShowPromotionSelectionMenu(a_file_number = 1) {
+		if (a_file_number < 1) a_file_number = 1
+		if (a_file_number > 8) a_file_number = 8
+		a_file_number=Math.floor(a_file_number)
 
 		const newState = {}
-		newState.file_number = file_number
+		newState.file_number = a_file_number
 		newState.promotion_selection_visibility = true
 		this.setState(newState)
 	}
@@ -125,7 +125,7 @@ class PromotionPopUp extends React.Component {
 		}))
 	}
 
-	FillCanvasWithPieceImages(canvas) {
+	FillCanvasWithPieceImages() {
 		if (this.props.GetUserColor() === 0) {
 			this.PutPieceImageAt(1, this.state.img_dict["white_queen"])
 			this.PutPieceImageAt(2, this.state.img_dict["white_rook"])
@@ -139,20 +139,20 @@ class PromotionPopUp extends React.Component {
 		}
 	}
 
-	PutPieceImageAt(n, img) {
+	PutPieceImageAt(a_row, a_img) {
 		const canvas = this._canvas.current
 		const dx = canvas.width 
 		const dy = canvas.height / 4
 
 		const ctx = canvas.getContext("2d")
 
-		ctx.drawImage(img, 0, (n - 1) * dy, dx, dy)
+		ctx.drawImage(a_img, 0, (a_row - 1) * dy, dx, dy)
 	}
 
-	outside_div_mouse_click_handler(event) {
-		let rect = event.currentTarget.getBoundingClientRect();
-		let x = event.clientX - rect.left;
-		let y = event.clientY - rect.top;
+	outside_div_mouse_click_handler(a_event) {
+		let rect = a_event.currentTarget.getBoundingClientRect();
+		let x = a_event.clientX - rect.left;
+		let y = a_event.clientY - rect.top;
 		const get_piece_number = (x, y) => {
 			const canvas = this._canvas.current
 			const dx = canvas.width
