@@ -45,15 +45,16 @@ export const SQUARES = {
 export const BOOL = { FALSE: 0, TRUE: 1 }
 
 // The max game moves. This is used because the game is obviously not going above this number
-// and it helps make move search tree simpler and highly efficient.
+// and it helps make move list simpler and highly efficient.
 export const MAXGAMEMOVES = 2048
 
 // The max number of legal moves available in any position. 
 // The number of available moves is surely not going above this.
-// and it helps make move search tree simpler and highly efficient.
+// and it helps make move list simpler and highly efficient.
 export const MAXPOSITIONMOVES = 256
 
-
+// The max depth that the AI will search to.
+// This constant helps make search tree implementation simpler and efficient.
 export const MAXDEPTH = 64
 export const INFINITE = 30000
 export const MATE = 29000
@@ -67,8 +68,13 @@ export const FilesBrd = new Array(BRD_SQ_NUM)
 // Will Give SQUARES.OFFBOARD if not not inside actual board.
 export const RanksBrd = new Array(BRD_SQ_NUM)
 
+// The standard starting chess position fen string.
 export const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+
+// The characters gives to each piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight. 
 export const PceChar = ".PNBRQKpnbrqk"
+
+// The characters gives to each side. The indexes correspond to the COLOURS dictionary.
 export const SideChar = "wb-"
 export const RankChar = "12345678"
 export const FileChar = "abcdefgh"
@@ -78,9 +84,16 @@ export const FR2SQ = (a_file_number, a_rank_number) => {
 	return ((21 + (a_file_number)) + ((a_rank_number) * 10))
 }
 
+// knights can go 8 directions. Addition with the 120_Board index will give new square when moving to that direction.
 export const KnDir = [-8, -19, -21, -12, 8, 19, 21, 12]
+
+// Rooks can go 4 directions. Addition with the 120_Board index will give new square when moving to that direction.
 export const RkDir = [-1, -10, 1, 10]
+
+// Bishops can go 4 directions. Addition with the 120_Board index will give new square when moving to that direction.
 export const BiDir = [-9, -11, 11, 9]
+
+// Kings can go 8 directions. Addition with the 120_Board index will give new square when moving to that direction.
 export const KiDir = [-1, -10, 1, 10, -9, -11, 11, 9]
 export const DirNum = [0, 0, 8, 4, 4, 8, 8, 0, 8, 4, 4, 8, 8]
 export const PceDir = [0, 0, KnDir, BiDir, RkDir, KiDir, KiDir, 0, KnDir, BiDir, RkDir, KiDir, KiDir]
@@ -124,11 +137,22 @@ export const PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, 
 // Tells if piece is a sliding piece like rooks and bishops. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE]
 
+// These keys facilitate in creating a hash that will be different for each position.
+// Duplicate/ Repeated positions will have same hash
 export const PieceKeys = new Array(14 * 120)
+
+// This key facilitates in creating a hash that will be different for each position.
+// Duplicate/ Repeated positions will have same hash
 export let SideKey = RAND_32()
+
+// These keys facilitate in creating a hash that will be different for each position.
+// Duplicate/ Repeated positions will have same hash
 export const CastleKeys = new Array(16)
 
+// Array that gives the 64-size index from the 120-size index.
 export const Sq120ToSq64 = new Array(BRD_SQ_NUM)
+
+// Array that gives the 120-size index from the 64-size index.
 export const Sq64ToSq120 = new Array(64)
 
 // This function initializes the FilesBrd and RanksBrd arrays.
@@ -154,6 +178,7 @@ function InitFilesRanksBrd() {
 	}
 }
 
+// Initializes the PieceKeys and CastleKeys arrays with the random 32 bit number.
 function InitHashKeys(){
 	let index = 0
 
@@ -166,6 +191,7 @@ function InitHashKeys(){
 	}
 }
 
+// Initializes the Sq120ToSq64 and Sq64ToSq120 arrays to facilitate their usages.
 function InitSq120ToSq64(){
 	let index = 0
 	let file = FILES.FILE_A
@@ -191,10 +217,12 @@ function InitSq120ToSq64(){
 	}
 }
 
+// Necessary initializations for tbe respective arrays.
 InitFilesRanksBrd()
 InitHashKeys()
 InitSq120ToSq64()
 
+// Flips the 64_Board to view from black's perspective.
 export const Mirror64 = [
 	56, 57, 58, 59, 60, 61, 62, 63,
 	48, 49, 50, 51, 52, 53, 54, 55,
@@ -206,10 +234,12 @@ export const Mirror64 = [
 	0, 1, 2, 3, 4, 5, 6, 7
 ]
 
+// Function that gives the 64-size index from the 120-size index.
 export const SQ64 = (a_sq120) =>{
 	return Sq120ToSq64[a_sq120]
 }
 
+// Function that gives the 120-size index from the 64-size index.
 export const SQ120 = (a_sq64) =>{
 	return Sq64ToSq120[a_sq64]
 }
@@ -222,10 +252,13 @@ export const PCEINDEX = (a_pce, a_pceNum) => {
 	return (a_pce * 10 + a_pceNum)
 }
 
+// Functions that flips the 64_Board to view from black's perspective.
 export const MIRROR64 = (a_square_64) => {
 	return Mirror64[a_square_64]
 }
 
+// Gives the king piece number in the PIECES dictionary index by side.
+// 0 is white and 1 is black
 export const Kings = [PIECES.wK, PIECES.bK]
 
 // bitwise & with appropriate 
@@ -245,29 +278,56 @@ export const CastlePerm = [
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15
 ]
 
-
+// gives the 120_Board from_square for a given move number
 export const FROMSQ = (a_move_number) => { return (a_move_number & 0x7F) }
+
+// gives the 120_Board to square for a given move number
 export const TOSQ = (a_move_number) => { return ((a_move_number >> 7) & 0x7F) }
+
+// Tells if move was a capture move.
 export const CAPTURED = (a_move_number) => { return ((a_move_number >> 14) & 0xF) }
+
+// Tells if move was a promotion move.
 export const PROMOTED = (a_move_number) => { return ((a_move_number >> 20) & 0xF) }
 
+// Bitwise AND with move tells if move was a En-passant move or not.
 export const MFLAGEP = 0x40000
+
+// Bitwise AND with move tells if move was a pawn starting move or not.
 export const MFLAGPS = 0x80000
+
+// Bitwise AND with move tells if move was a castle move or not.
 export const MFLAGCA = 0x1000000
 
+// Bitwise AND with move tells if move was a capture move or not.
 export const MFLAGCAP = 0x7C000
+
+// Bitwise AND with move tells if move was a promotion move or not.
 export const MFLAGPROM = 0xF00000
 
+// Useful for telling if move is not a valid move.
 export const NOMOVE = 0
 
+// Tells if the 120_Board index is outside the 64_Board.
 export const SQOFFBOARD = (a_square_120) => {
 	if (FilesBrd[a_square_120] === SQUARES.OFFBOARD) return BOOL.TRUE
 	return BOOL.FALSE
 }
 
+// This is a score array for the victim. Indexed by PIECES.
+// Queens and kings have the highest score as attacking them is more valuable than attacking pawns
+// or empty squares.
 export const MVVLVAVALUE = [0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400, 500, 600]
+
+// Every combination of victim and attacker will have a score inside this array.
 export const MVVLVASCORES = new Array(14 * 14)
 
+// Initialize MVVLVASCORES and MVVLVAVALUE in such a way that MVVLVASCORE
+// is inversely proportional to the attacker and directly proportional
+// the the victim. The "100" is just a good constant to work with.
+// i.e pawn attacking a king is highest and king attacking a pawn is lowest.
+// this makes sense because pawn attacking king has a higher probability of gaining an advantage
+// than the opposite.
 export const InitMvvLva = () => {
 	let Attacker;
 	let Victim;
@@ -280,4 +340,5 @@ export const InitMvvLva = () => {
 	}
 };
 
+// Call the initialize function.
 InitMvvLva()
