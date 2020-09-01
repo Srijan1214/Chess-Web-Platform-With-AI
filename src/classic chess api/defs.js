@@ -29,7 +29,7 @@ export const RANKS = {
 // A side color-value dictionary to make code more descriptive than a number literal.
 export const COLOURS = { WHITE: 0, BLACK: 1, BOTH: 2, NONE: -1 }
 
-// The m_castle_bit number keeps track of weather castling is possible and
+// The castle_bit number keeps track of weather castling is possible and
 // Performing bitwise AND with each number will tell if that particular castling is possible or not.
 // e.g WKCA stands for White-King-Side-Castle
 export const CASTLEBIT = { WKCA: 1, WQCA: 2, BKCA: 4, BQCA: 8 }
@@ -48,14 +48,23 @@ export const BOOL = { FALSE: 0, TRUE: 1 }
 // and it helps make move search tree simpler and highly efficient.
 export const MAXGAMEMOVES = 2048
 
-
+// The max number of legal moves available in any position. 
+// The number of available moves is surely not going above this.
+// and it helps make move search tree simpler and highly efficient.
 export const MAXPOSITIONMOVES = 256
+
+
 export const MAXDEPTH = 64
 export const INFINITE = 30000
 export const MATE = 29000
 export const PVENTRIES = 10000
 
+// Gives which File number the 120 base index is on.
+// Will Give SQUARES.OFFBOARD if not not inside actual board.
 export const FilesBrd = new Array(BRD_SQ_NUM)
+
+// Gives which Rank number the 120 base index is on.
+// Will Give SQUARES.OFFBOARD if not not inside actual board.
 export const RanksBrd = new Array(BRD_SQ_NUM)
 
 export const START_FEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
@@ -64,6 +73,7 @@ export const SideChar = "wb-"
 export const RankChar = "12345678"
 export const FileChar = "abcdefgh"
 
+// gives out the 120_Board index from file number and rank number
 export const FR2SQ = (a_file_number, a_rank_number) => {
 	return ((21 + (a_file_number)) + ((a_rank_number) * 10))
 }
@@ -80,18 +90,38 @@ export const LoopSlidePce = [PIECES.wB, PIECES.wR, PIECES.wQ, 0, PIECES.bB, PIEC
 export const LoopSlideIndex = [0, 4]
 
 
+// Big pieces are any non-pawn piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceBig = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE]
+
+// Major pieces are kings, queens and rooks. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceMaj = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE]
+
+// Minor pieces are bishops and knights. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceMin = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+
+// The estimated piece value given to each piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceVal = [0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000]
+
+// The color of each piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceCol = [COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHITE,
 COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK]
 
+// Tells if piece is a pawn. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PiecePawn = [BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+
+// Tells if piece is a Knight. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceKnight = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+
+// Tells if piece is a King. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceKing = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE]
+
+// Tells if piece is a Queen. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceRookQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE]
+
+// Tells if piece is a Bishop or Queen. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE]
+
+// Tells if piece is a sliding piece like rooks and bishops. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE]
 
 export const PieceKeys = new Array(14 * 120)
@@ -101,6 +131,9 @@ export const CastleKeys = new Array(16)
 export const Sq120ToSq64 = new Array(BRD_SQ_NUM)
 export const Sq64ToSq120 = new Array(64)
 
+// This function initializes the FilesBrd and RanksBrd arrays.
+// Given a 120 base index, these arrays will then give the
+// appropriate file and rank number.
 function InitFilesRanksBrd() {
 	let index = 0
 	let file = FILES.FILE_A
@@ -181,6 +214,10 @@ export const SQ120 = (a_sq64) =>{
 	return Sq64ToSq120[a_sq64]
 }
 
+// This function is always called with the pList array.
+// Given the piece from PIECE and the serial number of that piece,
+// this function called inside the pList will give what square on the 120_Board the piece is on.
+// e.g. m_pList(PCEINDEX(2, 1)) will give the square of the second white knight.
 export const PCEINDEX = (a_pce, a_pceNum) => {
 	return (a_pce * 10 + a_pceNum)
 }
