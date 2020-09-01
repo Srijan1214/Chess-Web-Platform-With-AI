@@ -30,9 +30,9 @@ class PlayWithAIComponent extends React.Component {
 			new_location: "a1"
 		}
 	}
-	callback_set_user_color = (user_color) => {
+	callback_set_user_color = (a_user_color) => {
 		const newState = {}
-		newState.user_color = user_color
+		newState.user_color = a_user_color
 		this.setState(newState)
 	}
 
@@ -60,8 +60,8 @@ class PlayWithAIComponent extends React.Component {
 		)
 	}
 
-	SetFEN = (fenStr) => {
-		this.GameBoard.ParseFen(fenStr)
+	SetFEN = (a_fenStr) => {
+		this.GameBoard.ParseFen(a_fenStr)
 		this.ForceInterfaceSyncWithBackend()
 	}
 
@@ -161,46 +161,46 @@ class PlayWithAIComponent extends React.Component {
 		}, 10)
 	}
 
-	CallbackToIndicateMoveIsPlayed = (prev_location, new_location) => {
-		const moveStatus = this.GameBoard.GetMoveStatus(prev_location, new_location)
+	CallbackToIndicateMoveIsPlayed = (a_prev_location, a_new_location) => {
+		const moveStatus = this.GameBoard.GetMoveStatus(a_prev_location, a_new_location)
 		if(moveStatus.isValidMove){
 			if(moveStatus.castle_move) {
-				if(new_location === 'g1') {
+				if(a_new_location === 'g1') {
 					this._board.current._board.current.PerformWhiteKingSideCastle(this._board.current._board.current.state.curPosition)
-				}else if (new_location === 'c1'){
+				}else if (a_new_location === 'c1'){
 					this._board.current._board.current.PerformWhiteQueenSideCastle(this._board.current._board.current.state.curPosition)
-				}else if (new_location === 'g8') {
+				}else if (a_new_location === 'g8') {
 					this._board.current._board.current.PerformBlackKingSideCastle(this._board.current._board.current.state.curPosition)
-				}else if (new_location === 'c8'){
+				}else if (a_new_location === 'c8'){
 					this._board.current._board.current.PerformBlackQueenSideCastle(this._board.current._board.current.state.curPosition)
 				}
 			}
 			if(moveStatus.promotion_move) {
-				let file_number = parseInt(new_location.charCodeAt(0)) - 96
+				let file_number = parseInt(a_new_location.charCodeAt(0)) - 96
 				if(this.state.user_color === 1) {
 					file_number = 9 - file_number
 				}
 				this._board.current.ShowPromotionSelectionMenu(file_number)
 				const newState = {}
-				newState.prev_location = prev_location
-				newState.new_location = new_location
+				newState.prev_location = a_prev_location
+				newState.new_location = a_new_location
 				this.setState(newState)
 				return
 			}
 			if(moveStatus.enPass_move) {
-				const file = new_location[0]
-				const rank = prev_location[1]
+				const file = a_new_location[0]
+				const rank = a_prev_location[1]
 
 				const location_val_1 = {location: file + rank, value: 0}
 				this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1])
 
 			}
-			this.GameBoard.MovePieceStringLocations(prev_location, new_location)
+			this.GameBoard.MovePieceStringLocations(a_prev_location, a_new_location)
 		}
 		this.GameBoard.PrintBoard()
 
-		const { row: new_r, column: new_c } = Convert_FileRank_To_RowCol(new_location)
-		const { row: prev_r, column: prev_c } = Convert_FileRank_To_RowCol(prev_location)
+		const { row: new_r, column: new_c } = Convert_FileRank_To_RowCol(a_new_location)
+		const { row: prev_r, column: prev_c } = Convert_FileRank_To_RowCol(a_prev_location)
 
 		const newPosition = _.cloneDeep(this.state.cur_position)
 		newPosition[new_r][new_c] = newPosition[prev_r][prev_c]
@@ -214,27 +214,27 @@ class PlayWithAIComponent extends React.Component {
 		})
 	}
 
-	GetMoveStatus = (prev_location, new_location) => {
-		return this.GameBoard.GetMoveStatus(prev_location, new_location)
+	GetMoveStatus = (a_prev_location, a_new_location) => {
+		return this.GameBoard.GetMoveStatus(a_prev_location, a_new_location)
 	}
 
-	CallbackInsertPromotionPiece = (piece_val, file_number) => {
-		let location = String.fromCharCode(97 + file_number - 1) + 8
+	CallbackInsertPromotionPiece = (a_piece_val, a_file_number) => {
+		let location = String.fromCharCode(97 + a_file_number - 1) + 8
 		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
 			location = Get_Flipped_Square(location)
 		}
-		const location_val = {location: location, value: piece_val}
+		const location_val = {location: location, value: a_piece_val}
 		this._board.current._board.current.PutMultiplePiecesOnBoard([location_val])
 
 		let promPiece
-		if (piece_val === 9) promPiece = PIECES.wQ
-		else if (piece_val === 5) promPiece = PIECES.wR
-		else if (piece_val === 3.5) promPiece = PIECES.wB
-		else if (piece_val === 3) promPiece = PIECES.wN
-		else if (piece_val === 19) promPiece = PIECES.bQ
-		else if (piece_val === 15) promPiece = PIECES.bR
-		else if (piece_val === 13.5) promPiece = PIECES.bB
-		else if (piece_val === 13) promPiece = PIECES.bN
+		if (a_piece_val === 9) promPiece = PIECES.wQ
+		else if (a_piece_val === 5) promPiece = PIECES.wR
+		else if (a_piece_val === 3.5) promPiece = PIECES.wB
+		else if (a_piece_val === 3) promPiece = PIECES.wN
+		else if (a_piece_val === 19) promPiece = PIECES.bQ
+		else if (a_piece_val === 15) promPiece = PIECES.bR
+		else if (a_piece_val === 13.5) promPiece = PIECES.bB
+		else if (a_piece_val === 13) promPiece = PIECES.bN
 
 		this.GameBoard.MovePieceStringLocations(this.state.prev_location, this.state.new_location, promPiece)
 
