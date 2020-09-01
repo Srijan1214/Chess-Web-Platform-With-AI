@@ -1,10 +1,10 @@
 import React from "react"
 import _ from "lodash"
-import { Convert_FileRank_To_RowCol, Convert_RowCol_To_FileRank, Get_Flipped_Square } from "../utility_functions/Utility"
-import GameBoard from "../classic chess api/board.js"
-import AI from "../classic chess api/search.js"
-import GameBoardInterfaceWrapper from "../components/chess_board_interface/GameBoardInterfaceWrapper"
-import { COLOURS, PIECES } from "../classic chess api/defs"
+import { Convert_FileRank_To_RowCol, Convert_RowCol_To_FileRank, Get_Flipped_Square } from "../../utility_functions/Utility"
+import GameBoard from "../../classic chess api/board.js"
+import AI from "../../AI src files/search.js"
+import GameBoardInterfaceWrapper from "../../components/chess_board_interface/GameBoardInterfaceWrapper"
+import { COLOURS, PIECES } from "../../classic chess api/defs"
 
 
 class PlayWithAIComponent extends React.Component {

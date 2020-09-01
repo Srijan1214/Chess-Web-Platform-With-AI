@@ -1,4 +1,4 @@
-import { NOMOVE, BOOL, PVENTRIES } from "./defs.js"
+import { NOMOVE, BOOL, PVENTRIES } from "../classic chess api/defs.js"
 
 export function GetPvLine(a_depth) {
 	let move = this.ProbePvTable()

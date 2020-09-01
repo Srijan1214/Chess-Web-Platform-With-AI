@@ -1,4 +1,4 @@
-import {COLOURS, PIECES, PCEINDEX, SQ64, MIRROR64 } from "./defs.js"
+import {COLOURS, PIECES, PCEINDEX, SQ64, MIRROR64 } from "../classic chess api/defs.js"
 
 // Piece Value Tables
 

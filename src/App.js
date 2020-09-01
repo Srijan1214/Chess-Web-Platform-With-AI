@@ -1,5 +1,5 @@
 import React from "react"
-import PlayWithAIComponent from "./play With AI/PlayWithAIComponent"
+import PlayWithAIComponent from "./components/play With AI/PlayWithAIComponent.js"
 
 function App() {
 	return (

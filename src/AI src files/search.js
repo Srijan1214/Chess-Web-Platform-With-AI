@@ -16,7 +16,7 @@ import {
 	PROMOTED,
 	MFLAGCA,
 	MFLAGEP
-} from "./defs.js"
+} from "../classic chess api/defs.js"
 
 export default class AI {
 	constructor(GameBoard) {
