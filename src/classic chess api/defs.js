@@ -64,8 +64,8 @@ export const SideChar = "wb-"
 export const RankChar = "12345678"
 export const FileChar = "abcdefgh"
 
-export const FR2SQ = (f, r) => {
-	return ((21 + (f)) + ((r) * 10))
+export const FR2SQ = (a_file_number, a_rank_number) => {
+	return ((21 + (a_file_number)) + ((a_rank_number) * 10))
 }
 
 export const KnDir = [-8, -19, -21, -12, 8, 19, 21, 12]
@@ -173,20 +173,20 @@ export const Mirror64 = [
 	0, 1, 2, 3, 4, 5, 6, 7
 ]
 
-export const SQ64 = (sq120) =>{
-	return Sq120ToSq64[sq120]
+export const SQ64 = (a_sq120) =>{
+	return Sq120ToSq64[a_sq120]
 }
 
-export const SQ120 = (sq64) =>{
-	return Sq64ToSq120[sq64]
+export const SQ120 = (a_sq64) =>{
+	return Sq64ToSq120[a_sq64]
 }
 
-export const PCEINDEX = (pce, pceNum) => {
-	return (pce * 10 + pceNum)
+export const PCEINDEX = (a_pce, a_pceNum) => {
+	return (a_pce * 10 + a_pceNum)
 }
 
-export const MIRROR64 = (sq) => {
-	return Mirror64[sq]
+export const MIRROR64 = (a_square_64) => {
+	return Mirror64[a_square_64]
 }
 
 export const Kings = [PIECES.wK, PIECES.bK]
@@ -209,10 +209,10 @@ export const CastlePerm = [
 ]
 
 
-export const FROMSQ = (m) => { return (m & 0x7F) }
-export const TOSQ = (m) => { return ((m >> 7) & 0x7F) }
-export const CAPTURED = (m) => { return ((m >> 14) & 0xF) }
-export const PROMOTED = (m) => { return ((m >> 20) & 0xF) }
+export const FROMSQ = (a_move_number) => { return (a_move_number & 0x7F) }
+export const TOSQ = (a_move_number) => { return ((a_move_number >> 7) & 0x7F) }
+export const CAPTURED = (a_move_number) => { return ((a_move_number >> 14) & 0xF) }
+export const PROMOTED = (a_move_number) => { return ((a_move_number >> 20) & 0xF) }
 
 export const MFLAGEP = 0x40000
 export const MFLAGPS = 0x80000
@@ -223,8 +223,8 @@ export const MFLAGPROM = 0xF00000
 
 export const NOMOVE = 0
 
-export const SQOFFBOARD = (sq) => {
-	if (FilesBrd[sq] === SQUARES.OFFBOARD) return BOOL.TRUE
+export const SQOFFBOARD = (a_square_120) => {
+	if (FilesBrd[a_square_120] === SQUARES.OFFBOARD) return BOOL.TRUE
 	return BOOL.FALSE
 }
 
