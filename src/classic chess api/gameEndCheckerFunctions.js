@@ -1,5 +1,34 @@
+/**/
+/* 
+	 * FILE DESCRIPTION:  These functions help in checking if the game has ended.
+*/
+/**/
 import { PIECES, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.CheckIfDrawDueToMaterial() - Checks if the game was draw due to material not being enough.
+
+SYNOPSIS : CheckIfDrawDueToMaterial()
+
+DESCRIPTION 
+			Checks if there were any errors during the initializations.
+			Useful for seeing if there was any bug during implementation.
+
+RETURNS : true if draw. False if not.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/09/2020
+
+*/
+/**/
 export function CheckIfDrawDueToMaterial() {
 	if (this.m_pceNum[PIECES.wP] !== 0 || this.m_pceNum[PIECES.bP] !== 0)
 		return false
@@ -26,8 +55,31 @@ export function CheckIfDrawDueToMaterial() {
 
 	return true
 }
+/* CheckIfDrawDueToMaterial()*/
 
-// returns false if no stalemate
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.CheckIfDrawDueToStalemate() - Checks if draw by stalemate.
+
+SYNOPSIS : CheckIfDrawDueToStalemate()
+
+DESCRIPTION 
+			Checks if draw by stalemate.
+
+RETURNS : true if draw. False if not.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/09/2020
+
+*/
+/**/
 export function CheckIfDrawDueToStalemate() {
 	this.GenerateMoves()
 
@@ -61,7 +113,31 @@ export function CheckIfDrawDueToStalemate() {
 		return true
 	}
 }
+/* CheckIfDrawDueToStalemate()*/
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.ThreeFoldRep() - Checks if draw by threefold.
+
+SYNOPSIS : ThreeFoldRep()
+
+DESCRIPTION 
+			Checks if draw by threefold.
+
+RETURNS : true if draw. False if not.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/09/2020
+
+*/
+/**/
 export function ThreeFoldRep() {
 	let index = 0
 	let repetitions = 0
@@ -73,7 +149,31 @@ export function ThreeFoldRep() {
 	}
 	return repetitions
 }
+/* ThreeFoldRep()*/
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.CheckIfDrawnPosition() - Checks if the current position is drawn.
+
+SYNOPSIS : CheckIfDrawnPosition()
+
+DESCRIPTION 
+			Calls the other function to check if the current position is a draw.
+
+RETURNS : true if draw. False if not.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/09/2020
+
+*/
+/**/
 export function CheckIfDrawnPosition() {
 	if (this.m_fiftyMove >= 100) {
 		return true
@@ -92,8 +192,33 @@ export function CheckIfDrawnPosition() {
 	}
 	return false
 }
+/* CheckIfDrawnPosition()*/
 
-// returns COLORS.NONE if no side is winning
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.GetWhichSideWon() - Tells which side won the game.
+
+SYNOPSIS : GetWhichSideWon()
+
+DESCRIPTION 
+			Tells which side won the game.
+			If no side won, COLORS.NONE is returned.
+
+
+RETURNS : The color of the winning side. If no side won, COLORS.none is returned.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/12/2020
+
+*/
+/**/
 export function GetWhichSideWon() {
 	this.GenerateMoves()
 
@@ -133,3 +258,4 @@ export function GetWhichSideWon() {
 		return COLOURS.NONE
 	}
 }
+/* GetWhichSideWon()*/
