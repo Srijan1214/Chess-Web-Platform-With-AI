@@ -4,7 +4,7 @@
 FILE DESCRIPTION:
 			This file contains utility functions that cannot be placed into any specific group.
 			All others files except of this files have related functions.
-			However, these function are indeed important.
+			However, these function are indeed important and very useful.
 
 */
 /**/
@@ -30,7 +30,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/27/2020
 
 */
 /**/
@@ -73,7 +73,7 @@ RETURNS : true if there is an error, false if everything is good.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 07/02/2020
 
 */
 /**/
@@ -143,7 +143,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/29/2020
 
 */
 /**/
@@ -199,7 +199,7 @@ RETURNS : A 8x8 character array representing the board.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 07/24/2020
 
 */
 /**/
@@ -246,7 +246,7 @@ RETURNS : A hash number.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 07/06/2020
 
 */
 /**/
@@ -295,7 +295,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/25/2020
 
 */
 /**/
@@ -330,7 +330,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/26/2020
 
 */
 /**/
@@ -384,7 +384,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/28/2020
 
 */
 /**/
@@ -429,7 +429,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 07/06/2020
 
 */
 /**/
@@ -541,7 +541,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 07/01/2020
 
 */
 /**/
@@ -588,7 +588,7 @@ RETURNS : True if the current square is attacked by the side. False otherwise.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 08/06/2020
+DATE : 06/27/2020
 
 */
 /**/
@@ -673,18 +673,116 @@ export function SqAttacked (a_square_120, a_side)  {
 }
 /* SqAttacked(a_square_120, a_side) */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.HASH_PCE() - Hashes the position key with the piece-square combination key using the bitwise XOR.
+
+SYNOPSIS : HASH_PCE(a_piece_value, a_square_120)
+		a_piece_value : The piece type given by PIECES array in defs.
+		a_square_120 -> The 120 index board square number.
+
+DESCRIPTION 
+			Hashes the position key with the piece-square combination key using the bitwise XOR.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/27/2020
+
+*/
+/**/
 export function HASH_PCE (a_piece_value, a_square_120) {
 	this.posKey ^= PieceKeys[(a_piece_value * 120) + a_square_120]
 }
+/* HASH_PCE(a_piece_value, a_square_120)*/
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.HASH_CA() - Hashes the position key with the appropriate castle key.
+
+SYNOPSIS : HASH_CA()
+
+DESCRIPTION 
+			Hashes the position key with the appropriate castle key.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/27/2020
+
+*/
+/**/
 export function HASH_CA () {
 	this.posKey ^= CastleKeys[this.m_castlePerm]
 }
+/* HASH_CA()*/
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.HASH_SIDE() - Hashes the position key with the current side key.
+
+SYNOPSIS : HASH_SIDE()
+
+DESCRIPTION 
+				Hashes the position key with the current side key.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/27/2020
+
+*/
+/**/
 export function HASH_SIDE () {
 	this.posKey ^= SideKey
 }
+/* HASH_SIDE()*/
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.HASH_EP() - Hashes the position key with the en-Passant piece.
+
+SYNOPSIS : HASH_EP()
+
+DESCRIPTION 
+			Hashes the position key with the en-Passant piece.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/27/2020
+
+*/
+/**/
 export function HASH_EP () {
 	this.posKey ^= PieceKeys[this.m_enPas]
 }
+/* HASH_EP()*/
