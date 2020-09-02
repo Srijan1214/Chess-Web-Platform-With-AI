@@ -28,7 +28,7 @@ RETURNS : A random 32 bit number.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/26/2020
+DATE : 06/26/2020
 
 */
 /**/
@@ -201,7 +201,7 @@ RETURNS : Nothing.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 
 */
 /**/
@@ -239,7 +239,7 @@ RETURNS : Nothing.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/26/2020
+DATE : 06/26/2020
 */
 /**/
 function InitHashKeys(){
@@ -270,7 +270,7 @@ RETURNS : Nothing.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 // .
@@ -332,7 +332,7 @@ RETURNS : The index (integer) of the 64-size array.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const SQ64 = (a_sq120) =>{
@@ -354,7 +354,7 @@ RETURNS : The index (integer) of the 120-size array.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const SQ120 = (a_sq64) =>{
@@ -382,7 +382,7 @@ RETURNS : The calculated index for the piece_list array.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/26/2020
+DATE : 06/26/2020
 */
 /**/
 export const PCEINDEX = (a_pce, a_pceNum) => {
@@ -405,7 +405,7 @@ RETURNS : The flipped square number inside the 64_size board.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/26/2020
+DATE : 06/26/2020
 */
 /**/
 export const MIRROR64 = (a_square_64) => {
@@ -450,7 +450,7 @@ RETURNS : The square number.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const FROMSQ = (a_move_number) => { return (a_move_number & 0x7F) }
@@ -471,7 +471,7 @@ RETURNS : The square number.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const TOSQ = (a_move_number) => { return ((a_move_number >> 7) & 0x7F) }
@@ -493,7 +493,7 @@ RETURNS : The captured piece type corresponding to the PIECES dictionary. Return
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const CAPTURED = (a_move_number) => { return ((a_move_number >> 14) & 0xF) }
@@ -514,7 +514,7 @@ RETURNS : The promoted piece type corresponding to the PIECES dictionary. Return
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const PROMOTED = (a_move_number) => { return ((a_move_number >> 20) & 0xF) }
@@ -556,7 +556,7 @@ RETURNS : True if inside. False if outside.
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/25/2020
+DATE : 06/25/2020
 */
 /**/
 export const SQOFFBOARD = (a_square_120) => {
@@ -596,7 +596,7 @@ RETURNS : NOTHING
 
 AUTHOR : Srijan Prasad Joshi
 
-DATE : 07/28/2020
+DATE : 06/28/2020
 */
 /**/
 export const InitMvvLva = () => {
