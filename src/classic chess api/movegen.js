@@ -1,4 +1,4 @@
-import {PIECES, NOMOVE, BOOL, CAPTURED, FROMSQ, MAXDEPTH, BRD_SQ_NUM, TOSQ, RANKS, COLOURS, PCEINDEX, MFLAGPS, SQOFFBOARD, MFLAGEP, CASTLEBIT, SQUARES, MFLAGCA, 
+import {PIECES, NOMOVE, CAPTURED, FROMSQ, MAXDEPTH, BRD_SQ_NUM, TOSQ, RANKS, COLOURS, PCEINDEX, MFLAGPS, SQOFFBOARD, MFLAGEP, CASTLEBIT, SQUARES, MFLAGCA, 
 	MVVLVASCORES,
 	RanksBrd,
 	DirNum, PceDir,LoopNonSlidePce, LoopNonSlideIndex,LoopSlidePce, LoopSlideIndex, PieceCol } from "./defs.js"
@@ -14,15 +14,15 @@ export function MoveExists (a_move_number) {
 		++index
 	) {
 		moveFound = this.m_moveList[index];
-		if (this.MakeMove(moveFound) === BOOL.FALSE) {
+		if (this.MakeMove(moveFound) === false) {
 			continue;
 		}
 		this.TakeMove();
 		if (a_move_number === moveFound) {
-			return BOOL.TRUE;
+			return true;
 		}
 	}
-	return BOOL.FALSE;
+	return false;
 };
 
 export function MOVE (a_from, a_to, a_captured, a_promoted, a_flag) {
@@ -139,14 +139,14 @@ export function GenerateMoves () {
 			}
 
 			if (
-				SQOFFBOARD(sq + 9) === BOOL.FALSE &&
+				SQOFFBOARD(sq + 9) === false &&
 				PieceCol[this.m_pieces[sq + 9]] === COLOURS.BLACK
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 9, this.m_pieces[sq + 9]);
 			}
 
 			if (
-				SQOFFBOARD(sq + 11) === BOOL.FALSE &&
+				SQOFFBOARD(sq + 11) === false &&
 				PieceCol[this.m_pieces[sq + 11]] === COLOURS.BLACK
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
@@ -172,11 +172,11 @@ export function GenerateMoves () {
 			) {
 				if (
 					this.SqAttacked(SQUARES.E1, COLOURS.BLACK) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.F1, COLOURS.BLACK) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.G1, COLOURS.BLACK) ===
-						BOOL.FALSE
+						false
 				) {
 					this.AddQuietMove(
 						this.MOVE(
@@ -199,9 +199,9 @@ export function GenerateMoves () {
 			) {
 				if (
 					this.SqAttacked(SQUARES.D1, COLOURS.BLACK) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.E1, COLOURS.BLACK) ===
-						BOOL.FALSE
+						false
 				) {
 					this.AddQuietMove(
 						this.MOVE(
@@ -235,14 +235,14 @@ export function GenerateMoves () {
 			}
 
 			if (
-				SQOFFBOARD(sq - 9) === BOOL.FALSE &&
+				SQOFFBOARD(sq - 9) === false &&
 				PieceCol[this.m_pieces[sq - 9]] === COLOURS.WHITE
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 9, this.m_pieces[sq - 9]);
 			}
 
 			if (
-				SQOFFBOARD(sq - 11) === BOOL.FALSE &&
+				SQOFFBOARD(sq - 11) === false &&
 				PieceCol[this.m_pieces[sq - 11]] === COLOURS.WHITE
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
@@ -268,11 +268,11 @@ export function GenerateMoves () {
 			) {
 				if (
 					this.SqAttacked(SQUARES.E8, COLOURS.WHITE) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.F8, COLOURS.WHITE) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.G8, COLOURS.WHITE) ===
-						BOOL.FALSE
+						false
 				) {
 					this.AddQuietMove(
 						this.MOVE(
@@ -295,9 +295,9 @@ export function GenerateMoves () {
 			) {
 				if (
 					this.SqAttacked(SQUARES.D8, COLOURS.WHITE) ===
-						BOOL.FALSE &&
+						false &&
 					this.SqAttacked(SQUARES.E8, COLOURS.WHITE) ===
-						BOOL.FALSE
+						false
 				) {
 					this.AddQuietMove(
 						this.MOVE(
@@ -323,7 +323,7 @@ export function GenerateMoves () {
 				dir = PceDir[pce][index];
 				t_sq = sq + dir;
 
-				if (SQOFFBOARD(t_sq) === BOOL.TRUE) {
+				if (SQOFFBOARD(t_sq) === true) {
 					continue;
 				}
 
@@ -358,7 +358,7 @@ export function GenerateMoves () {
 				dir = PceDir[pce][index];
 				t_sq = sq + dir;
 
-				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
+				while (SQOFFBOARD(t_sq) === false) {
 					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
 							PieceCol[this.m_pieces[t_sq]] !== this.m_side
@@ -404,14 +404,14 @@ export function GenerateCaptures () {
 			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (
-				SQOFFBOARD(sq + 9) === BOOL.FALSE &&
+				SQOFFBOARD(sq + 9) === false &&
 				PieceCol[this.m_pieces[sq + 9]] === COLOURS.BLACK
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 9, this.m_pieces[sq + 9]);
 			}
 
 			if (
-				SQOFFBOARD(sq + 11) === BOOL.FALSE &&
+				SQOFFBOARD(sq + 11) === false &&
 				PieceCol[this.m_pieces[sq + 11]] === COLOURS.BLACK
 			) {
 				this.AddWhitePawnCaptureMove(sq, sq + 11, this.m_pieces[sq + 11]);
@@ -436,14 +436,14 @@ export function GenerateCaptures () {
 			sq = this.m_pList[PCEINDEX(pceType, pceNum)];
 
 			if (
-				SQOFFBOARD(sq - 9) === BOOL.FALSE &&
+				SQOFFBOARD(sq - 9) === false &&
 				PieceCol[this.m_pieces[sq - 9]] === COLOURS.WHITE
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 9, this.m_pieces[sq - 9]);
 			}
 
 			if (
-				SQOFFBOARD(sq - 11) === BOOL.FALSE &&
+				SQOFFBOARD(sq - 11) === false &&
 				PieceCol[this.m_pieces[sq - 11]] === COLOURS.WHITE
 			) {
 				this.AddBlackPawnCaptureMove(sq, sq - 11, this.m_pieces[sq - 11]);
@@ -473,7 +473,7 @@ export function GenerateCaptures () {
 				dir = PceDir[pce][index];
 				t_sq = sq + dir;
 
-				if (SQOFFBOARD(t_sq) === BOOL.TRUE) {
+				if (SQOFFBOARD(t_sq) === true) {
 					continue;
 				}
 
@@ -506,7 +506,7 @@ export function GenerateCaptures () {
 				dir = PceDir[pce][index];
 				t_sq = sq + dir;
 
-				while (SQOFFBOARD(t_sq) === BOOL.FALSE) {
+				while (SQOFFBOARD(t_sq) === false) {
 					if (this.m_pieces[t_sq] !== PIECES.EMPTY) {
 						if (
 							PieceCol[this.m_pieces[t_sq]] !== this.m_side

@@ -1,4 +1,4 @@
-import { FROMSQ, TOSQ, PROMOTED, PIECES, BOOL, FilesBrd, RanksBrd, RankChar, FileChar, PieceKnight, PieceRookQueen, PieceBishopQueen,  } from "./defs.js"
+import { FROMSQ, TOSQ, PROMOTED, PIECES, FilesBrd, RanksBrd, RankChar, FileChar, PieceKnight, PieceRookQueen, PieceBishopQueen,  } from "./defs.js"
 
 export function PrSq(a_square_120) {
 	return (FileChar[FilesBrd[a_square_120]] + RankChar[RanksBrd[a_square_120]])
@@ -18,16 +18,16 @@ export function PrMove (a_move_number) {
 	// console.log('promoted = ' + promoted)
 	if (promoted !== PIECES.EMPTY) {
 		let pchar = "q";
-		if (PieceKnight[promoted] === BOOL.TRUE) {
+		if (PieceKnight[promoted] === true) {
 			pchar = "n";
 		} else if (
-			PieceRookQueen[promoted] === BOOL.TRUE &&
-			PieceBishopQueen[promoted] === BOOL.FALSE
+			PieceRookQueen[promoted] === true &&
+			PieceBishopQueen[promoted] === false
 		) {
 			pchar = "r";
 		} else if (
-			PieceRookQueen[promoted] === BOOL.FALSE &&
-			PieceBishopQueen[promoted] === BOOL.TRUE
+			PieceRookQueen[promoted] === false &&
+			PieceBishopQueen[promoted] === true
 		) {
 			pchar = "b";
 		}

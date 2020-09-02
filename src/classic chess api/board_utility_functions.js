@@ -1,6 +1,6 @@
 import {
 	BRD_SQ_NUM, PieceKeys, SideKey, CastleKeys, MAXGAMEMOVES, NOMOVE, PVENTRIES,
-	COLOURS, PIECES, PCEINDEX, BOOL, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
+	COLOURS, PIECES, PCEINDEX, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
  KiDir, KnDir, RkDir, BiDir, PieceVal,PieceCol, PieceKnight, PieceKing, PieceRookQueen, PieceBishopQueen } from "./defs.js"
 
 export function InitBoardVars () {
@@ -34,7 +34,7 @@ export function CheckBoard () {
 			sq120 = this.m_pList[PCEINDEX(t_piece, t_pce_num)]
 			if (this.m_pieces[sq120] !== t_piece) {
 				console.log('Error Pce Lists')
-				return BOOL.FALSE
+				return false
 			}
 		}
 	}
@@ -49,26 +49,26 @@ export function CheckBoard () {
 	for (t_piece = PIECES.wP; t_piece <= PIECES.bK; ++t_piece) {
 		if (t_pceNum[t_piece] !== this.m_pceNum[t_piece]) {
 			console.log('Error t_pceNum')
-			return BOOL.FALSE
+			return false
 		}
 	}
 
 	if (t_material[COLOURS.WHITE] !== this.m_material[COLOURS.WHITE] ||
 		t_material[COLOURS.BLACK] !== this.m_material[COLOURS.BLACK]) {
 		console.log('Error t_material')
-		return BOOL.FALSE
+		return false
 	}
 
 	if (this.m_side !== COLOURS.WHITE && this.m_side !== COLOURS.BLACK) {
 		console.log('Error this.m_side')
-		return BOOL.FALSE
+		return false
 	}
 
 	if (this.GeneratePosKey() !== this.posKey) {
 		console.log('Error this.posKey')
-		return BOOL.FALSE
+		return false
 	}
-	return BOOL.TRUE
+	return true
 }
 
 export function PrintBoard () {
@@ -309,7 +309,7 @@ export function PrintSqAttacked () {
 		let line = ((rank + 1) + "  ")
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			square_120 = FR2SQ(file, rank)
-			if (this.SqAttacked(square_120, this.m_side) === BOOL.TRUE) piece = "X"
+			if (this.SqAttacked(square_120, this.m_side) === true) piece = "X"
 			else piece = "-"
 			line += (" " + piece + " ")
 		}
@@ -329,14 +329,14 @@ export function SqAttacked (a_square_120, a_side)  {
 			this.m_pieces[a_square_120 - 11] === PIECES.wP ||
 			this.m_pieces[a_square_120 - 9] === PIECES.wP
 		) {
-			return BOOL.TRUE;
+			return true;
 		}
 	} else {
 		if (
 			this.m_pieces[a_square_120 + 11] === PIECES.bP ||
 			this.m_pieces[a_square_120 + 9] === PIECES.bP
 		) {
-			return BOOL.TRUE;
+			return true;
 		}
 	}
 
@@ -345,9 +345,9 @@ export function SqAttacked (a_square_120, a_side)  {
 		if (
 			piece_val !== SQUARES.OFFBOARD &&
 			PieceCol[piece_val] === a_side &&
-			PieceKnight[piece_val] === BOOL.TRUE
+			PieceKnight[piece_val] === true
 		) {
-			return BOOL.TRUE;
+			return true;
 		}
 	}
 
@@ -357,8 +357,8 @@ export function SqAttacked (a_square_120, a_side)  {
 		let piece_val = this.m_pieces[t_sq];
 		while (piece_val !== SQUARES.OFFBOARD) {
 			if (piece_val !== PIECES.EMPTY) {
-				if (PieceRookQueen[piece_val] === BOOL.TRUE && PieceCol[piece_val] === a_side) {
-					return BOOL.TRUE;
+				if (PieceRookQueen[piece_val] === true && PieceCol[piece_val] === a_side) {
+					return true;
 				}
 				break;
 			}
@@ -374,10 +374,10 @@ export function SqAttacked (a_square_120, a_side)  {
 		while (piece_val !== SQUARES.OFFBOARD) {
 			if (piece_val !== PIECES.EMPTY) {
 				if (
-					PieceBishopQueen[piece_val] === BOOL.TRUE &&
+					PieceBishopQueen[piece_val] === true &&
 					PieceCol[piece_val] === a_side
 				) {
-					return BOOL.TRUE;
+					return true;
 				}
 				break;
 			}
@@ -391,13 +391,13 @@ export function SqAttacked (a_square_120, a_side)  {
 		if (
 			piece_val !== SQUARES.OFFBOARD &&
 			PieceCol[piece_val] === a_side &&
-			PieceKing[piece_val] === BOOL.TRUE
+			PieceKing[piece_val] === true
 		) {
-			return BOOL.TRUE;
+			return true;
 		}
 	}
 
-	return BOOL.FALSE;
+	return false;
 };
 
 export function HASH_PCE (a_piece_value, a_square_120) {

@@ -1,4 +1,4 @@
-import { PIECES, NOMOVE, BOOL, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
+import { PIECES, NOMOVE, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
 
 export function GetMoveStatus (a_from, a_to) {
 	// TODO
@@ -7,7 +7,7 @@ export function GetMoveStatus (a_from, a_to) {
 	a_to = (a_to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 
 	let Move = NOMOVE
-	let found = BOOL.FALSE
+	let found = false
 	let index
 
 	for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
@@ -18,10 +18,10 @@ export function GetMoveStatus (a_from, a_to) {
 		}
 	}
 
-	if (found !== BOOL.FALSE) {
+	if (found !== false) {
 		// Check if king is in check after making the move as
 		// generateMove() will generate moves in which checks is not considered 
-		if (this.MakeMove(Move) === BOOL.FALSE) {
+		if (this.MakeMove(Move) === false) {
 			return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false}
 
 		}
@@ -42,7 +42,7 @@ export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY
 		
 		let Move = NOMOVE
 		let PromPce = PIECES.EMPTY
-		let found = BOOL.FALSE
+		let found = false
 		let index
 	
 		for (index = this.m_moveListStart[this.m_ply]; index < this.m_moveListStart[this.m_ply + 1]; index++) {
@@ -54,12 +54,12 @@ export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY
 					if(PromPce === a_promoted){
 							if (this.m_side === COLOURS.WHITE) {
 								if (PromPce === PIECES.wQ || PromPce === PIECES.wR || PromPce === PIECES.wB || PromPce === PIECES.wN) {
-								found = BOOL.TRUE
+								found = true
 								break
 							}
 						} else {
 							if (PromPce === PIECES.bQ || PromPce === PIECES.bR || PromPce === PIECES.bB || PromPce === PIECES.bN) {
-								found = BOOL.TRUE
+								found = true
 								break
 							}
 						}
@@ -72,10 +72,10 @@ export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY
 			}
 		}
 	
-		if (found !== BOOL.FALSE) {
+		if (found !== false) {
 			// Check if king is in check after making the move as
 			// generateMove() will generate moves in which checks is not considered 
-			if (this.MakeMove(Move) === BOOL.FALSE) {
+			if (this.MakeMove(Move) === false) {
 				return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0}
 			}
 			return {isValidMove : true, castle_move: (Move & MFLAGCA) !== 0}

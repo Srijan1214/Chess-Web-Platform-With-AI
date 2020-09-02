@@ -1,7 +1,6 @@
 import { PrMove } from "./io.js"
 import { MakeMove, TakeMove } from "./makeMove.js"
 import { GenerateMoves } from "./movegen.js"
-import {BOOL} from "./defs.js"
 import GameBoard from "./board.js"
 
 let perft_leafNodes
@@ -20,7 +19,7 @@ function Perft(a_depth) {
 	for (index = GameBoard.m_moveListStart[GameBoard.m_ply]; index < GameBoard.m_moveListStart[GameBoard.m_ply + 1]; ++index) {
 
 		move = GameBoard.m_moveList[index]
-		if (MakeMove(move) == BOOL.FALSE) {
+		if (MakeMove(move) == false) {
 			continue
 		}
 		Perft(a_depth - 1)
@@ -46,7 +45,7 @@ export const PerftTest = (a_depth) => {
 		++index
 	) {
 		move = GameBoard.m_moveList[index];
-		if (MakeMove(move) == BOOL.FALSE) {
+		if (MakeMove(move) == false) {
 			continue;
 		}
 		moveNum++;

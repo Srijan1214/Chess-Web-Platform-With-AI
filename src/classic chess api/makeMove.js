@@ -1,4 +1,4 @@
-import { PIECES, PCEINDEX, FROMSQ, TOSQ, MFLAGEP, COLOURS, MFLAGCA, SQUARES, CAPTURED, BOOL, MFLAGPS, PROMOTED,
+import { PIECES, PCEINDEX, FROMSQ, TOSQ, MFLAGEP, COLOURS, MFLAGCA, SQUARES, CAPTURED, MFLAGPS, PROMOTED,
 	PieceVal, PieceCol, Kings, CastlePerm, PiecePawn} from "./defs.js"
 
 export function ClearPiece (a_square_120) {
@@ -114,7 +114,7 @@ export function MakeMove (a_move_number){
 	this.m_hisPly++
 	this.m_ply++
 
-	if (PiecePawn[this.m_pieces[from]] === BOOL.TRUE) {
+	if (PiecePawn[this.m_pieces[from]] === true) {
 		this.m_fiftyMove = 0
 		if ((a_move_number & MFLAGPS) !== 0) {
 			if (side === COLOURS.WHITE) {
@@ -140,10 +140,10 @@ export function MakeMove (a_move_number){
 
 	if (this.SqAttacked(this.m_pList[PCEINDEX(Kings[side], 0)], this.m_side)) {
 		this.TakeMove()
-		return BOOL.FALSE
+		return false
 	}
 
-	return BOOL.TRUE
+	return true
 }
 
 export function TakeMove () {

@@ -3,7 +3,6 @@ import * as pvtable_necessities from "./pvtable.js"
 import {
 	PVENTRIES,
 	NOMOVE,
-	BOOL,
 	MAXDEPTH,
 	PCEINDEX,
 	INFINITE,
@@ -15,7 +14,7 @@ import {
 	Kings,
 	PROMOTED,
 	MFLAGCA,
-	MFLAGEP
+	MFLAGEP,
 } from "../classic chess api/defs.js"
 
 export default class AI {
@@ -84,7 +83,7 @@ export default class AI {
 			Date.now() - this.SearchController.start >
 			this.SearchController.time
 		) {
-			this.SearchController.stop = BOOL.TRUE
+			this.SearchController.stop = true
 		}
 	}
 
@@ -97,7 +96,7 @@ export default class AI {
 			index++
 		) {
 			if (this.GameBoard.m_poskey === this.GameBoard.m_history[index].poskey) {
-				return BOOL.TRUE
+				return true
 			}
 		}
 	}
@@ -152,7 +151,7 @@ export default class AI {
 			this.PickNextMove(MoveNum)
 
 			Move = this.GameBoard.m_moveList[MoveNum]
-			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
+			if (this.GameBoard.MakeMove(Move) === false) {
 				continue
 			}
 			Legal++
@@ -160,7 +159,7 @@ export default class AI {
 
 			this.GameBoard.TakeMove()
 
-			if (this.SearchController.stop === BOOL.TRUE) {
+			if (this.SearchController.stop === true) {
 				return 0
 			}
 
@@ -213,7 +212,7 @@ export default class AI {
 			this.GameBoard.m_pList[PCEINDEX(Kings[this.GameBoard.m_side], 0)],
 			this.GameBoard.m_side ^ 1
 		)
-		if (InCheck === BOOL.TRUE) {
+		if (InCheck === true) {
 			a_depth++
 		}
 
@@ -253,14 +252,14 @@ export default class AI {
 			this.PickNextMove(MoveNum)
 
 			Move = this.GameBoard.m_moveList[MoveNum]
-			if (this.GameBoard.MakeMove(Move) === BOOL.FALSE) {
+			if (this.GameBoard.MakeMove(Move) === false) {
 				continue
 			}
 			Legal++
 			Score = -this.AlphaBeta(-a_beta, -a_alpha, a_depth - 1)
 
 			this.GameBoard.TakeMove()
-			if (this.SearchController.stop === BOOL.TRUE) {
+			if (this.SearchController.stop === true) {
 				return 0
 			}
 
@@ -297,7 +296,7 @@ export default class AI {
 		}
 
 		if (Legal === 0) {
-			if (InCheck === BOOL.TRUE) {
+			if (InCheck === true) {
 				return -MATE + this.GameBoard.m_ply
 			} else {
 				return 0
@@ -328,7 +327,7 @@ export default class AI {
 		this.SearchController.fh = 0
 		this.SearchController.fhf = 0
 		this.SearchController.start = Date.now()
-		this.SearchController.stop = BOOL.FALSE
+		this.SearchController.stop = false
 	}
 
 	SearchPosition() {
@@ -343,7 +342,7 @@ export default class AI {
 		for (currentDepth = 1; currentDepth <= 5; currentDepth++) {
 			bestScore = this.AlphaBeta(-INFINITE, INFINITE, currentDepth)
 			// Alpha Beta Search
-			if (this.SearchController.stop === BOOL.TRUE) {
+			if (this.SearchController.stop === true) {
 				break
 			}
 			bestMove = this.ProbePvTable()
@@ -375,7 +374,7 @@ export default class AI {
 		}
 
 		this.SearchController.best = bestMove
-		this.SearchController.thinking = BOOL.FALSE
+		this.SearchController.thinking = false
 		this.SearchController.bestScore = bestScore
 		
 		console.log(this.GameBoard.PrMove(bestMove))

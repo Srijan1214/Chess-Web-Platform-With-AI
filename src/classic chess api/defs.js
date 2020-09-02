@@ -62,8 +62,6 @@ export const SQUARES = {
 	NO_SQ: 99, OFFBOARD: 100
 }
 
-export const BOOL = { FALSE: 0, TRUE: 1 }
-
 // The max game moves. This is used because the game is obviously not going above this number
 // and it helps make move list simpler and highly efficient.
 export const MAXGAMEMOVES = 2048
@@ -124,13 +122,13 @@ export const LoopSlideIndex = [0, 4]
 
 
 // Big pieces are any non-pawn piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceBig = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE]
+export const PieceBig = [false, false, true, true, true, true, true, false, true, true, true, true, true]
 
 // Major pieces are kings, queens and rooks. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceMaj = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE]
+export const PieceMaj = [false, false, false, false, true, true, true, false, false, false, true, true, true]
 
 // Minor pieces are bishops and knights. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceMin = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+export const PieceMin = [false, false, true, true, false, false, false, false, true, true, false, false, false]
 
 // The estimated piece value given to each piece. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
 export const PieceVal = [0, 100, 325, 325, 550, 1000, 50000, 100, 325, 325, 550, 1000, 50000]
@@ -140,22 +138,22 @@ export const PieceCol = [COLOURS.BOTH, COLOURS.WHITE, COLOURS.WHITE, COLOURS.WHI
 COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK, COLOURS.BLACK]
 
 // Tells if piece is a pawn. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PiecePawn = [BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+export const PiecePawn = [false, true, false, false, false, false, false, true, false, false, false, false, false]
 
 // Tells if piece is a Knight. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceKnight = [BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE]
+export const PieceKnight = [false, false, true, false, false, false, false, false, true, false, false, false, false]
 
 // Tells if piece is a King. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceKing = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE]
+export const PieceKing = [false, false, false, false, false, false, true, false, false, false, false, false, true]
 
 // Tells if piece is a Queen. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceRookQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE]
+export const PieceRookQueen = [false, false, false, false, true, true, false, false, false, false, true, true, false]
 
 // Tells if piece is a Bishop or Queen. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceBishopQueen = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE, BOOL.TRUE, BOOL.FALSE]
+export const PieceBishopQueen = [false, false, false, true, false, true, false, false, false, true, false, true, false]
 
 // Tells if piece is a sliding piece like rooks and bishops. The indexes correspond to the PIECES array. I.e index 1 is white pawn and 2 is white knight.
-export const PieceSlides = [BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE, BOOL.FALSE, BOOL.FALSE, BOOL.TRUE, BOOL.TRUE, BOOL.TRUE, BOOL.FALSE]
+export const PieceSlides = [false, false, false, true, true, true, false, false, false, true, true, true, false]
 
 // These keys facilitate in creating a hash that will be different for each position.
 // Duplicate/ Repeated positions will have same hash
@@ -549,8 +547,8 @@ DATE : 07/25/2020
 */
 /**/
 export const SQOFFBOARD = (a_square_120) => {
-	if (FilesBrd[a_square_120] === SQUARES.OFFBOARD) return BOOL.TRUE
-	return BOOL.FALSE
+	if (FilesBrd[a_square_120] === SQUARES.OFFBOARD) return true
+	return false
 }
 /* SQOFFBOARD (a_square_120) */
 

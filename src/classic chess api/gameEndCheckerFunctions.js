@@ -1,33 +1,33 @@
-import { PIECES, BOOL, COLOURS, PCEINDEX, Kings } from "./defs.js"
+import { PIECES, COLOURS, PCEINDEX, Kings } from "./defs.js"
 
 export function CheckIfDrawDueToMaterial() {
 	if (this.m_pceNum[PIECES.wP] !== 0 || this.m_pceNum[PIECES.bP] !== 0)
-		return BOOL.FALSE
+		return false
 	if (
 		this.m_pceNum[PIECES.wQ] !== 0 ||
 		this.m_pceNum[PIECES.bQ] !== 0 ||
 		this.m_pceNum[PIECES.wR] !== 0 ||
 		this.m_pceNum[PIECES.bR] !== 0
 	)
-		return BOOL.FALSE
+		return false
 	if (this.m_pceNum[PIECES.wB] > 1 || this.m_pceNum[PIECES.bB] > 1) {
-		return BOOL.FALSE
+		return false
 	}
 	if (this.m_pceNum[PIECES.wN] > 1 || this.m_pceNum[PIECES.bN] > 1) {
-		return BOOL.FALSE
+		return false
 	}
 
 	if (this.m_pceNum[PIECES.wN] !== 0 && this.m_pceNum[PIECES.wB] !== 0) {
-		return BOOL.FALSE
+		return false
 	}
 	if (this.m_pceNum[PIECES.bN] !== 0 && this.m_pceNum[PIECES.bB] !== 0) {
-		return BOOL.FALSE
+		return false
 	}
 
-	return BOOL.TRUE
+	return true
 }
 
-// returns BOOL.FALSE if no stalemate
+// returns false if no stalemate
 export function CheckIfDrawDueToStalemate() {
 	this.GenerateMoves()
 
@@ -39,7 +39,7 @@ export function CheckIfDrawDueToStalemate() {
 		MoveNum < this.m_moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
-		if (this.MakeMove(this.m_moveList[MoveNum]) === BOOL.FALSE) {
+		if (this.MakeMove(this.m_moveList[MoveNum]) === false) {
 			continue
 		}
 		found++
@@ -47,18 +47,18 @@ export function CheckIfDrawDueToStalemate() {
 		break
 	}
 
-	if (found !== 0) return BOOL.FALSE
+	if (found !== 0) return false
 
 	let InCheck = this.SqAttacked(
 		this.m_pList[PCEINDEX(Kings[this.m_side], 0)],
 		this.m_side ^ 1
 	)
 
-	if (InCheck === BOOL.TRUE) {
-			return BOOL.FALSE
+	if (InCheck === true) {
+			return false
 	} else {
 		// stalemate
-		return BOOL.TRUE
+		return true
 	}
 }
 
@@ -76,21 +76,21 @@ export function ThreeFoldRep() {
 
 export function CheckIfDrawnPosition() {
 	if (this.m_fiftyMove >= 100) {
-		return BOOL.TRUE
+		return true
 	}
 
 	if (this.ThreeFoldRep() >= 2) {
-		return BOOL.TRUE
+		return true
 	}
 
-	if (this.CheckIfDrawDueToMaterial() === BOOL.TRUE) {
-		return BOOL.TRUE
+	if (this.CheckIfDrawDueToMaterial() === true) {
+		return true
 	}
 
-	if (this.CheckIfDrawDueToStalemate() === BOOL.TRUE) {
-		return BOOL.TRUE
+	if (this.CheckIfDrawDueToStalemate() === true) {
+		return true
 	}
-	return BOOL.FALSE
+	return false
 }
 
 // returns COLORS.NONE if no side is winning
@@ -105,7 +105,7 @@ export function GetWhichSideWon() {
 		MoveNum < this.m_moveListStart[this.m_ply + 1];
 		++MoveNum
 	) {
-		if (this.MakeMove(this.m_moveList[MoveNum]) === BOOL.FALSE) {
+		if (this.MakeMove(this.m_moveList[MoveNum]) === false) {
 			continue
 		}
 		found++
@@ -120,7 +120,7 @@ export function GetWhichSideWon() {
 		this.m_side ^ 1
 	)
 
-	if (InCheck === BOOL.TRUE) {
+	if (InCheck === true) {
 		if (this.m_side === COLOURS.WHITE) {
 			// black wins
 			return COLOURS.BLACK
