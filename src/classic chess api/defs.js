@@ -1,5 +1,18 @@
 /**/
 /*
+
+FILE DESCRIPTION:
+	This file contains all of the constants and utility functions needed for the chess game implementation.
+	All these values are read-only and cannot be modified by the other files that use these.
+
+*/
+/**/
+
+
+
+
+/**/
+/*
 NAME : GENERATE_RAND_32 - Generates random 32 bit numbers to facilitate hashing keys.
 
 SYNOPSIS : GENERATE_RAND_32()

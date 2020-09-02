@@ -1,3 +1,16 @@
+/**/
+/*
+
+FILE DESCRIPTION: 
+	This file contains the main class for the chess game api.
+	All the functions are defined outside the file.
+	I use function binding to make the code more structured and clean.
+
+*/
+/**/
+
+
+
 import * as movegen from "./movegen.js"
 import * as makeMove from "./makeMove.js"
 import * as Outside_function from "./board_utility_functions.js"
@@ -7,6 +20,24 @@ import * as gameEndCheckers from "./gameEndCheckerFunctions.js"
 import * as boardInterfaceFunctions from "./board_interface_functions"
 import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
 
+
+
+/**/
+/*
+NAME : GameBoard - The class that acts as the chess game api.
+
+DESCRIPTION 
+			The class that acts as the chess game api.RETURNS : A random 32 bit number.
+			By instantiating this class, one can pay a full chess games.
+			This class facilitates everything needed for a chess game by providing functions like
+			print_the_board, or checking if one can move a piece from a certain square to a certain square.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/28/2020
+
+*/
+/**/
 export default class GameBoard {
 	m_pieces = new Array(BRD_SQ_NUM)
 	m_side = COLOURS.WHITE
@@ -29,6 +60,24 @@ export default class GameBoard {
 	m_searchHistory = new Array(14 * BRD_SQ_NUM)
 	m_searchKillers = new Array(3 * MAXDEPTH)
 
+	/**/
+	/*
+	NAME : GameBoard.constructor() - Constructor for the GameBoard class.
+
+	SYNOPSIS : constructor()
+
+	DESCRIPTION 
+				This function will bind all the necessary imported functions to the class.
+				Makes necessary initializations for the class.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/01/2020
+
+	*/
+	/**/
 	constructor() {
 		// Define Basic Member function
 		this.InitBoardVars = Outside_function.InitBoardVars.bind(this)
