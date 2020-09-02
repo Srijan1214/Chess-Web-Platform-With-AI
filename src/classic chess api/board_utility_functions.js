@@ -1,8 +1,39 @@
+/**/
+/*
+
+FILE DESCRIPTION:
+			This file contains utility functions that cannot be placed into any specific group.
+			All others files except of this files have related functions.
+			However, these function are indeed important.
+
+*/
+/**/
+
+
 import {
 	BRD_SQ_NUM, PieceKeys, SideKey, CastleKeys, MAXGAMEMOVES, NOMOVE, PVENTRIES,
 	COLOURS, PIECES, PCEINDEX, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
  KiDir, KnDir, RkDir, BiDir, PieceVal,PieceCol, PieceKnight, PieceKing, PieceRookQueen, PieceBishopQueen } from "./defs.js"
 
+
+
+ /**/
+/*
+NAME : GameBoard.InitBoardVars() - Initializes the m_history and m_PvTable array.
+
+SYNOPSIS : InitBoardVars()
+
+DESCRIPTION 
+			Initializes the m_history and m_PvTable array.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function InitBoardVars () {
 	let index = 0
 
@@ -23,7 +54,29 @@ export function InitBoardVars () {
 		})
 	}
 }
+/* InitBoardVars() */
 
+
+
+
+ /**/
+/*
+NAME : GameBoard.CheckBoard() - Checks if there were any errors during the initializations.
+
+SYNOPSIS : CheckBoard()
+
+DESCRIPTION 
+			Checks if there were any errors during the initializations.
+			Useful for seeing if there was any bug during implementation.
+
+RETURNS : true if there is an error, false if everything is good.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function CheckBoard () {
 	let t_pceNum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	let t_material = [0, 0]
@@ -70,7 +123,30 @@ export function CheckBoard () {
 	}
 	return true
 }
+/* CheckBoard() */
 
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.PrintBoard() - Console.logs the current position.
+
+SYNOPSIS : PrintBoard()
+
+DESCRIPTION 
+			Console.logs the current position along with all
+			information which makes the position unique.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function PrintBoard () {
 	let square_120, file, rank, piece
 
@@ -103,7 +179,30 @@ export function PrintBoard () {
 	console.log("castle:" + line)
 	console.log("key:" + this.posKey.toString(16))
 }
+/* PrintBoard() */
 
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.GiveBoardArray() - Returns just the character array of the board.
+
+SYNOPSIS : GiveBoardArray()
+
+DESCRIPTION 
+			Returns just the character array of the board.
+			The character for a piece is given by the PceChar in defs.
+
+RETURNS : A 8x8 character array representing the board.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function GiveBoardArray () {
 	const makeArray = function (a, b) {
 		let arr = new Array(a)
@@ -124,7 +223,33 @@ export function GiveBoardArray () {
 
 	return retArray
 }
+/* GiveBoardArray() */
 
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.GeneratePosKey() - Generates a unique hash for positions.
+
+SYNOPSIS : GeneratePosKey()
+
+DESCRIPTION 
+			This function generate a unique hash for any given position.
+			Duplicate positions will have the same hash.
+			This is accomplished by performing the bitwise XOR against the PieceKeys for the pieces,
+			PieceKeys for the en-Passant pawn, the CastleKeys, and the SideKey.
+
+RETURNS : A hash number.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function GeneratePosKey () {
 	let square_120 = 0
 	let finalKey = 0
@@ -149,7 +274,31 @@ export function GeneratePosKey () {
 
 	return finalKey
 }
+/* GeneratePosKey() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.PrintPieceLists() - Prints the Piece List Array to show which square has which piece.
+
+SYNOPSIS : PrintPieceLists()
+
+DESCRIPTION 
+			Prints the Piece List Array to show which square has which piece.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function PrintPieceLists () {
 	let piece, pceNum
 
@@ -159,7 +308,32 @@ export function PrintPieceLists () {
 		}
 	}
 }
+/* PrintPieceLists() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.UpdateListsMaterial() - Assign all the pieces in the piece list to their respective squares.
+
+SYNOPSIS : UpdateListsMaterial()
+
+DESCRIPTION 
+			Assign all the pieces in the piece list to their respective squares.
+			Assign serial numbers with m_pceNum for each piece type.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function UpdateListsMaterial () {
 	let piece, square_120, index, colour
 
@@ -189,7 +363,31 @@ export function UpdateListsMaterial () {
 	}
 
 }
+/* UpdateListsMaterial() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.ResetBoard() - Resets the Board history and clears all pieces on board.
+
+SYNOPSIS : ResetBoard()
+
+DESCRIPTION 
+			Resets the Board history and clears all pieces on board.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function ResetBoard () {
 	let index = 0
 
@@ -210,7 +408,31 @@ export function ResetBoard () {
 	this.m_poskey = 0
 	this.m_moveListStart[this.m_ply] = 0
 }
+/* ResetBoard() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.ParseFen() - Parses an FEN string and sets the board to the position.
+
+SYNOPSIS : ParseFen()
+
+DESCRIPTION 
+			Parses an FEN string and sets the board to the position.
+			
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function ParseFen (a_fen) {
 	this.ResetBoard()
 
@@ -298,7 +520,31 @@ export function ParseFen (a_fen) {
 	// this.PrintSqAttacked()
 	// PrintMoveList()
 }
+/* ParseFen() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.PrintSqAttacked() - Prints all of the squares that the current side to play is attacking.
+
+SYNOPSIS : PrintSqAttacked()
+
+DESCRIPTION 
+			Prints all of the squares that the current side to play is attacking.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function PrintSqAttacked () {
 
 	let square_120, file, rank, piece
@@ -319,7 +565,33 @@ export function PrintSqAttacked () {
 	console.log("")
 
 }
+/* PrintSqAttacked() */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.SqAttacked() - Tells if the 120_Board square is attacked by the current side
+
+SYNOPSIS : SqAttacked(a_square_120, a_side)
+		a_square_120 -> The 120 index board square number.
+		a_side -> Which side's move is it currently.
+
+DESCRIPTION 
+			Tells if the 120_Board square is attacked by the current side.
+
+RETURNS : True if the current square is attacked by the side. False otherwise.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function SqAttacked (a_square_120, a_side)  {
 	let piece_val;
 	let index;
@@ -398,7 +670,8 @@ export function SqAttacked (a_square_120, a_side)  {
 	}
 
 	return false;
-};
+}
+/* SqAttacked(a_square_120, a_side) */
 
 export function HASH_PCE (a_piece_value, a_square_120) {
 	this.posKey ^= PieceKeys[(a_piece_value * 120) + a_square_120]
