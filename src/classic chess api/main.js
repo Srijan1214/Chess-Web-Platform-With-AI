@@ -1,4 +1,4 @@
-import { START_FEN, FILES, RANKS, SQUARES, BRD_SQ_NUM, FR2SQ, RAND_32, MAXGAMEMOVES, NOMOVE, PVENTRIES, 
+import { START_FEN, FILES, RANKS, SQUARES, BRD_SQ_NUM, FR2SQ, GENERATE_RAND_32, MAXGAMEMOVES, NOMOVE, PVENTRIES, 
 	FilesBrd, PieceKeys, CastleKeys, Sq120ToSq64, Sq64ToSq120, RanksBrd, SideKey, InitMvvLva } from "./defs.js"
 import GameBoard from "./board.js"
 import AI from "../AI src files/search.js"

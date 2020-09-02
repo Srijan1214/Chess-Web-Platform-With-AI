@@ -1,9 +1,29 @@
-// Generates random 32 bit numbers to facilitate in hashing keys.
-// Hashing keys is necessary to know how many times the same position is repeated.
-export const RAND_32 = () => {
+/**/
+/*
+NAME : GENERATE_RAND_32 - Generates random 32 bit numbers to facilitate hashing keys.
+
+SYNOPSIS : GENERATE_RAND_32()
+
+DESCRIPTION 
+			This function will generate a random 32 bit number.
+			It will use generate 4 random 8 bit numbers and bit shift them
+			accordingly to achieve the 32 bit.
+			Hashing keys will be made using this function.
+			Hashing keys are necessary to know how many times the same position is repeated.
+
+RETURNS : A random 32 bit number.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/26/2020
+
+*/
+/**/
+export const GENERATE_RAND_32 = () => {
 	return (Math.floor((Math.random() * 255) + 1) << 23) | (Math.floor((Math.random() * 255) + 1) << 16)
 		| (Math.floor((Math.random() * 255) + 1) << 8) | (Math.floor((Math.random() * 255) + 1))
 }
+/* const GENERATE_RAND_32() */
 
 // A piece-value dictionary to make code more descriptive than a number literal.
 export const PIECES = {
@@ -143,7 +163,7 @@ export const PieceKeys = new Array(14 * 120)
 
 // This key facilitates in creating a hash that will be different for each position.
 // Duplicate/ Repeated positions will have same hash
-export let SideKey = RAND_32()
+export let SideKey = GENERATE_RAND_32()
 
 // These keys facilitate in creating a hash that will be different for each position.
 // Duplicate/ Repeated positions will have same hash
@@ -155,9 +175,25 @@ export const Sq120ToSq64 = new Array(BRD_SQ_NUM)
 // Array that gives the 120-size index from the 64-size index.
 export const Sq64ToSq120 = new Array(64)
 
-// This function initializes the FilesBrd and RanksBrd arrays.
-// Given a 120 base index, these arrays will then give the
-// appropriate file and rank number.
+/**/
+/*
+NAME : InitFilesRanksBrd - This function initializes the FilesBrd and RanksBrd arrays.
+
+SYNOPSIS : InitFilesRanksBrd()
+
+DESCRIPTION 
+		This function initializes the FilesBrd and RanksBrd arrays.
+		Given a 120 base index, these arrays will then give the
+		appropriate file and rank number.
+
+RETURNS : Nothing.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+
+*/
+/**/
 function InitFilesRanksBrd() {
 	let index = 0
 	let file = FILES.FILE_A
@@ -168,7 +204,7 @@ function InitFilesRanksBrd() {
 		FilesBrd[index] = SQUARES.OFFBOARD
 		RanksBrd[index] = SQUARES.OFFBOARD
 	}
-
+	
 	for (rank = RANKS.RANK_1; rank <= RANKS.RANK_8; rank++) {
 		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
 			sq = FR2SQ(file, rank)
@@ -177,21 +213,56 @@ function InitFilesRanksBrd() {
 		}
 	}
 }
+/* InitFilesRanksBrd() */
 
-// Initializes the PieceKeys and CastleKeys arrays with the random 32 bit number.
+
+/**/
+/*
+NAME : InitHashKeys - Initializes the PieceKeys and CastleKeys arrays with the random 32 bit number.
+
+SYNOPSIS : InitHashKeys()
+
+DESCRIPTION : Initializes the PieceKeys and CastleKeys arrays with random 32 bit numbers.
+
+RETURNS : Nothing.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/26/2020
+*/
+/**/
 function InitHashKeys(){
 	let index = 0
 
 	for(index = 0; index < 14 * 120; index++){
-		PieceKeys[index] = RAND_32()
+		PieceKeys[index] = GENERATE_RAND_32()
 	}
 
 	for(index = 0; index < 16; index++){
-		CastleKeys[index] = RAND_32()
+		CastleKeys[index] = GENERATE_RAND_32()
 	}
 }
+/* InitHashKeys() */
 
-// Initializes the Sq120ToSq64 and Sq64ToSq120 arrays to facilitate their usages.
+
+
+
+/**/
+/*
+NAME : InitSq120ToSq64 - Initializes the Sq120ToSq64 and Sq64ToSq120 arrays to facilitate their usages.
+
+SYNOPSIS : InitSq120ToSq64()
+
+DESCRIPTION : Initializes the Sq120ToSq64 and Sq64ToSq120 arrays to facilitate their usages.
+
+RETURNS : Nothing.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
+// .
 function InitSq120ToSq64(){
 	let index = 0
 	let file = FILES.FILE_A
@@ -216,6 +287,7 @@ function InitSq120ToSq64(){
 		}
 	}
 }
+/* InitSq120ToSq64() */
 
 // Necessary initializations for tbe respective arrays.
 InitFilesRanksBrd()
@@ -234,28 +306,102 @@ export const Mirror64 = [
 	0, 1, 2, 3, 4, 5, 6, 7
 ]
 
-// Function that gives the 64-size index from the 120-size index.
+
+
+/**/
+/*
+NAME : SQ64() - Function that gives the 64-size index from the 120-size index.
+
+SYNOPSIS : SQ64(a_sq120)
+			a_sq120 -> The index of the 120_Board.
+
+DESCRIPTION : Function that gives the 64-size index from the 120-size index.
+
+RETURNS : The index (integer) of the 64-size array.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const SQ64 = (a_sq120) =>{
 	return Sq120ToSq64[a_sq120]
 }
+/* SQ64(a_sq120) */
 
-// Function that gives the 120-size index from the 64-size index.
+
+/**/
+/*
+NAME : SQ120() - Function that gives the 120-size index from the 64-size index.
+
+SYNOPSIS : SQ120(a_sq64)
+		a_sq64 -> The index of the 64_Board.
+
+DESCRIPTION : Function that gives the 120-size index from the 64-size index..
+
+RETURNS : The index (integer) of the 120-size array.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const SQ120 = (a_sq64) =>{
 	return Sq64ToSq120[a_sq64]
 }
+/* SQ120(a_sq64) */
 
-// This function is always called with the pList array.
-// Given the piece from PIECE and the serial number of that piece,
-// this function called inside the pList will give what square on the 120_Board the piece is on.
-// e.g. m_pList(PCEINDEX(2, 1)) will give the square of the second white knight.
+
+/**/
+/*
+NAME : PCEINDEX() - Creates the appropriate index for the piece_List from the piece type and its serial number.
+
+SYNOPSIS : PCEINDEX(a_pce, a_pceNum)
+		a_pce -> The piece number for a particular piece given by the PIECES dictionary.
+		a_pceNum -> The serial number for that particular piece type on the board.
+
+DESCRIPTION
+	This function creates the appropriate index for the piece_List from the piece type and its serial number.
+	This function is always called with the pList array.
+	Given the piece from PIECE and the serial number of that piece,
+	this function called inside the pList will give what square on the 120_Board the piece is on.
+	e.g. m_pList(PCEINDEX(2, 1)) will give the square of the second white knight.
+
+RETURNS : The calculated index for the piece_list array.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/26/2020
+*/
+/**/
 export const PCEINDEX = (a_pce, a_pceNum) => {
 	return (a_pce * 10 + a_pceNum)
 }
+/* PCEINDEX(a_pce, a_pceNum) */
 
-// Functions that flips the 64_Board to view from black's perspective.
+
+
+/**/
+/*
+NAME : MIRROR64() - flips the square vertically.
+
+SYNOPSIS : MIRROR64(a_square_64)
+		a_square_64 ->The index of the 64_Board.
+
+DESCRIPTION : Function that flips the 64_board to view from black's perspective.
+
+RETURNS : The flipped square number inside the 64_size board.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/26/2020
+*/
+/**/
 export const MIRROR64 = (a_square_64) => {
 	return Mirror64[a_square_64]
 }
+/* MIRROR64 (a_square_64) */
+
 
 // Gives the king piece number in the PIECES dictionary index by side.
 // 0 is white and 1 is black
@@ -278,17 +424,93 @@ export const CastlePerm = [
 	15, 15, 15, 15, 15, 15, 15, 15, 15, 15
 ]
 
-// gives the 120_Board from_square for a given move number
+
+
+/**/
+/*
+NAME : FROMSQ() - Gets the square from which the move was played.
+
+SYNOPSIS : FROMSQ(a_move_number)
+		a_move_number -> The move number encapsulating through its BITS, all the information needed for a move to be unique.
+
+DESCRIPTION : Gives the 120_Board from_square for a given move number through the bitwise AND operation.
+
+RETURNS : The square number.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const FROMSQ = (a_move_number) => { return (a_move_number & 0x7F) }
+/* FROMSQ (a_move_number) */
 
-// gives the 120_Board to square for a given move number
+
+
+/**/
+/*
+NAME : TOSQ() - Gets the square to which the move was played.
+
+SYNOPSIS : TOSQ(a_move_number)
+		a_move_number -> The move number encapsulating through its BITS, all the information needed for a move to be unique.
+
+DESCRIPTION : Gives the 120_Board to_square for a given move number through the bitwise AND operation.
+
+RETURNS : The square number.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const TOSQ = (a_move_number) => { return ((a_move_number >> 7) & 0x7F) }
+// TOSQ (a_move_number)
 
-// Tells if move was a capture move.
+
+
+
+/**/
+/*
+NAME : CAPTURED() - Tells which piece was captured in a move.
+
+SYNOPSIS : CAPTURED(a_move_number)
+		a_move_number -> The move number encapsulating through its BITS, all the information needed for a move to be unique.
+
+DESCRIPTION : Gets the captured piece type through the bitwise AND operation.
+
+RETURNS : The captured piece type corresponding to the PIECES dictionary. Returns PIECES.EMPTY if no piece is captured in the move.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const CAPTURED = (a_move_number) => { return ((a_move_number >> 14) & 0xF) }
+/* CAPTURED (a_move_number) */
 
-// Tells if move was a promotion move.
+
+
+/**/
+/*
+NAME : PROMOTED() - Tells which piece the pawn promotion of the move led to.
+
+SYNOPSIS : PROMOTED(a_move_number)
+		a_move_number -> The move number encapsulating through its BITS, all the information needed for a move to be unique.
+
+DESCRIPTION : Gets the promoted piece type through the bitwise AND operation.
+
+RETURNS : The promoted piece type corresponding to the PIECES dictionary. Returns PIECES.EMPTY if no promotion happened during the move.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const PROMOTED = (a_move_number) => { return ((a_move_number >> 20) & 0xF) }
+/* PROMOTED (a_move_number) */
+
+
+
 
 // Bitwise AND with move tells if move was a En-passant move or not.
 export const MFLAGEP = 0x40000
@@ -308,11 +530,29 @@ export const MFLAGPROM = 0xF00000
 // Useful for telling if move is not a valid move.
 export const NOMOVE = 0
 
-// Tells if the 120_Board index is outside the 64_Board.
+
+
+/**/
+/*
+NAME : SQOFFBOARD() - Tells if the 120_Board index is outside the 64_Board.
+
+SYNOPSIS : SQOFFBOARD(a_square_120)
+		a_square_120 -> The index of the 120_Board.
+
+DESCRIPTION : Tells if a_square_120 corresponds to a 64 square array.
+
+RETURNS : True if inside. False if outside.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/25/2020
+*/
+/**/
 export const SQOFFBOARD = (a_square_120) => {
 	if (FilesBrd[a_square_120] === SQUARES.OFFBOARD) return BOOL.TRUE
 	return BOOL.FALSE
 }
+/* SQOFFBOARD (a_square_120) */
 
 // This is a score array for the victim. Indexed by PIECES.
 // Queens and kings have the highest score as attacking them is more valuable than attacking pawns
@@ -322,12 +562,32 @@ export const MVVLVAVALUE = [0, 100, 200, 300, 400, 500, 600, 100, 200, 300, 400,
 // Every combination of victim and attacker will have a score inside this array.
 export const MVVLVASCORES = new Array(14 * 14)
 
-// Initialize MVVLVASCORES and MVVLVAVALUE in such a way that MVVLVASCORE
-// is inversely proportional to the attacker and directly proportional
-// the the victim. The "100" is just a good constant to work with.
-// i.e pawn attacking a king is highest and king attacking a pawn is lowest.
-// this makes sense because pawn attacking king has a higher probability of gaining an advantage
-// than the opposite.
+
+
+
+
+
+/**/
+/*
+NAME : InitMvvLva() - Initialize the MVVLVASCORE and MVVLVASCORE arrays.
+
+SYNOPSIS : InitMvvLva()
+
+DESCRIPTION :
+		Initialize MVVLVASCORES and MVVLVAVALUE in such a way that MVVLVASCORE
+		is inversely proportional to the attacker and directly proportional
+		the the victim. The "100" is just a good constant to work with.
+		i.e pawn attacking a king is highest and king attacking a pawn is lowest.
+		this makes sense because pawn attacking king has a higher probability of gaining an advantage
+		than the opposite.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 07/28/2020
+*/
+/**/
 export const InitMvvLva = () => {
 	let Attacker;
 	let Victim;
