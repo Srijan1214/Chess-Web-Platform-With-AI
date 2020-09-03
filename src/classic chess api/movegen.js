@@ -133,37 +133,6 @@ export function AddCaptureMove (a_move_number) {
 
 
 
- /**/
-/*
-NAME : GameBoard.AddQuietMove() - Adds a non-capture move in the moveList for the current position.
-
-SYNOPSIS : AddQuietMove(a_move_number)
-			a_move_number: The 32 bit number encapsulating all the information needed for a move.
-
-DESCRIPTION 
-			Adds a non-capture move in the moveList for the current position.
-			Also reflects necessary stuff in the m_moveScores and m_moveListStart arrays.
-
-RETURNS : NOTHING
-
-AUTHOR : Srijan Prasad Joshi
-
-DATE : 06/17/2020
-
-*/
-/**/
-export function AddCaptureMove (a_move_number) {
-	this.m_moveList[this.m_moveListStart[this.m_ply + 1]] = a_move_number;
-	this.m_moveScores[this.m_moveListStart[this.m_ply + 1]] =
-		MVVLVASCORES[CAPTURED(a_move_number) * 14 + this.m_pieces[FROMSQ(a_move_number)]] +
-		1000000;
-	this.m_moveListStart[this.m_ply + 1] += 1;
-}
-/* AddCaptureMove(a_move_number) */
-
-
-
-
 
 
 
@@ -217,7 +186,7 @@ export function AddQuietMove (a_move_number) {
 /*
 NAME : GameBoard.AddEnPassantMove() - Adds a capture move in the move list for the current postion.
 
-SYNOPSIS : AddCaptureMove(a_move_number)
+SYNOPSIS : AddEnPassantMove(a_move_number)
 			a_move_number: The 32 bit number encapsulating all the information needed for a move.
 
 DESCRIPTION 
@@ -797,7 +766,7 @@ export function GenerateCaptures () {
 					);
 				}
 			}
-		}/
+		}
 	}
 	pceIndex = LoopNonSlideIndex[this.m_side];
 	pce = LoopNonSlidePce[pceIndex++];
