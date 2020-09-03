@@ -1,6 +1,16 @@
+/**/
+/* 
+	 * FILE DESCRIPTION:
+	 * This file contains functions and arrays that facilitate in the static evaluation of the position.
+	 * The static evaluation is basically telling how good a position is without any calculation.
+	 * Uses simple arithmetic piece tables to do that.
+	 * However, even though the evaluation is simple, this evaluation leads to a surprisingly strong engine.
+*/
+/**/
 import {COLOURS, PIECES, PCEINDEX, SQ64, MIRROR64 } from "../classic chess api/defs.js"
 
 // Piece Value Tables
+// These tables tell how good a piece is at a particular position.
 
 export const PawnTable = [
 	0, 0, 0, 0, 0, 0, 0, 0,
@@ -50,6 +60,36 @@ export const RookTable = [
 export const BishopPair = 40
 
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.EvalPosition() - Gives the static evaluation of the position.
+
+SYNOPSIS : EvalPosition()
+
+DESCRIPTION 
+			Gives the static evaluation of the position.
+			First it looks at the material count.
+			Then it adds the values of the piece table to the return value.
+			Then it looks at forced check mates.
+			Lastly, it considers a bishop pair advantage.
+
+RETURNS : An integer in the range -30000 to 30000 to tell how good the current position 
+			is for the current side.
+			A score close to 30000 is completely winning, close to 0 is an even game and close to -30000 is
+			completely loosing.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/06/2020
+
+*/
+/**/
 export function EvalPosition () {
 	let score =
 		this.GameBoard.m_material[COLOURS.WHITE] - this.GameBoard.m_material[COLOURS.BLACK];
@@ -137,3 +177,4 @@ export function EvalPosition () {
 		return -score;
 	}
 };
+/* EvalPosition() */
