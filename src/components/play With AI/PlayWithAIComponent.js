@@ -195,7 +195,7 @@ class PlayWithAIComponent extends React.Component {
 				this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1])
 
 			}
-			this.GameBoard.MovePieceStringLocations(a_prev_location, a_new_location)
+			this.GameBoard.MovePieceUsingStandardLocations(a_prev_location, a_new_location)
 		}
 		this.GameBoard.PrintBoard()
 
@@ -236,7 +236,7 @@ class PlayWithAIComponent extends React.Component {
 		else if (a_piece_val === 13.5) promPiece = PIECES.bB
 		else if (a_piece_val === 13) promPiece = PIECES.bN
 
-		this.GameBoard.MovePieceStringLocations(this.state.prev_location, this.state.new_location, promPiece)
+		this.GameBoard.MovePieceUsingStandardLocations(this.state.prev_location, this.state.new_location, promPiece)
 
 		const newState = {}
 		newState.who_moves = !this.state.who_moves

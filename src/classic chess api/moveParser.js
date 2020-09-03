@@ -1,8 +1,47 @@
+/**/
+/* 
+	 * FILE DESCRIPTION: 
+	 * This file contains functions that give friendly functions through which the user does not need
+	 * to know the fancy bitwise operations that is going on under the hood and use human readable strings
+	 * perform actions and check the status of the move.
+	 * 
+*/
+/**/
 import { PIECES, NOMOVE, FROMSQ, TOSQ, PROMOTED, COLOURS, MFLAGCA, MFLAGEP} from "./defs.js"
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.GetMoveStatus() - Details the status of the move given the from and to squares.
+
+SYNOPSIS : GetMoveStatus(a_from, a_to)
+			a_from -> The sting from square. e.g 'a2'
+			a_to -> The string to sqaure. e.g 'f3'
+
+DESCRIPTION 
+			Checks the status of the move given the from and to squares.
+			Checks if there were any errors during the initializations.
+			Useful for seeing if there was any bug during implementation.
+
+RETURNS : an object detailing the status of the move.
+			It gives the following information:
+				- is the move valid,
+				- is the move a castle move
+				- is the move a promotion move.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/11/2020
+
+*/
+/**/
 export function GetMoveStatus (a_from, a_to) {
-	// TODO
-	this.GenerateMoves() // will be better if this is called before the check.
+	this.GenerateMoves() 
 	a_from = (a_from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 	a_to = (a_to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 
@@ -33,10 +72,41 @@ export function GetMoveStatus (a_from, a_to) {
 
 	return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0, promotion_move : false, enPass_move: ((Move & MFLAGEP) !==0)}
 }
+/* GetMoveStatus(a_from, a_to) */
 
-export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY) {
-		// TODO
-		this.GenerateMoves() // will be better if this is called before the check.
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.MovePieceUsingStandardLocations() - Makes the move on the board using string location.
+
+SYNOPSIS : MovePieceUsingStandardLocations(a_from, a_to, a_promoted = PIECES.EMPTY)
+			a_from -> The sting from square.
+			a_to -> The string to sqaure.
+			a_promoted -> The number representing which piece promotion is the move leading to. Default will
+							be PIECES.EMPTY if move is not a promotion move.
+
+DESCRIPTION 
+			Makes the move on the board using string location.
+			Example of a location is 'a1' or 'f5'.
+
+RETURNS : an object detailing the status of the move.
+			It gives the following information:
+				- is the move valid,
+				- is the move a castle move
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 08/11/2020
+
+*/
+/**/
+export function MovePieceUsingStandardLocations(a_from, a_to, a_promoted = PIECES.EMPTY) {
+		this.GenerateMoves() 
 		a_from = (a_from.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_from.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 		a_to = (a_to.charCodeAt(0) - 'a'.charCodeAt(0) + 21 + 10 * (a_to.charCodeAt(1) - '0'.charCodeAt(0) - 1))
 		
@@ -83,3 +153,4 @@ export function MovePieceStringLocations(a_from, a_to, a_promoted = PIECES.EMPTY
 
 		return {isValidMove : false, castle_move: (Move & MFLAGCA) !== 0}
 }
+/* MovePieceUsingStandardLocations(a_from, a_to, a_promoted = PIECES.EMPTY) */

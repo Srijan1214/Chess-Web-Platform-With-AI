@@ -15,7 +15,7 @@ import * as movegen from "./movegen.js"
 import * as makeMove from "./makeMove.js"
 import * as Outside_function from "./board_utility_functions.js"
 import * as debug_io from "./io.js"
-import { GetMoveStatus, MovePieceStringLocations } from "./moveParser.js"
+import { GetMoveStatus, MovePieceUsingStandardLocations } from "./moveParser.js"
 import * as gameEndCheckers from "./gameEndCheckerFunctions.js"
 import * as boardInterfaceFunctions from "./board_interface_functions"
 import { BRD_SQ_NUM, COLOURS, MAXDEPTH,MAXPOSITIONMOVES, START_FEN } from "./defs.js"
@@ -118,7 +118,7 @@ export default class GameBoard {
 
 		// MoveParser function
 		this.GetMoveStatus = GetMoveStatus.bind(this)
-		this.MovePieceStringLocations = MovePieceStringLocations.bind(this)
+		this.MovePieceUsingStandardLocations = MovePieceUsingStandardLocations.bind(this)
 
 		// GameEndChecker Functions
 		this.CheckIfDrawDueToMaterial = gameEndCheckers.CheckIfDrawDueToMaterial.bind(this)
