@@ -89,6 +89,7 @@ export const MAXPOSITIONMOVES = 256
 export const MAXDEPTH = 64
 export const INFINITE = 30000
 export const MATE = 29000
+// The number of entries inside the Pv Table.
 export const PVENTRIES = 10000
 
 // Gives which File number the 120 base index is on.
