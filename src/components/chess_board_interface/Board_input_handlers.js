@@ -1,9 +1,40 @@
+/**/
+/* 
+	 * FILE DESCRIPTION: 
+	 * Contains function definitions that implement input handlers for the board interface.
+*/
+/**/
 import _ from "lodash"
 import {
 	Convert_RowCol_To_FileRank
 } from "../../utility_functions/Utility.js"
 import { Get_Flipped_Row_Column } from "../../utility_functions/Utility.js"
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.Outside_MouseClickHandler() - The implementation of the mouse click on the canvas.
+
+SYNOPSIS : Outside_MouseClickHandler(a_event)
+			a_event -> The object for the click.
+
+DESCRIPTION 
+			The implementation of the mouse click on the canvas.
+			Will start dragging piece if the click is on the place the piece is.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/16/2020
+
+*/
+/**/
 export function Outside_MouseClickHandler(a_event) {
 	if (this) {
 		if (a_event.button === 0) {
@@ -47,7 +78,34 @@ export function Outside_MouseClickHandler(a_event) {
 		}
 	}
 }
+/* Outside_MouseClickHandler(a_event) */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.Outside_MouseDragHandler() - Event function for the mouse clicking and dragging.
+
+SYNOPSIS : Outside_MouseDragHandler(a_event)
+			a_event -> The object for the click.
+
+DESCRIPTION 
+			Event function for the mouse clicking and dragging.
+			Drags the piece image along side the mouse pointer.
+			Does not drag an empty piece.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/16/2020
+
+*/
+/**/
 export function Outside_MouseDragHandler(a_event) {
 	if (this && a_event.button === 0) {
 		if (this.state.dragging) {
@@ -67,7 +125,35 @@ export function Outside_MouseDragHandler(a_event) {
 		}
 	}
 }
+/* Outside_MouseDragHandler(a_event) */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.Outside_MouseUpHandler() - Event handler for the mouseUp event inside the canvas.
+
+SYNOPSIS : Outside_MouseUpHandler(a_event)
+			a_event -> The object for the click.
+
+DESCRIPTION 
+			Event handler for the mouseUp event inside the canvas.
+			Will make the parent know that a move has been played through the 
+			props.CallbackToIndicateMoveIsPlayed() function.
+			Will cancel move if the parent deems it as invalid.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/16/2020
+
+*/
+/**/
 export function Outside_MouseUpHandler(a_event) {
 	if (this) {
 		if (a_event.button === 0 ) {
@@ -138,7 +224,32 @@ export function Outside_MouseUpHandler(a_event) {
 		}
 	}
 }
+/* Outside_MouseUpHandler(a_event) */
 
+
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.Outside_MouseOutHandler() - Event handler for the mouseOut event.
+
+SYNOPSIS : Outside_MouseOutHandler(a_event)
+
+DESCRIPTION 
+			Cancels move if the piece is dragged outside the board interface.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/16/2020
+
+*/
+/**/
 export function Outside_MouseOutHandler(a_event) {
 	if (this) {
 		const newState = {}
@@ -146,9 +257,34 @@ export function Outside_MouseOutHandler(a_event) {
 		this.setState(newState)
 	}
 }
+/* Outside_MouseOutHandler(a_event) */
 
+
+
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.Outside_MouseRightClickHandler() - Event handler for the onContext event.
+
+SYNOPSIS : Outside_MouseRightClickHandler(a_event)
+
+DESCRIPTION 
+			Prevents the annoying context menu to pop us on the canvas.
+
+RETURNS : NOTHING
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 06/18/2020
+
+*/
+/**/
 export function Outside_MouseRightClickHandler(a_event) {
 	if (this) {
 		a_event.preventDefault()
 	}
 }
+/* Outside_MouseRightClickHandler(a_event) */
