@@ -1,6 +1,14 @@
+/**/
+/* 
+	 * FILE DESCRIPTION: 
+	 * This file contains all the functions necessary for the promotion pop up menu when the user needs to
+	 * promote a piece.
+*/
+/**/
 import React from "react"
 import "./PromotionPopUpStyles.css"
 
+// The class definition of PromotionPopUp
 class PromotionPopUp extends React.Component {
 	constructor(props) {
 		super(props)
@@ -16,6 +24,30 @@ class PromotionPopUp extends React.Component {
 		this.outside_div_mouse_click_handler = this.outside_div_mouse_click_handler.bind(this)
 	}
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.render() - A standard ReactJS render function.
+
+	SYNOPSIS : render()
+
+	DESCRIPTION 
+				Renders the current promotion piece selection menu accordingly.
+
+	RETURNS : A JSX object containing the div.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	render() {
 		const div_class = this.state.promotion_selection_visibility
 			? ""
@@ -47,7 +79,33 @@ class PromotionPopUp extends React.Component {
 			</div>
 		)
 	}
+	/* render() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ShowPromotionSelectionMenu() - Makes the promotion selection menu visible.
+
+	SYNOPSIS : ShowPromotionSelectionMenu(a_file_number = 1)
+				a_file_number -> The file in which to display the menu.
+
+	DESCRIPTION 
+				Makes the promotion selection menu visible.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	ShowPromotionSelectionMenu(a_file_number = 1) {
 		if (a_file_number < 1) a_file_number = 1
 		if (a_file_number > 8) a_file_number = 8
@@ -58,14 +116,64 @@ class PromotionPopUp extends React.Component {
 		newState.promotion_selection_visibility = true
 		this.setState(newState)
 	}
+	/* ShowPromotionSelectionMenu(a_file_number = 1) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.HidePromotionSelectionMenu() - Makes the promotion selection menu invisible.
+
+	SYNOPSIS : HidePromotionSelectionMenu()
+
+	DESCRIPTION 
+				Makes the promotion selection menu invisible.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	HidePromotionSelectionMenu() {
 		const newState = {}
 		newState.promotion_selection_visibility = false
 		this.setState(newState)
 	}
+	/* HidePromotionSelectionMenu() */
 
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.componentDidMount() - A standard ReactJS componentDidMount method.
+
+	SYNOPSIS : componentDidMount()
+
+	DESCRIPTION 
+				Loads the images from the server and fixes the DPI of the HTML canvas.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	componentDidMount() {
 		this.LoadImagesFromServer()
 		const canvas = this._canvas.current
@@ -79,7 +187,32 @@ class PromotionPopUp extends React.Component {
 		fix_dpi()
 		// Draw
 	}
+	/* componentDidMount() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.componentDidUpdate() - Fills the menu with appropriate piece image.
+
+	SYNOPSIS : componentDidUpdate()
+
+	DESCRIPTION 
+				Fills the menu with appropriate piece image if images are loaded successfully.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	componentDidUpdate() {
 		const canvas = this._canvas.current
 		canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
@@ -89,7 +222,32 @@ class PromotionPopUp extends React.Component {
 			this.FillCanvasWithPieceImages(canvas)
 		}
 	}
+	/* componentDidUpdate() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.LoadImagesFromServer() - Loads images from the server.
+
+	SYNOPSIS : LoadImagesFromServer()
+
+	DESCRIPTION 
+				Loads images from the server and puts them inside this.state.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	LoadImagesFromServer() {
 		let images = [
 			"white_bish", "black_bish", "white_knight", "black_knight",
@@ -124,7 +282,32 @@ class PromotionPopUp extends React.Component {
 			})
 		}))
 	}
+	/* LoadImagesFromServer() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.FillCanvasWithPieceImages() - Fills the canvas with appropriate piece images.
+
+	SYNOPSIS : FillCanvasWithPieceImages()
+
+	DESCRIPTION 
+				Fills the canvas with appropriate piece images.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	FillCanvasWithPieceImages() {
 		if (this.props.GetUserColor() === 0) {
 			this.PutPieceImageAt(1, this.state.img_dict["white_queen"])
@@ -138,7 +321,34 @@ class PromotionPopUp extends React.Component {
 			this.PutPieceImageAt(4, this.state.img_dict["black_knight"])
 		}
 	}
+	/* FillCanvasWithPieceImages() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PutPieceImageAt() - Helpful function to render image at a index.
+
+	SYNOPSIS : PutPieceImageAt(a_row, a_img)
+				a_row -> The index in which to render the image.
+				a_img -> The HTML image object to render.
+
+	DESCRIPTION 
+				Helpful function to render image at a index.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	PutPieceImageAt(a_row, a_img) {
 		const canvas = this._canvas.current
 		const dx = canvas.width 
@@ -148,7 +358,33 @@ class PromotionPopUp extends React.Component {
 
 		ctx.drawImage(a_img, 0, (a_row - 1) * dy, dx, dy)
 	}
+	/* PutPieceImageAt(a_row, a_img) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.outside_div_mouse_click_handler() - Removes the promotion selection menu if clicked outside it.
+
+	SYNOPSIS : outside_div_mouse_click_handler(a_event)
+
+	DESCRIPTION 
+				Removes the promotion selection menu if clicked outside it.
+				Also takes back the promotion move.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/21/2020
+
+	*/
+	/**/
 	outside_div_mouse_click_handler(a_event) {
 		let rect = a_event.currentTarget.getBoundingClientRect();
 		let x = a_event.clientX - rect.left;
@@ -201,6 +437,7 @@ class PromotionPopUp extends React.Component {
 
 		get_piece_number(x, y)
 	}
+	/* outside_div_mouse_click_handler(a_event) */
 
 }
 
