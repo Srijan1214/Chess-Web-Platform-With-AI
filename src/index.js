@@ -1,3 +1,9 @@
+/**/
+/* 
+	 * FILE DESCRIPTION: 
+	 * The file that calls the ReactDOM.render to render the App component as root.
+*/
+/**/
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
