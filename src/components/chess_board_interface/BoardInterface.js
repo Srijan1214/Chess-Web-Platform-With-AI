@@ -1,9 +1,19 @@
+/**/
+/* 
+	 * FILE DESCRIPTION:
+	 * This file contains the class for the Board Interface.
+	 * The board interface is only the chess board that supports dragging and dropping pieces.
+	 * While dragging and dropping, the piece at the to square is erased from the one at the front square and
+	 * the piece at the from square is cleared.
+*/
+/**/
 import React from "react"
 import _ from "lodash"
 import { Get_Flipped_Row_Column, Convert_FileRank_To_RowCol } from "../../utility_functions/Utility.js"
 import * as Board_input_handlers from "./Board_input_handlers"
 import * as Board_castle_performers from "./perform_castles"
 
+// The BoardInterface class definition
 class BoardInterface extends React.Component {
 	constructor(props) {
 		super(props)
@@ -53,6 +63,31 @@ class BoardInterface extends React.Component {
 		this.PerformBlackQueenSideCastle = Board_castle_performers.PerformBlackQueenSideCastle.bind(this)
 	}
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.componentDidMount() - Standard ReactJS componentDidMount function.
+
+	SYNOPSIS : componentDidMount()
+
+	DESCRIPTION 
+				Standard ReactJS componentDidMount function.
+				Loads the piece images from the server and renders the game board.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/03/2020
+
+	*/
+	/**/
 	componentDidMount() {
 		this.LoadImagesFromServer()
 		const canvas = this.chess_board_canvas.current
@@ -66,7 +101,33 @@ class BoardInterface extends React.Component {
 		fix_dpi()
 		this.DrawBoard(canvas)
 	}
+	/* componentDidMount() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.componentDidUpdate() - Standard ReactJS componentDidUpdate function.
+
+	SYNOPSIS : componentDidUpdate()
+
+	DESCRIPTION 
+				Redraws the board with images at the proper location.
+				Is called every time the state changes.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/03/2020
+
+	*/
+	/**/
 	componentDidUpdate() {
 		const canvas = this.chess_board_canvas.current
 		canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height)
@@ -83,7 +144,33 @@ class BoardInterface extends React.Component {
 			}
 		}
 	}
+	/* componentDidUpdate() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.render() - Standard ReactJS render function.
+
+	SYNOPSIS : render()
+
+	DESCRIPTION 
+				Puts a JSX canvas with the dimensions passed through the props and adds appropriate event
+				listeners to it.
+
+	RETURNS : A JSX div containing the required information.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/03/2020
+
+	*/
+	/**/
 	render() {
 		const styling = { height: this.state.canvas_height, width: this.state.canvas_width, margins: 0, padding: 0, backgroundColor: "darkgrey" }
 		return (
@@ -96,7 +183,33 @@ class BoardInterface extends React.Component {
 			</div>
 		)
 	}
+	/* render() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.DrawBoard() - Draws the square on the board.
+
+	SYNOPSIS : DrawBoard(a_canvas)
+				a_canvas -> the canvas object on which to draw.
+
+	DESCRIPTION 
+				Draws the square on the board.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/04/2020
+
+	*/
+	/**/
 	DrawBoard(a_canvas) {
 		const ctx = a_canvas.getContext("2d")
 		const dx = a_canvas.width / 8
@@ -111,7 +224,32 @@ class BoardInterface extends React.Component {
 			}
 		}
 	}
+	/* DrawBoard(a_canvas) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.LoadImagesFromServer() - Loads the images from the server and puts it inside the state.
+
+	SYNOPSIS : LoadImagesFromServer()
+
+	DESCRIPTION 
+				Loads the images from the server and puts it inside the this.state object.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/03/2020
+
+	*/
+	/**/
 	LoadImagesFromServer() {
 		let images = [
 			"white_bish", "black_bish", "white_knight", "black_knight",
@@ -147,7 +285,36 @@ class BoardInterface extends React.Component {
 			})
 		}))
 	}
+	/* LoadImagesFromServer() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PutPieceImageAt() - Puts a piece image inside the coordinates in the canvas.
+
+	SYNOPSIS : PutPieceImageAt(a_x, a_y, a_img, a_value)
+				a_x -> The x-coordinate inside the canvas.
+				a_y -> The y-coordinate inside the canvas.
+				a_img -> The image object to draw.
+				a_value -> The value of the piece given by this.piece_val dictionary.
+
+	DESCRIPTION 
+				Puts a piece image at the coordinates in the canvas.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/06/2020
+
+	*/
+	/**/
 	PutPieceImageAt(a_x, a_y, a_img, a_value) {
 		const canvas = this.chess_board_canvas.current
 		if (a_value !== 0) {
@@ -159,7 +326,32 @@ class BoardInterface extends React.Component {
 			ctx.drawImage(a_img, (a_x - 1) * dx, canvas.height - (a_y) * dy, dx, dy);
 		}
 	}
+	/* PutPieceImageAt(a_x, a_y, a_img, a_value) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.FillCanvasWithPieceImages() - Draws appropriate images aligning with the this.state.curPosition array.
+
+	SYNOPSIS : FillCanvasWithPieceImages()
+
+	DESCRIPTION 
+				Draws appropriate images aligning with the this.state.curPosition array.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/03/2020
+
+	*/
+	/**/
 	FillCanvasWithPieceImages() {
 		for (let row = 0; row < this.state.curPosition.length; row++) {
 			for (let column = 0; column < this.state.curPosition[row].length; column++) {
@@ -173,7 +365,34 @@ class BoardInterface extends React.Component {
 			}
 		}
 	}
+	/* FillCanvasWithPieceImages() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.StopMouseInputAndCancelMove() - Revert the position before the drag-drop started.
+
+	SYNOPSIS : StopMouseInputAndCancelMove(a_newState)
+				a_newState -> The newState object to pass into this.setState().
+
+	DESCRIPTION 
+				Revert the position before the drag-drop started.
+				This is useful if the user makes an invalid move.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/12/2020
+
+	*/
+	/**/
 	StopMouseInputAndCancelMove(a_newState) {
 		if (this.state.old_image_value !== 0) {
 			a_newState.curPosition = _.cloneDeep(this.state.curPosition)
@@ -183,7 +402,35 @@ class BoardInterface extends React.Component {
 			a_newState.old_image_value = 0
 		}
 	}
+	/* StopMouseInputAndCancelMove(a_newState) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PutPieceOnBoard() - Puts a piece on a position inside the board.
+
+	SYNOPSIS : PutPieceOnBoard(a_new_location, a_value)
+				a_new_location -> The standard string location where the piece is put.
+				a_value -> The value of the piece given by this.piece_val dictionary.
+
+	DESCRIPTION 
+				Puts a piece on a position inside the board.
+				Should not be called many times at once as the ReactJs setState method is asynchronous.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 06/05/2020
+
+	*/
+	/**/
 	PutPieceOnBoard(a_new_location, a_value) {
 		let row = 8 - parseInt(a_new_location[1])
 		let column = (a_new_location[0]).charCodeAt(0) - ("a").charCodeAt(0)
@@ -197,7 +444,35 @@ class BoardInterface extends React.Component {
 		newState.curPosition = temp
 		this.setState(newState)
 	}
+	/* PutPieceOnBoard(a_new_location, a_value) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PutMultiplePiecesOnBoard() - Puts multiple pieces at multiple locations.
+
+	SYNOPSIS : PutMultiplePiecesOnBoard(a_location_val_array)
+				a_location_val_array -> an array of object containing two properties: 1) location 2) value
+
+	DESCRIPTION 
+				Puts multiple pieces at multiple locations.
+				This is necessary as calling multiple PutPieceOnBoard is not recommended since the ReactJs
+				setState method is asynchronous.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/06/2020
+
+	*/
+	/**/
 	PutMultiplePiecesOnBoard(a_location_val_array) {
 		let newState = {}
 		// clone deep is important as we do not wish to manipulate the previous reference. 
@@ -214,11 +489,39 @@ class BoardInterface extends React.Component {
 		newState.curPosition = temp
 		this.setState(newState)
 	}
+	/* PutMultiplePiecesOnBoard(a_location_val_array) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetPieceValueAt() - Gets the piece type at the location.
+
+	SYNOPSIS : GetPieceValueAt(a_location)
+				a_location -> The standard string location to get the piece from.
+
+	DESCRIPTION 
+				Gets the piece type at the location.
+				The piece type is given by the piece_val dictionary.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/06/2020
+
+	*/
+	/**/
 	GetPieceValueAt(a_location) {
 		const { row, column} = Convert_FileRank_To_RowCol(a_location)
 		return this.state.curPosition[row][column]
 	}
+	/* GetPieceValueAt(a_location) */
 
 	MovePieceInsideInterface = (a_prev_location, a_new_location) => {
 		let prev_row = 8 - parseInt(a_prev_location[1])
@@ -239,17 +542,67 @@ class BoardInterface extends React.Component {
 		this.setState(newState)
 	}
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.BlockUserInput() - Blocks all user input in the interface.
+
+	SYNOPSIS : BlockUserInput()
+
+	DESCRIPTION 
+				Blocks all user input in the interface.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/13/2020
+
+	*/
+	/**/
 	BlockUserInput = () => {
 		const newState = {}
 		newState.should_block_user_input = true
 		this.setState(newState)
 	}
+	/* BlockUserInput() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.UnBlockUserInput() - Unblocks and allows user input.
+
+	SYNOPSIS : UnBlockUserInput()
+
+	DESCRIPTION 
+				Unblocks and allows user input if it was blocked.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/13/2020
+
+	*/
+	/**/
 	UnBlockUserInput = () => {
 		const newState = {}
 		newState.should_block_user_input = false
 		this.setState(newState)
 	}
+	/* UnBlockUserInput() */
 }
 
 
