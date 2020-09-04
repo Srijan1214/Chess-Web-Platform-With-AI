@@ -1,3 +1,11 @@
+/**/
+/* 
+	 * FILE DESCRIPTION:
+	 * This file contains the react component that facilitates a chess game with the AI.
+	 * The class in this file is a react component that creates a div in which the chess game occurs. 
+	 *
+*/
+/**/
 import React from "react"
 import _ from "lodash"
 import { Convert_FileRank_To_RowCol, Convert_RowCol_To_FileRank, Get_Flipped_Square } from "../../utility_functions/Utility"
@@ -7,6 +15,7 @@ import GameBoardInterfaceWrapper from "../../components/chess_board_interface/Ga
 import { COLOURS, PIECES } from "../../classic chess api/defs"
 
 
+// The PlayWithAIComponent class definition.
 class PlayWithAIComponent extends React.Component {
 	constructor(props) {
 		super(props)
@@ -30,16 +39,59 @@ class PlayWithAIComponent extends React.Component {
 			new_location: "a1"
 		}
 	}
-	callback_set_user_color = (a_user_color) => {
-		const newState = {}
-		newState.user_color = a_user_color
-		this.setState(newState)
-	}
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetUserColor() - Gets the user.color stored in the state of this component.
+
+	SYNOPSIS : GetUserColor()
+
+	DESCRIPTION 
+				Gets the user.color stored in the state of this component.
+
+	RETURNS : 0 if the user if white. 1 if the user is black.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/06/2020
+
+	*/
+	/**/
 	GetUserColor = () => {
 		return this.state.user_color
 	}
+	/* GetUserColor() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.render() - A standard  ReactJS render function.
+
+	SYNOPSIS : render()
+
+	DESCRIPTION 
+				Renders the div with the board interface wrapper.
+				Sets the height and width of the interface in pixels explicitly.
+
+	RETURNS : A JSX div component with the appropriate properties.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/13/2020
+
+	*/
+	/**/
 	render() {
 		return (
 			<div>
@@ -53,23 +105,99 @@ class PlayWithAIComponent extends React.Component {
 					CallbackButtonclickRestartGame={this.CallbackButtonclickRestartGame}
 					CallbackButtonclickResign={this.CallbackButtonclickResign}
 					CallbackButtonclickOfferDraw={this.CallbackButtonclickOfferDraw}
-					callback_set_user_color={this.callback_set_user_color}
+					CallbackSetUserColor={this.CallbackSetUserColor}
 					GetMoveStatus={this.GetMoveStatus}
 				/>
 			</div>
 		)
 	}
+	/* render() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.SetFEN() - Sets the interface and the chess game logic to the position in the fen string.
+
+	SYNOPSIS : SetFEN(a_fenStr)
+				a_fenStr -> A standard fen string that describes the position.
+
+	DESCRIPTION 
+				Sets the interface and the chess game logic to the position in the fen string.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/13/2020
+
+	*/
+	/**/
 	SetFEN = (a_fenStr) => {
 		this.GameBoard.ParseFen(a_fenStr)
 		this.ForceInterfaceSyncWithBackend()
 	}
+	/* SetFEN(a_fenStr) */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetMoveFromAI() - Get the move Object from the AI object.
+
+	SYNOPSIS : GetMoveFromAI()
+
+	DESCRIPTION 
+				Gets the move object from the AI object.
+
+	RETURNS : An object giving all the details about the best move.
+				The details are the move's from and to square in standard string format,
+				weather move is a castling move, promotion move or a capture move,
+				the 32 bit number encapsulating the entire move
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/16/2020
+
+	*/
+	/**/
 	GetMoveFromAI = () => {
 		const move = this.standard_ai.SearchPosition()
 		return move
 	}
+	/* GetMoveFromAI() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PlayMoveFromAI() - Gets the move from the AI and plays it on the interface.
+
+	SYNOPSIS : PlayMoveFromAI()
+
+	DESCRIPTION 
+				Gets the move from the AI and plays it on the interface.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/16/2020
+
+	*/
+	/**/
 	PlayMoveFromAI = () => {
 		const move = this.GetMoveFromAI()
 		if(move.isCastling){
@@ -107,9 +235,34 @@ class PlayWithAIComponent extends React.Component {
 		this.GameBoard.MakeMove(move.move)
 		this.GameBoard.PrintBoard()
 	}
+	/* PlayMoveFromAI() */
 
 	//this function blocks user input while AI is processing
 	// this also plays the ai move while checking if game ended
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.PerformAIMoveBlocking() - Plays move from the AI on the board and checks if the game has ended.
+
+	SYNOPSIS : PerformAIMoveBlocking()
+
+	DESCRIPTION 
+				Plays move from the AI on the board and checks if the game has ended.
+				Blocks the user input while the AI is thinking.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/19/2020
+
+	*/
+	/**/
 	PerformAIMoveBlocking = () => {
 		//Checks if Game Ends
 		if(this.GameBoard.CheckIfDrawnPosition()) {
@@ -130,8 +283,8 @@ class PlayWithAIComponent extends React.Component {
 			return
 		}
 
-		//creating timeout to make it asyncronous and not block the main program
-		// TODO might user worker later but it is a big pain to implement.
+		//creating timeout to make it asynchronous and not block the main program
+		// might user worker later but it is a big pain to implement.
 		setTimeout(() => {
 			this._board.current._board.current.BlockUserInput()
 			this.PlayMoveFromAI()
@@ -160,7 +313,35 @@ class PlayWithAIComponent extends React.Component {
 			})
 		}, 10)
 	}
+	/* PerformAIMoveBlocking() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackToIndicateMoveIsPlayed() - The interface uses this callback to indicate to this
+														component that the user completed a move in the interface.
+
+	SYNOPSIS : CallbackToIndicateMoveIsPlayed(a_prev_location, a_new_location)
+				a_prev_location -> The from location in standard string format.
+				a_new_location -> The to location in standard string format.
+
+	DESCRIPTION 
+				The interface uses this callback to indicate to this
+				component that the user completed a move in the interface.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/19/2020
+
+	*/
+	/**/
 	CallbackToIndicateMoveIsPlayed = (a_prev_location, a_new_location) => {
 		const moveStatus = this.GameBoard.GetMoveStatus(a_prev_location, a_new_location)
 		if(moveStatus.isValidMove){
@@ -213,11 +394,67 @@ class PlayWithAIComponent extends React.Component {
 			this.PerformAIMoveBlocking()
 		})
 	}
+	/* CallbackToIndicateMoveIsPlayed(a_prev_location, a_new_location) */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetMoveStatus() - Gets the move status from the AI.
+
+	SYNOPSIS : GetMoveStatus(a_prev_location, a_new_location)
+				a_prev_location -> The from location in standard string format.
+				a_new_location -> The to location in standard string format.
+
+	DESCRIPTION 
+				Gets the move status from the AI.
+
+	RETURNS : an object detailing the status of the move.
+				It gives the following information:
+					- is the move valid,
+					- is the move a castle move
+					- is the move a promotion move.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/19/2020
+
+	*/
+	/**/
 	GetMoveStatus = (a_prev_location, a_new_location) => {
 		return this.GameBoard.GetMoveStatus(a_prev_location, a_new_location)
 	}
+	/* GetMoveStatus(a_prev_location, a_new_location) */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackInsertPromotionPiece() - Callback to indicate that user successfully chose a promotion piece.
+
+	SYNOPSIS : CallbackInsertPromotionPiece(a_piece_val, a_file_number)
+				a_piece_val -> The piece value given by pieces_val dictionary.
+				a_file_number -> The file in which to insert the promotion piece.
+	DESCRIPTION 
+				Callback to indicate that user successfully chose a promotion piece.
+				Makes a promotion move in the game.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	CallbackInsertPromotionPiece = (a_piece_val, a_file_number) => {
 		let location = String.fromCharCode(97 + a_file_number - 1) + 8
 		if(this.state.user_color === 1) { // if black's turn then location is 1st rank
@@ -245,7 +482,31 @@ class PlayWithAIComponent extends React.Component {
 		})
 
 	}
+	/* CallbackInsertPromotionPiece(a_piece_val, a_file_number) */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackCancelPromotionLayout() - Erases the promotion menu from the screen.
+
+	SYNOPSIS : CallbackCancelPromotionLayout()
+
+	DESCRIPTION 
+				Erases the promotion menu from the screen.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	CallbackCancelPromotionLayout = () => {
 		const pawn_val = (this.state.user_color === 0) ? 1 : 11
 		const location_val_1 = {location: this.state.prev_location, value: pawn_val}
@@ -254,13 +515,63 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2])
 		this._board.current.HidePromotionSelectionMenu()
 	}
+	/* CallbackCancelPromotionLayout() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackButtonclickTakeback() - Handler for the TakeBack button.
+
+	SYNOPSIS : CallbackButtonclickTakeback()
+
+	DESCRIPTION 
+				Takes back a move.
+				If in starting position, does nothing.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/19/2020
+
+	*/
+	/**/
 	CallbackButtonclickTakeback = () => {
 		this.GameBoard.TakeBack_Move()
 		this.GameBoard.TakeBack_Move()
 		this.ForceInterfaceSyncWithBackend()
 	}
+	/* CallbackButtonclickTakeback() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackButtonclickOfferDraw() - Handler for the Offer Draw button.
+
+	SYNOPSIS : CallbackButtonclickOfferDraw()
+
+	DESCRIPTION 
+				Handler for the Offer Draw button.
+				Offers a draw to the AI. If AI thinks that it is slightly worse, it will accept.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/19/2020
+
+	*/
+	/**/
 	CallbackButtonclickOfferDraw = () => {
 		let accept_draw = false
 
@@ -273,7 +584,32 @@ class PlayWithAIComponent extends React.Component {
 			this._board.current.ShowEndGameMenuBar()
 		}
 	}
+	/* CallbackButtonclickOfferDraw() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackButtonclickResign() - Handler for the resign button.
+
+	SYNOPSIS : CallbackButtonclickResign()
+
+	DESCRIPTION 
+				Handler for the resign button..
+				The user admits defeat after this.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/19/2020
+
+	*/
+	/**/
 	CallbackButtonclickResign = () => {
 		let game_end_text
 		if(this.state.user_color === 0) {
@@ -285,7 +621,31 @@ class PlayWithAIComponent extends React.Component {
 		this._board.current.SetGameEndMessage(game_end_text)
 		this._board.current.ShowEndGameMenuBar()
 	}
+	/* CallbackButtonclickResign() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackButtonclickRestartGame() - CallBack for the restart button
+
+	SYNOPSIS : CallbackButtonclickRestartGame()
+
+	DESCRIPTION 
+				Restarts the game with the currently chosen side.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/13/2020
+
+	*/
+	/**/
 	CallbackButtonclickRestartGame = () => {
 		const newState = {}
 		newState.user_color = this._board.current.state.radio_button_user_color
@@ -301,8 +661,64 @@ class PlayWithAIComponent extends React.Component {
 			}, 10)
 		})
 	}
+	/* CallbackButtonclickRestartGame() */
+	
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackSetUserColor() - Sets the user color.
+
+	SYNOPSIS : CallbackSetUserColor(a_user_color)
+				a_user_color -> The user color to be set. 0 if white and 1 if black.
+
+	DESCRIPTION 
+				Sets the user color state variable.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/13/2020
+
+	*/
+	/**/
+	CallbackSetUserColor = (a_user_color) => {
+		const newState = {}
+		newState.user_color = a_user_color
+		this.setState(newState)
+	}
+	/* CallbackSetUserColor(a_user_color) */
 
 	// Makes the display chess board position match up to the position in the GameBoard logic
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ForceInterfaceSyncWithBackend() - Forces the interface to be the same as chess logic.
+
+	SYNOPSIS : ForceInterfaceSyncWithBackend()
+
+	DESCRIPTION 
+				Forces the interface to be the same as chess logic.
+				Removes all the pieces on the board and adds every piece in the game logic.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 07/13/2020
+
+	*/
+	/**/
 	ForceInterfaceSyncWithBackend() {
 		const piece_character_array = this.GameBoard.GiveBoardArray()
 		const location_val_array = []
@@ -334,7 +750,31 @@ class PlayWithAIComponent extends React.Component {
 		}
 		this._board.current._board.current.PutMultiplePiecesOnBoard(location_val_array)
 	}
+	/* ForceInterfaceSyncWithBackend() */
 
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.componentDidMount() - A standard ReactJS componentDidMount function.
+
+	SYNOPSIS : componentDidMount()
+
+	DESCRIPTION 
+				Makes the AI play the move if the user color is black because white starts first.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/18/2020
+
+	*/
+	/**/
 	componentDidMount() {
 		if(this.state.user_color === 1) {
 			this.PlayMoveFromAI()
@@ -342,6 +782,7 @@ class PlayWithAIComponent extends React.Component {
 
 		}
 	}
+	/* componentDidMount() */
 }
 
 export default PlayWithAIComponent

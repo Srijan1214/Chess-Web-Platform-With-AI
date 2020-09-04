@@ -602,7 +602,7 @@ export default class AI {
 
 	RETURNS : An object giving all the details about the best move.
 				The details are the move's from and to square in standard string format,
-				weather if the move is a castling move, promotion move or a capture move,
+				weather the move is a castling move, promotion move or a capture move,
 				the 32 bit number encapsulating the entire move.
 
 	AUTHOR : Srijan Prasad Joshi
