@@ -1,9 +1,35 @@
+/**/
+/* 
+	 * FILE DESCRIPTION: 
+	 * A wrapper for the plain board interface from the BoarInterface.js.
+	 * It provides the promotion pop us menu and additional buttons for a complete chess game.
+*/
+/**/
 import React from "react"
 import BoardInterface from "./BoardInterface"
 import PromotionPopUp from "./PromotionPopUp"
 import './GameBoardWrapperStyle.css'
 
+// The class definitions for the GameBoardInterfaceWrapper
 class GameBoardInterfaceWrapper extends React.Component {
+	 /**/
+	/*
+	NAME : GameBoard.constructor() - Sets necessary variables and binds the button click functions to the class.
+
+	SYNOPSIS : constructor(props)
+				props -> The props object.
+
+	DESCRIPTION 
+				Sets necessary variables and binds the button click functions to the class.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	constructor(props) {
 		super(props)
 		this.width = props.width * 1.20
@@ -25,7 +51,32 @@ class GameBoardInterfaceWrapper extends React.Component {
 		this.RadioButtonChangeListener = this.RadioButtonChangeListener.bind(this)
 		this.RestartButtonHandler = this.RestartButtonHandler.bind(this)
 	}
+	/* constructor(props) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.render() - A standard ReactJS render function.
+
+	SYNOPSIS : render()
+
+	DESCRIPTION 
+				A standard ReactJS render function.
+
+	RETURNS : A JSX object that contains the html style parameters.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	render() {
 		return (
 			<div
@@ -116,45 +167,247 @@ class GameBoardInterfaceWrapper extends React.Component {
 			</div>
 		)
 	}
+	/* render() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ShowEndGameMenuBar() - Shows the game end screen.
+
+	SYNOPSIS : ShowEndGameMenuBar()
+
+	DESCRIPTION 
+				Shows the game end screen.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	ShowEndGameMenuBar() {
 		const newState = {}
 		newState.game_end_menu_visibility = true
 		this.setState(newState)
 	}
+	/* ShowEndGameMenuBar() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.HideEndGameMenuBar() - Hides the game end screen.
+
+	SYNOPSIS : HideEndGameMenuBar()
+
+	DESCRIPTION 
+				Hides the game end screen.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	HideEndGameMenuBar() {
 		const newState = {}
 		newState.game_end_menu_visibility = false
 		this.setState(newState)
 	}
+	/* HideEndGameMenuBar() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ShowPromotionSelectionMenu() - Shows the promotion selection menu.
+
+	SYNOPSIS : ShowPromotionSelectionMenu(a_file_number)
+				a_file_number -> The file at which to display the menu.
+
+	DESCRIPTION 
+				Shows the promotion selection menu.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	ShowPromotionSelectionMenu(a_file_number) {
 		this._PromotionPopUp.current.ShowPromotionSelectionMenu(a_file_number)
 	}
+	/* ShowPromotionSelectionMenu(a_file_number) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.HidePromotionSelectionMenu() - Hides the promotion selection menu.
+
+	SYNOPSIS : HidePromotionSelectionMenu()
+
+	DESCRIPTION 
+				Hides the promotion selection menu.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	HidePromotionSelectionMenu() {
 		this._PromotionPopUp.current.HidePromotionSelectionMenu()
 	}
+	/* HidePromotionSelectionMenu() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ShowRestartGameConfirmation() - Displays the confirmation dialog for the restart game.
+
+	SYNOPSIS : ShowRestartGameConfirmation()
+
+	DESCRIPTION 
+				Displays the confirmation dialog for the restart game.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	ShowRestartGameConfirmation () {
 		const newState = {}
 		newState.restart_button_confirmation_visibility = true
 		this.setState(newState)
 	}
+	/* ShowRestartGameConfirmation() */
 	
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.HideRestartGameConfirmation() - Displays the confirmation dialog for the restart game. 
+
+	SYNOPSIS : HideRestartGameConfirmation()
+
+	DESCRIPTION 
+				Displays the confirmation dialog for the restart game.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/27/2020
+
+	*/
+	/**/
 	HideRestartGameConfirmation () {
 		const newState = {}
 		newState.restart_button_confirmation_visibility = false
 		this.setState(newState)
 	}
+	/* HideRestartGameConfirmation() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.SetGameEndMessage() - Sets the game end message to the argument passed.
+
+	SYNOPSIS : SetGameEndMessage(a_message)
+				a_message -> The message string to be displayed when game ends.
+
+	DESCRIPTION 
+				Sets the game end message to the argument passed.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/17/2020
+
+	*/
+	/**/
 	SetGameEndMessage(a_message) {
 		const newState = {}
 		newState.game_end_text = a_message
 		this.setState(newState)
 	}
+	/* SetGameEndMessage(a_message) */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.RestartButtonHandler() - The restart button handler.
+
+	SYNOPSIS : RestartButtonHandler()
+
+	DESCRIPTION 
+				Contains logic for what to do when the restart button is clicked.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/25/2020
+
+	*/
+	/**/
 	RestartButtonHandler() {
 		if(this.state.game_end_menu_visibility) {
 			this.props.CallbackButtonclickRestartGame()
@@ -162,7 +415,33 @@ class GameBoardInterfaceWrapper extends React.Component {
 			this.ShowRestartGameConfirmation()
 		}
 	}
+	/* RestartButtonHandler() */
 
+
+
+
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.RadioButtonChangeListener() - Listens for a change in the radio button.
+
+	SYNOPSIS : RadioButtonChangeListener(a_event)
+
+	DESCRIPTION 
+				Listens for a change in the radio button.
+				Sets the side chosen to the one in the radio button.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 08/20/2020
+
+	*/
+	/**/
 	RadioButtonChangeListener (a_event) {
 		const newState = {}
 		if (a_event.target.value === "White") {
@@ -172,6 +451,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 		}
 		this.setState(newState)
 	}
+	/* RadioButtonChangeListener(a_event) */
 
 }
 
