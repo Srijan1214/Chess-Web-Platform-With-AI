@@ -92,89 +92,89 @@ DATE : 08/06/2020
 /**/
 export function EvalPosition () {
 	let score =
-		this.GameBoard.m_material[COLOURS.WHITE] - this.GameBoard.m_material[COLOURS.BLACK];
+		this.GameBoard.m_material[COLOURS.WHITE] - this.GameBoard.m_material[COLOURS.BLACK]
 
-	let pce;
-	let sq;
-	let pceNum;
+	let pce
+	let sq
+	let pceNum
 
 	//Pawn Table
-	pce = PIECES.wP;
+	pce = PIECES.wP
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score += this.PawnTable[SQ64(sq)];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score += this.PawnTable[SQ64(sq)]
 	}
 
-	pce = PIECES.bP;
+	pce = PIECES.bP
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score -= this.PawnTable[MIRROR64(SQ64(sq))];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score -= this.PawnTable[MIRROR64(SQ64(sq))]
 	}
 
 	//Knight Table
-	pce = PIECES.wN;
+	pce = PIECES.wN
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score += this.KnightTable[SQ64(sq)];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score += this.KnightTable[SQ64(sq)]
 	}
 
-	pce = PIECES.bN;
+	pce = PIECES.bN
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score -= this.KnightTable[MIRROR64(SQ64(sq))];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score -= this.KnightTable[MIRROR64(SQ64(sq))]
 	}
 
 	//Bishop Table
-	pce = PIECES.wB;
+	pce = PIECES.wB
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score += this.BishopTable[SQ64(sq)];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score += this.BishopTable[SQ64(sq)]
 	}
 
-	pce = PIECES.bB;
+	pce = PIECES.bB
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score -= this.BishopTable[MIRROR64(SQ64(sq))];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score -= this.BishopTable[MIRROR64(SQ64(sq))]
 	}
 
 	// Rook Table
-	pce = PIECES.wR;
+	pce = PIECES.wR
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score += this.RookTable[SQ64(sq)];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score += this.RookTable[SQ64(sq)]
 	}
 
-	pce = PIECES.bR;
+	pce = PIECES.bR
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score -= this.RookTable[MIRROR64(SQ64(sq))];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score -= this.RookTable[MIRROR64(SQ64(sq))]
 	}
 
 	// Queen Table
-	pce = PIECES.wQ;
+	pce = PIECES.wQ
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score += this.RookTable[SQ64(sq)];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score += this.RookTable[SQ64(sq)]
 	}
 
-	pce = PIECES.bQ;
+	pce = PIECES.bQ
 	for (pceNum = 0; pceNum < this.GameBoard.m_pceNum[pce]; pceNum++) {
-		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)];
-		score -= this.RookTable[MIRROR64(SQ64(sq))];
+		sq = this.GameBoard.m_pList[PCEINDEX(pce, pceNum)]
+		score -= this.RookTable[MIRROR64(SQ64(sq))]
 	}
 
 	if (this.GameBoard.m_pceNum[PIECES.wB] >= 2) {
-		score += this.BishopPair;
+		score += this.BishopPair
 	}
 
 	if (this.GameBoard.m_pceNum[PIECES.bB] >= 2) {
-		score -= this.BishopPair;
+		score -= this.BishopPair
 	}
 
 	if (this.GameBoard.m_side === COLOURS.WHITE) {
-		return score;
+		return score
 	} else {
-		return -score;
+		return -score
 	}
-};
+}
 /* EvalPosition() */

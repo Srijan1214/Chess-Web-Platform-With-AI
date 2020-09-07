@@ -28,7 +28,9 @@ DATE : 06/26/2020
 function App() {
 	return (
 		<div>
-			<PlayWithAIComponent/>
+			<PlayWithAIComponent
+				height = {600} width={600}
+			/>
 		</div>
 	)
 }

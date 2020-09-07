@@ -36,7 +36,8 @@ class PlayWithAIComponent extends React.Component {
 				[1, 1, 1, 1, 1, 1, 1, 1],
 				[5, 3, 3.5, 9, 4, 3.5, 3, 5]],
 			prev_location: "a1",
-			new_location: "a1"
+			new_location: "a1",
+			noOfFullMovesPlayed : 0,
 		}
 	}
 
@@ -95,7 +96,7 @@ class PlayWithAIComponent extends React.Component {
 	render() {
 		return (
 			<div>
-				<GameBoardInterfaceWrapper height={600} width={600} ref={this._board}
+				<GameBoardInterfaceWrapper height={this.props.height} width={this.props.width} ref={this._board}
 					user_color={this.state.user_color}
 					GetUserColor={this.GetUserColor}
 					CallbackToIndicateMoveIsPlayed={this.CallbackToIndicateMoveIsPlayed}
@@ -365,6 +366,7 @@ class PlayWithAIComponent extends React.Component {
 				const newState = {}
 				newState.prev_location = a_prev_location
 				newState.new_location = a_new_location
+				newState.noOfFullMovesPlayed = this.state.noOfFullMovesPlayed + 1
 				this.setState(newState)
 				return
 			}
@@ -390,6 +392,8 @@ class PlayWithAIComponent extends React.Component {
 		const newState = {}
 		newState.who_moves = !this.state.who_moves
 		newState.cur_position = newPosition
+
+		newState.noOfFullMovesPlayed = this.state.noOfFullMovesPlayed + 1
 		this.setState(newState, () => {
 			this.PerformAIMoveBlocking()
 		})
@@ -542,6 +546,12 @@ class PlayWithAIComponent extends React.Component {
 	*/
 	/**/
 	CallbackButtonclickTakeback = () => {
+		if(this.state.noOfFullMovesPlayed === 0) {
+			return
+		}
+		const newState = {}
+		newState.noOfFullMovesPlayed = this.state.noOfFullMovesPlayed - 1
+		this.setState(newState)
 		this.GameBoard.TakeBack_Move()
 		this.GameBoard.TakeBack_Move()
 		this.ForceInterfaceSyncWithBackend()
@@ -650,6 +660,7 @@ class PlayWithAIComponent extends React.Component {
 		const newState = {}
 		newState.user_color = this._board.current.state.radio_button_user_color
 		newState.who_moves = 0
+		newState.noOfFullMovesPlayed = 0
 		this.setState(newState, () =>  {
 			this.GameBoard.Set_Board_To_Start_Position()
 			this.ForceInterfaceSyncWithBackend()

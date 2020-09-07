@@ -486,6 +486,7 @@ export default class AI {
 			Score = -this.AlphaBeta(-a_beta, -a_alpha, a_depth - 1)
 
 			this.GameBoard.TakeMove()
+
 			if (this.SearchController.stop === true) {
 				return 0
 			}
@@ -627,31 +628,8 @@ export default class AI {
 				break
 			}
 			bestMove = this.ProbePvTable()
-			line =
-				"D:" +
-				currentDepth +
-				" Best: " +
-				this.GameBoard.PrMove(bestMove) +
-				" Score: " +
-				bestScore +
-				" nodes: " +
-				this.SearchController.nodes
 
 			PvNum = this.GetPvLine(currentDepth)
-			line += " Pv: "
-			for (c = 0; c < PvNum; c++) {
-				line += " " + this.GameBoard.PrMove(this.GameBoard.m_PvArray[c])
-			}
-			if (currentDepth !== 1) {
-				line +=
-					"Ordering:" +
-					(
-						(this.SearchController.fhf / this.SearchController.fh) *
-						100
-					).toFixed(2) +
-					"%"
-			}
-			console.log(line)
 		}
 
 		this.SearchController.best = bestMove

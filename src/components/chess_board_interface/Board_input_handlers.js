@@ -191,9 +191,6 @@ export function Outside_MouseUpHandler(a_event) {
 			shouldStopMouseInputAndCancelMove = shouldStopMouseInputAndCancelMove || !moveStatus.isValidMove
 			if (shouldStopMouseInputAndCancelMove) {
 				this.StopMouseInputAndCancelMove(newState)
-				newState.current_image = null
-				newState.old_image_value = 0
-				newState.dragging = false
 				this.setState(newState)
 				return
 			}
