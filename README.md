@@ -1,4 +1,18 @@
 ![](./myMediaFolder/Pictures/10000000000002F9000002BE13D8631AD7FB8C52.png)
+
+# Table of Contents
+- [Introduction](#introduction)
+    + [Programming Language](#programming-language)
+    + [FrameWork Used](#framework-used)
+- [How to run the App](#how-to-run-the-app)
+- [How the AI works](#how-the-ai-works)
+  * [Min-max Search](#min-max-search)
+  * [Alpha-beta Search](#alpha-beta-search)
+  * [The Static Evaluation](#the-static-evaluation)
+  * [Quiescence Search](#quiescence-search)
+  * [Move Ordering](#move-ordering)
+
+
 # Introduction
 
 The project that I created is a chess web application. The user can play from both sides against my chess AI. 
