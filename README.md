@@ -37,8 +37,7 @@ Lets say it is white to move and the AI performs a mix-max algorithm.
 After each move the turn to play switches. White tries to maximize the
 score gotten from the child nodes while black tries to minimize.
 
-![](./myMediaFolder/Pictures/100000000000027900000249A678B1898DF96BC5.png){width="3.1252in"
-height="2.8846in"}
+<img src="./myMediaFolder/Pictures/100000000000027900000249A678B1898DF96BC5.png" height=300 max>
 
 In this position it is white's turn to move and the AI calculates two
 moves deep. Let's say that the AI gives the static evaluation of the
@@ -47,9 +46,8 @@ between the better of 1 and -3 and the better of -5 and 10. Black will
 choose -3 and -5 respectively as black is trying to minimize the score.
 The scores for black in the second layer is as below.
 
-![](./myMediaFolder/Pictures/100000000000027E0000024B55711239B71420E8.png){width="3.1874in"
-height="2.9319in"}
 
+<img src="./myMediaFolder/Pictures/100000000000027E0000024B55711239B71420E8.png" height=300 max>
 Then white will try to maximize the score because white is trying to
 make the position as good for him/herself as possible and trying to make
 black's position as bad as possible. If having to choose between the
@@ -64,21 +62,18 @@ how the min-max search works.
 Alpha-beta improves the speed on the minmax while giving the same
 result. Consider the following.
 
-![](./myMediaFolder/Pictures/100000000000027800000228D6DF59626D8FC232.png){width="3.4063in"
-height="2.9752in"}
+<img src="./myMediaFolder/Pictures/100000000000027800000228D6DF59626D8FC232.png" height=300 max>
 
 Let\'s say that the AI now has evaluated the two most bottom-left nodes
 as above. Then since black is trying to minimize the score, the --3
 route is chosen.
 
-![](./myMediaFolder/Pictures/10000000000002730000023B752D9C1FEED0F007.png){width="2.1665in"
-height="1.972in"}
+<img src="./myMediaFolder/Pictures/10000000000002730000023B752D9C1FEED0F007.png" height=300 max>
 
 After this the algorithm continues to check on the right sub-tree of the
 root node. Let's say the following is reached.
 
-![](./myMediaFolder/Pictures/100000000000026C000002392DFEF9607F5AFF6B.png){width="2.8126in"
-height="2.5811in"}
+<img src="./myMediaFolder/Pictures/100000000000026C000002392DFEF9607F5AFF6B.png" height=300 max>
 
 The node with the --5 is calculated while the rightmost node has not
 been processed by the algorithm. At this point we know that black can at
@@ -113,9 +108,8 @@ To supplement the material count, my chess AI also uses
 piece-location-value tables to consider positional features of a chess
 game. Let's look at the following picture:
 
-![](./myMediaFolder/Pictures/100002010000014F00000199BFF7EE9EC6791D2E.png){width="3.3661in"
-height="4.1098in"}![](./myMediaFolder/Pictures/10000201000001510000018B3E51A24A2D6DEC1A.png){width="3.5102in"
-height="4.1146in"}
+![](./myMediaFolder/Pictures/100002010000014F00000199BFF7EE9EC6791D2E.png) <br>
+![](./myMediaFolder/Pictures/10000201000001510000018B3E51A24A2D6DEC1A.png)
 
 The four arrays the PawnTable, KnightTable, BishopTable and RookTable
 are all of size 64. Each of them gives the scores for a locations the
