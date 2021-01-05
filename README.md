@@ -1,7 +1,7 @@
 ![](./myMediaFolder/Pictures/10000000000002F9000002BE13D8631AD7FB8C52.png)
 # How to run the App
 
-First You need to fork a image server repo that I have here: https://github.com/Srijan1214/Image-Server-Chess
+First, You need to clone the image server repo that I have here: https://github.com/Srijan1214/Image-Server-Chess
 <br>
 Then run `npm start` in the server's working directory.
 
