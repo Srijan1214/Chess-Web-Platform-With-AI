@@ -1,68 +1,179 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![](./myMediaFolder/Pictures/10000000000002F9000002BE13D8631AD7FB8C52.png)
+# How to run the App
 
-## Available Scripts
+First You need to fork a image server repo that I have here: https://github.com/Srijan1214/Image-Server-Chess
+<br>
+Then run `npm start` in the server's working directory.
 
-In the project directory, you can run:
+After the image server is running, again run `npm start` in this projects directory.<br />
 
-### `npm start`
+Then go to http://localhost:3000  to view the app in your browser.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+# How the AI works
 
-### `npm test`
+The AI uses a common brute algorithm called an alpha-beta search on the
+current position. But before I explain that algorithm, I will first
+explain another algorithm called min-max search because it is easier to
+first explain what a min-max search is before I explain how my
+alpha-beta search works.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Min-max Search
 
-### `npm run build`
+A min-max search algorithm is a brute force algorithm that simulates
+playing all the legal chess moves and reaching many positions in a chess
+game in a chess algorithm up till a certain depth. At the end of playing
+a sequence of legal moves, the algorithm performs a static position
+evaluation to see how good that final position is. This is done for all
+sequence of moves.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The following describes what is done when all the end leaf nodes have
+been reached and evaluated.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Let me make a dummy example in which at each position there are only two
+possible moves.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Lets say it is white to move and the AI performs a mix-max algorithm.
+After each move the turn to play switches. White tries to maximize the
+score gotten from the child nodes while black tries to minimize.
 
-### `npm run eject`
+![](./myMediaFolder/Pictures/100000000000027900000249A678B1898DF96BC5.png){width="3.1252in"
+height="2.8846in"}
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In this position it is white's turn to move and the AI calculates two
+moves deep. Let's say that the AI gives the static evaluation of the
+last layer as above. In the second layer black will need to choose
+between the better of 1 and -3 and the better of -5 and 10. Black will
+choose -3 and -5 respectively as black is trying to minimize the score.
+The scores for black in the second layer is as below.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![](./myMediaFolder/Pictures/100000000000027E0000024B55711239B71420E8.png){width="3.1874in"
+height="2.9319in"}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Then white will try to maximize the score because white is trying to
+make the position as good for him/herself as possible and trying to make
+black's position as bad as possible. If having to choose between the
+better of a score of -3 and -5, white will choose the left route of --3
+from the root.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This way the algorithm decides to go left. This kind of brute force is
+how the min-max search works.
 
-## Learn More
+## Alpha-beta Search
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Alpha-beta improves the speed on the minmax while giving the same
+result. Consider the following.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+![](./myMediaFolder/Pictures/100000000000027800000228D6DF59626D8FC232.png){width="3.4063in"
+height="2.9752in"}
 
-### Code Splitting
+Let\'s say that the AI now has evaluated the two most bottom-left nodes
+as above. Then since black is trying to minimize the score, the --3
+route is chosen.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+![](./myMediaFolder/Pictures/10000000000002730000023B752D9C1FEED0F007.png){width="2.1665in"
+height="1.972in"}
 
-### Analyzing the Bundle Size
+After this the algorithm continues to check on the right sub-tree of the
+root node. Let's say the following is reached.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+![](./myMediaFolder/Pictures/100000000000026C000002392DFEF9607F5AFF6B.png){width="2.8126in"
+height="2.5811in"}
 
-### Making a Progressive Web App
+The node with the --5 is calculated while the rightmost node has not
+been processed by the algorithm. At this point we know that black can at
+least get a --5 in this position, which is better than any previously
+reached node. Because of this fact, the algorithm can completely discard
+the right sub-tree of the root node even before the final node is
+statically evaluated because the least advantage the right sub tree
+gives for black is already greater than the highest advantage the left
+sub-tree has given. So, the AI chooses the same left route of --3 from
+the root.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+In this way alpha-beta search exponentially improves the efficiency of
+mix-max while given the exact same outcome at the end.
 
-### Advanced Configuration
+## The Static Evaluation
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+After calculation some moves, the AI needs to know how good a position
+is by just looking at the position. This type of function that spews out
+an evaluation without any further calculation is called a static
+evaluation function.
 
-### Deployment
+The most important part, however not sufficient by itself, in my chess
+static evaluation function is the material count. The idea is that the
+side with higher values pieces is better. The material count score for a
+pawn is 100, bishop is 325, knight is 325, rook is 550, queen is 1000
+and king is 50000. These values are very popular and even professional
+human chess players use these values to get the material evaluation of
+the position. The cumulative score for all the pieces is calculated for
+both sides.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+To supplement the material count, my chess AI also uses
+piece-location-value tables to consider positional features of a chess
+game. Let's look at the following picture:
 
-### `npm run build` fails to minify
+![](./myMediaFolder/Pictures/100002010000014F00000199BFF7EE9EC6791D2E.png){width="3.3661in"
+height="4.1098in"}![](./myMediaFolder/Pictures/10000201000001510000018B3E51A24A2D6DEC1A.png){width="3.5102in"
+height="4.1146in"}
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The four arrays the PawnTable, KnightTable, BishopTable and RookTable
+are all of size 64. Each of them gives the scores for a locations the
+respective pieces are at. For example, if a rook is at square 4 in the
+64-indexed-Board, then the piece-location-value score for that piece is
+10. The piece-location-value scores for all the pieces the side has is
+added to side's score. The queen uses the same table as the rook table.
+
+This kind of table is derived from a strategy in chess which states that
+the pieces in the center are more value than the pieces at the edges.
+The piece-value tables enable my chess AI to implement this powerful
+strategy. The strength for my chess AI is greatly increased by this.
+
+A bishop pair bonus is also added to the evaluation function.
+
+At the end, the opponent's score is subtracted from the current side
+score to obtain the static position evaluation score.
+
+## Quiescence Search
+
+Just relying on the static evaluation function to get the actual
+evaluation of all positions in chess is not a good idea. Many positions
+in chess that will require more calculation to get the flawless
+evaluation. That is how humans play chess as well. We can estimate how
+good a position is by just looking at it, however, there are many
+positions that we are certain needs more calculations.
+
+This is where the idea of a quiescence search comes to play. What
+happens is that at the end of the alpha-beta search, if their current
+position looks volatile, then perform the alpha-beta search only for all
+the capture moves a few moves deeps and get the static evaluation only
+when the position settles down with no capture moves remain.
+
+## Move Ordering
+
+With everything mentioned up till now, the chess AI already plays a
+strong game of chess. However, I can exponentially improve the speed of
+the chess AI, and hence make it go much deep by implementing something
+called move ordering.
+
+The idea is that the speed of the alpha-beta search depends upon if it
+stumbles upon the best variation in the initial stages. The luckiest
+situation would be if the alpha-beta tree finds the best move on the
+first branch. Then no other position would need to be evaluated.
+
+Certain types of moves would have a higher probability of being the best
+move. For example, a pawn capturing a queen would most likely be the
+best move for the majority of positions in chess. Adding correct move
+ordering strategies greatly increase the speed of the alpha-beta search
+in practice.
+
+The move ordering strategy mentioned above is called the MVVLVA (Most
+valuable victim least valuable attacker) strategy. The idea is that a
+low-value attacker like a pawn attacking a high-value piece like the
+queen has a high likelihood of being the correct move.
+
+Another strategy I implemented is looking at the previously thought of
+best lines. For example, if the chess AI already calculated 4 moves deep
+and got a certain sequence of moves as the best line found for that
+depth, then that variation has a high probability of being the best
+variation when calculating 5 or 6 moves deep.
