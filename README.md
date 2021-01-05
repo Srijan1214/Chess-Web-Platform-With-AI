@@ -1,4 +1,19 @@
 ![](./myMediaFolder/Pictures/10000000000002F9000002BE13D8631AD7FB8C52.png)
+# Introduction
+
+The project that I created is a chess web application. The user can play from both sides against my chess AI. 
+
+It is very efficient and can run smoothly even on slow computers. The AI is also strong and capable of making excellent moves. Even as someone who plays chess competitively, I lose many of my games against this very software I made.
+However, even though the AI is strong, the concepts behind the AI are elegant. The algorithm does rely on some theoretical concepts, and to understand how it works, learning the theory is required.
+
+
+### Programming Language
+I wrote this entire application in JavaScript. The reason for choosing this language is that JavaScript is the most portable language on the planet. Most modern devices have a web browser installed in them. And most modern web browsers possess a JavaScript engine inside them. Therefore, it is easy to present my application; all I need to do is give them a URL, and they can play with my application.
+
+### FrameWork Used
+
+I used ReactJS as the framework for my web application. ReactJS is one of the most esteemed JavaScript frameworks, and many popular websites like Facebook, Dropbox, Instagram use this framework to run their websites.
+
 # How to run the App
 
 First, You need to clone the image server repo that I have here: https://github.com/Srijan1214/Image-Server-Chess
