@@ -616,9 +616,6 @@ export default class AI {
 		let bestMove = NOMOVE
 		let bestScore = -INFINITE
 		let currentDepth = 0
-		let line
-		let PvNum
-		let c
 		this.ClearForSearch()
 
 		for (currentDepth = 1; currentDepth <= 5; currentDepth++) {
@@ -628,8 +625,6 @@ export default class AI {
 				break
 			}
 			bestMove = this.ProbePvTable()
-
-			PvNum = this.GetPvLine(currentDepth)
 		}
 
 		this.SearchController.best = bestMove
