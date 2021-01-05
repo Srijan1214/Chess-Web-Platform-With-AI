@@ -258,7 +258,8 @@ class PromotionPopUp extends React.Component {
 
 		const loadImage = (piece) => new Promise(resolve => {
 			let img = new Image();
-			img.src = "http://localhost:3001/resources/image/piece/" + piece;
+			// img.src = "http://localhost:3001/resources/image/piece/" + piece;
+			img.src = "https://wonderful-donkey-87.serverless.social/resources/image/piece/" + piece
 			img.draggable = "true"
 			img.name = piece
 			img.onload = function () {
