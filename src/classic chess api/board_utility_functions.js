@@ -13,6 +13,7 @@ FILE DESCRIPTION:
 import {
 	BRD_SQ_NUM, PieceKeys, SideKey, CastleKeys, MAXGAMEMOVES, NOMOVE, PVENTRIES,
 	COLOURS, PIECES, PCEINDEX, SQ120, RANKS, FILES, FR2SQ, CASTLEBIT, SQUARES, PceChar, SideChar, RankChar, FileChar,
+ FilesBrd, RanksBrd,
  KiDir, KnDir, RkDir, BiDir, PieceVal,PieceCol, PieceKnight, PieceKing, PieceRookQueen, PieceBishopQueen } from "./defs.js"
 
 
@@ -224,6 +225,78 @@ export function GiveBoardArray () {
 	return retArray
 }
 /* GiveBoardArray() */
+
+
+
+
+ /**/
+/*
+NAME : GameBoard.GiveFen() - Serializes the current position as a FEN string.
+
+SYNOPSIS : GiveFen()
+
+DESCRIPTION
+			Builds the standard FEN string (placement, side to move, castling
+			rights, en-passant square, halfmove clock, fullmove number) from the
+			internal board representation. Used to hand the position to an
+			external engine (e.g. the AlphaZero inference server).
+
+RETURNS : A standard FEN string for the current position.
+
+AUTHOR : Srijan Prasad Joshi
+
+DATE : 10/04/2026
+
+*/
+/**/
+export function GiveFen () {
+	let fen = ""
+	let rank = 0
+	let file = 0
+	let empty = 0
+
+	for (rank = RANKS.RANK_8; rank >= RANKS.RANK_1; rank--) {
+		empty = 0
+		for (file = FILES.FILE_A; file <= FILES.FILE_H; file++) {
+			const piece = this.m_pieces[FR2SQ(file, rank)]
+			if (piece === PIECES.EMPTY) {
+				empty++
+			} else {
+				if (empty > 0) {
+					fen += String(empty)
+					empty = 0
+				}
+				fen += PceChar[piece]
+			}
+		}
+		if (empty > 0) {
+			fen += String(empty)
+		}
+		if (rank > RANKS.RANK_1) {
+			fen += "/"
+		}
+	}
+
+	fen += (this.m_side === COLOURS.WHITE) ? " w " : " b "
+
+	let castle = ""
+	if (this.m_castlePerm & CASTLEBIT.WKCA) castle += "K"
+	if (this.m_castlePerm & CASTLEBIT.WQCA) castle += "Q"
+	if (this.m_castlePerm & CASTLEBIT.BKCA) castle += "k"
+	if (this.m_castlePerm & CASTLEBIT.BQCA) castle += "q"
+	fen += (castle === "") ? "-" : castle
+
+	fen += " "
+	if (this.m_enPas === SQUARES.NO_SQ) {
+		fen += "-"
+	} else {
+		fen += FileChar[FilesBrd[this.m_enPas]] + RankChar[RanksBrd[this.m_enPas]]
+	}
+
+	fen += " " + this.m_fiftyMove + " " + (Math.floor(this.m_hisPly / 2) + 1)
+	return fen
+}
+/* GiveFen() */
 
 
 

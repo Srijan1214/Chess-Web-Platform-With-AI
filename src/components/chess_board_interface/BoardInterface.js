@@ -261,7 +261,7 @@ class BoardInterface extends React.Component {
 		const loadImage = (piece) => new Promise(resolve => {
 			let img = new Image();
 
-			img.src = "http://localhost:3001/resources/image/piece/" + piece
+			img.src = (process.env.REACT_APP_IMAGE_SERVER_URL || "http://localhost:3001") + "/resources/image/piece/" + piece
 			
 			img.draggable = "true"
 			img.name = piece

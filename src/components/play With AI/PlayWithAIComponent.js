@@ -14,6 +14,12 @@ import AI from "../../AI src files/search.js"
 import GameBoardInterfaceWrapper from "../../components/chess_board_interface/GameBoardInterfaceWrapper"
 import { COLOURS, PIECES } from "../../classic chess api/defs"
 
+// Where the AlphaZero inference server (scripts/serve.py in Chess-Self-Play) runs.
+const NEURAL_SERVER_URL =
+	process.env.REACT_APP_NEURAL_SERVER_URL || "http://localhost:8000"
+// PUCT simulations per neural move. Higher is stronger but slower.
+const NEURAL_SIMULATIONS = 200
+
 
 // The PlayWithAIComponent class definition.
 class PlayWithAIComponent extends React.Component {
@@ -24,6 +30,9 @@ class PlayWithAIComponent extends React.Component {
 		this.standard_ai = new AI(this.GameBoard)
 		this.state = {
 			user_color: 0,
+			opponent: "classic", // "classic" (alpha-beta) or "neural" (trained net)
+			ai_thinking: false,
+			neural_error: "",
 			who_moves: 0, // which color's turn is it right now
 			should_block_all_user_moves: false,
 			cur_position: [
@@ -72,6 +81,59 @@ class PlayWithAIComponent extends React.Component {
 
 
 
+	 /**/
+	/*
+	NAME : GameBoard.GetOpponent() - Gets the opponent type stored in state.
+
+	SYNOPSIS : GetOpponent()
+
+	DESCRIPTION
+				Gets the opponent type stored in the state of this component.
+				"classic" is the built-in alpha-beta AI, "neural" is the trained
+				AlphaZero network served over HTTP.
+
+	RETURNS : The opponent type string.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	GetOpponent = () => {
+		return this.state.opponent
+	}
+	/* GetOpponent() */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CallbackSetOpponent() - Sets the opponent type.
+
+	SYNOPSIS : CallbackSetOpponent(a_opponent)
+				a_opponent -> The opponent to be set: "classic" or "neural".
+
+	DESCRIPTION
+				Sets the opponent state variable and clears any stale error text.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	CallbackSetOpponent = (a_opponent) => {
+		this.setState({ opponent: a_opponent, neural_error: "" })
+	}
+	/* CallbackSetOpponent(a_opponent) */
+
+
+
+
 
 
 
@@ -108,7 +170,17 @@ class PlayWithAIComponent extends React.Component {
 					CallbackButtonclickOfferDraw={this.CallbackButtonclickOfferDraw}
 					CallbackSetUserColor={this.CallbackSetUserColor}
 					GetMoveStatus={this.GetMoveStatus}
+					GetOpponent={this.GetOpponent}
+					CallbackSetOpponent={this.CallbackSetOpponent}
 				/>
+				<div style={{ marginTop: "8px", color: "grey" }}>
+					{this.state.opponent === "neural" && this.state.ai_thinking
+						? "Neural net is thinking..."
+						: ""}
+					{this.state.neural_error
+						? " " + this.state.neural_error
+						: ""}
+				</div>
 			</div>
 		)
 	}
@@ -170,11 +242,148 @@ class PlayWithAIComponent extends React.Component {
 
 	*/
 	/**/
-	GetMoveFromAI = () => {
-		const move = this.standard_ai.SearchPosition()
-		return move
+	GetMoveFromAI = async () => {
+		if (this.state.opponent === "neural") {
+			return await this.GetMoveFromNeuralAI()
+		}
+		return this.standard_ai.SearchPosition()
 	}
 	/* GetMoveFromAI() */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetMoveFromNeuralAI() - Asks the trained network for a move.
+
+	SYNOPSIS : GetMoveFromNeuralAI()
+
+	DESCRIPTION
+				Sends the current position (as FEN) to the AlphaZero inference
+				server and converts the returned UCI move into the move object the
+				interface expects. Returns null and surfaces an error message if
+				the server cannot be reached.
+
+	RETURNS : A move object, or null on failure.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	GetMoveFromNeuralAI = async () => {
+		const fen = this.GameBoard.GiveFen()
+		this.setState({ ai_thinking: true, neural_error: "" })
+		try {
+			const response = await fetch(`${NEURAL_SERVER_URL}/move`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					fen: fen,
+					simulations: NEURAL_SIMULATIONS,
+					temperature: 0,
+					top_k: 5,
+				}),
+			})
+			if (!response.ok) {
+				throw new Error(`server responded ${response.status}`)
+			}
+			const data = await response.json()
+			return this.ConvertUciToAIMove(data.move)
+		} catch (error) {
+			console.error("Neural AI request failed:", error)
+			this.setState({
+				neural_error:
+					"Neural AI unavailable. Is scripts/serve.py running?",
+			})
+			return null
+		}
+	}
+	/* GetMoveFromNeuralAI() */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ConvertUciToAIMove() - Converts a UCI string to the interface move object.
+
+	SYNOPSIS : ConvertUciToAIMove(a_uci)
+				a_uci -> A UCI move string such as "e2e4" or "e7e8q".
+
+	DESCRIPTION
+				Builds the move object used by ApplyAIMove from a UCI string,
+				using the board's move generator to detect castling and en passant
+				and mapping the promotion character to a piece.
+
+	RETURNS : A move object with from, to, isCastling, promotedPiece, enPass.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	ConvertUciToAIMove = (a_uci) => {
+		const from = a_uci.substring(0, 2)
+		const to = a_uci.substring(2, 4)
+		const promotion = a_uci.length > 4 ? a_uci[4].toLowerCase() : null
+		const status = this.GameBoard.GetMoveStatus(from, to)
+
+		let promotedPiece = PIECES.EMPTY
+		if (promotion) {
+			const white_map = { q: PIECES.wQ, r: PIECES.wR, b: PIECES.wB, n: PIECES.wN }
+			const black_map = { q: PIECES.bQ, r: PIECES.bR, b: PIECES.bB, n: PIECES.bN }
+			const map = (this.GameBoard.m_side === COLOURS.WHITE) ? white_map : black_map
+			promotedPiece = map[promotion] !== undefined ? map[promotion] : PIECES.EMPTY
+		}
+
+		return {
+			from: from,
+			to: to,
+			isCastling: status.castle_move,
+			promotedPiece: promotedPiece,
+			enPass: status.enPass_move,
+		}
+	}
+	/* ConvertUciToAIMove(a_uci) */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.GetDisplayValueForPiece() - Maps a piece enum to the interface's display value.
+
+	SYNOPSIS : GetDisplayValueForPiece(a_piece)
+				a_piece -> A piece from the PIECES dictionary.
+
+	DESCRIPTION
+				Maps a piece enum to the numeric value used by the visual board
+				interface.
+
+	RETURNS : The display value for the piece.
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	GetDisplayValueForPiece = (a_piece) => {
+		if (a_piece === PIECES.wQ) return 9
+		if (a_piece === PIECES.wR) return 5
+		if (a_piece === PIECES.wB) return 3.5
+		if (a_piece === PIECES.wN) return 3
+		if (a_piece === PIECES.bQ) return 19
+		if (a_piece === PIECES.bR) return 15
+		if (a_piece === PIECES.bB) return 13.5
+		if (a_piece === PIECES.bN) return 13
+		return 0
+	}
+	/* GetDisplayValueForPiece(a_piece) */
 
 
 
@@ -199,44 +408,129 @@ class PlayWithAIComponent extends React.Component {
 
 	*/
 	/**/
-	PlayMoveFromAI = () => {
-		const move = this.GetMoveFromAI()
-		if(move.isCastling){
-			if(move.to === 'g1') {
-				this._board.current._board.current.PerformWhiteKingSideCastle(this._board.current._board.current.state.curPosition)
-			}else if (move.to === 'c1'){
-				this._board.current._board.current.PerformWhiteQueenSideCastle(this._board.current._board.current.state.curPosition)
-			}else if (move.to === 'g8') {
-				this._board.current._board.current.PerformBlackKingSideCastle(this._board.current._board.current.state.curPosition)
-			}else if (move.to === 'c8'){
-				this._board.current._board.current.PerformBlackQueenSideCastle(this._board.current._board.current.state.curPosition)
-			}
-		} else if (move.promotedPiece !== PIECES.EMPTY) {
-			let piece_val = 0
-			if (move.promotedPiece === PIECES.wQ) piece_val = 9
-			else if (move.promotedPiece === PIECES.wR) piece_val = 5
-			else if (move.promotedPiece === PIECES.wB) piece_val = 3.5
-			else if (move.promotedPiece === PIECES.wN) piece_val = 3
-			else if (move.promotedPiece === PIECES.bQ) piece_val = 19
-			else if (move.promotedPiece === PIECES.bR) piece_val = 15
-			else if (move.promotedPiece === PIECES.bB) piece_val = 13.5
-			else if (move.promotedPiece === PIECES.bN) piece_val = 13
-			const location_val_1 = {location: move.from, value: 0}
-			const location_val_2 = {location: move.to, value: piece_val}
-			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2])
-		}else if(move.enPass) {
-			const piece_val = (this.GetUserColor() === 0)? 11: 1
-			const location_val_1 = {location: move.from, value: 0}
-			const location_val_2 = {location: move.to, value: piece_val}
-			const location_val_3 = {location: move.to[0] + move.from[1], value: 0}
-			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2, location_val_3])
-		} else {
-			this._board.current._board.current.MovePieceInsideInterface(move.from, move.to)
+	PlayMoveFromAI = async () => {
+		const move = await this.GetMoveFromAI()
+		if (move === null || move === undefined) {
+			// The neural request failed; release the user and show the error.
+			this.setState({ ai_thinking: false })
+			this._board.current._board.current.UnBlockUserInput()
+			return
 		}
-		this.GameBoard.MakeMove(move.move)
-		this.GameBoard.PrintBoard()
+
+		this.ApplyAIMove(move)
+
+		const newState = {}
+		newState.who_moves = !this.state.who_moves
+		newState.ai_thinking = false
+		this.setState(newState, () => {
+			this._board.current._board.current.UnBlockUserInput()
+			this.CheckForGameEndAndShow()
+		})
 	}
 	/* PlayMoveFromAI() */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.ApplyAIMove() - Applies an AI move to both the interface and game logic.
+
+	SYNOPSIS : ApplyAIMove(a_move)
+				a_move -> A move object with from, to, isCastling, promotedPiece,
+							enPass and (for the classic AI) the 32-bit move.
+
+	DESCRIPTION
+				Updates the visual interface for castling, promotion and en passant
+				moves, then makes the move in the game logic. Works for both the
+				classic alpha-beta AI (which supplies the bit move) and the neural
+				AI (which supplies UCI squares only).
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	ApplyAIMove = (a_move) => {
+		const side_to_move = this.GameBoard.m_side
+		if(a_move.isCastling){
+			if(a_move.to === 'g1') {
+				this._board.current._board.current.PerformWhiteKingSideCastle(this._board.current._board.current.state.curPosition)
+			}else if (a_move.to === 'c1'){
+				this._board.current._board.current.PerformWhiteQueenSideCastle(this._board.current._board.current.state.curPosition)
+			}else if (a_move.to === 'g8') {
+				this._board.current._board.current.PerformBlackKingSideCastle(this._board.current._board.current.state.curPosition)
+			}else if (a_move.to === 'c8'){
+				this._board.current._board.current.PerformBlackQueenSideCastle(this._board.current._board.current.state.curPosition)
+			}
+		} else if (a_move.promotedPiece !== PIECES.EMPTY) {
+			const piece_val = this.GetDisplayValueForPiece(a_move.promotedPiece)
+			const location_val_1 = {location: a_move.from, value: 0}
+			const location_val_2 = {location: a_move.to, value: piece_val}
+			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2])
+		}else if(a_move.enPass) {
+			const piece_val = (side_to_move === COLOURS.WHITE) ? 1 : 11
+			const location_val_1 = {location: a_move.from, value: 0}
+			const location_val_2 = {location: a_move.to, value: piece_val}
+			const location_val_3 = {location: a_move.to[0] + a_move.from[1], value: 0}
+			this._board.current._board.current.PutMultiplePiecesOnBoard([location_val_1, location_val_2, location_val_3])
+		} else {
+			this._board.current._board.current.MovePieceInsideInterface(a_move.from, a_move.to)
+		}
+
+		if (a_move.move !== undefined && a_move.move !== null) {
+			this.GameBoard.MakeMove(a_move.move)
+		} else {
+			this.GameBoard.MovePieceUsingStandardLocations(a_move.from, a_move.to, a_move.promotedPiece)
+		}
+		this.GameBoard.PrintBoard()
+	}
+	/* ApplyAIMove(a_move) */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.CheckForGameEndAndShow() - Shows the end-game message if the game is over.
+
+	SYNOPSIS : CheckForGameEndAndShow()
+
+	DESCRIPTION
+				Checks for draws and wins and, if the game is over, shows the
+				corresponding end-game menu.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	CheckForGameEndAndShow = () => {
+		if(this.GameBoard.CheckIfDrawnPosition()) {
+			this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
+			this._board.current.ShowEndGameMenuBar()
+			return
+		}
+
+		if(this.GameBoard.GetWhichSideWon() === COLOURS.WHITE) {
+			this._board.current.SetGameEndMessage("WHITE WON!!!")
+			this._board.current.ShowEndGameMenuBar()
+			return
+		}
+
+		if(this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
+			this._board.current.SetGameEndMessage("BLACK WON!!!")
+			this._board.current.ShowEndGameMenuBar()
+			return
+		}
+	}
+	/* CheckForGameEndAndShow() */
 
 	//this function blocks user input while AI is processing
 	// this also plays the ai move while checking if game ended
@@ -266,52 +560,18 @@ class PlayWithAIComponent extends React.Component {
 	/**/
 	PerformAIMoveBlocking = () => {
 		//Checks if Game Ends
-		if(this.GameBoard.CheckIfDrawnPosition()) {
-			this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
-			this._board.current.ShowEndGameMenuBar()
+		if(this.GameBoard.CheckIfDrawnPosition() ||
+			this.GameBoard.GetWhichSideWon() === COLOURS.WHITE ||
+			this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
+			this.CheckForGameEndAndShow()
 			return
 		}
 
-		if(this.GameBoard.GetWhichSideWon() === COLOURS.WHITE) {
-			this._board.current.SetGameEndMessage("WHITE WON!!!")
-			this._board.current.ShowEndGameMenuBar()
-			return
-		}
-
-		if(this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
-			this._board.current.SetGameEndMessage("BLACK WON!!!")
-			this._board.current.ShowEndGameMenuBar()
-			return
-		}
-
-		//creating timeout to make it asynchronous and not block the main program
-		// might user worker later but it is a big pain to implement.
+		//creating timeout to make it asynchronous and not block the main program.
+		//PlayMoveFromAI awaits the (possibly remote) move and then unblocks input.
 		setTimeout(() => {
 			this._board.current._board.current.BlockUserInput()
 			this.PlayMoveFromAI()
-			const newState = {}
-			newState.who_moves = !this.state.who_moves
-			this.setState(newState, () => {
-				this._board.current._board.current.UnBlockUserInput()
-				//Checks if Game Ends
-				if(this.GameBoard.CheckIfDrawnPosition()) {
-					this._board.current.SetGameEndMessage("The Game Is A Draw!!!")
-					this._board.current.ShowEndGameMenuBar()
-					return
-				}
-
-				if(this.GameBoard.GetWhichSideWon() === COLOURS.WHITE) {
-					this._board.current.SetGameEndMessage("WHITE WON!!!")
-					this._board.current.ShowEndGameMenuBar()
-					return
-				}
-
-				if(this.GameBoard.GetWhichSideWon() === COLOURS.BLACK) {
-					this._board.current.SetGameEndMessage("BLACK WON!!!")
-					this._board.current.ShowEndGameMenuBar()
-					return
-				}
-			})
 		}, 10)
 	}
 	/* PerformAIMoveBlocking() */

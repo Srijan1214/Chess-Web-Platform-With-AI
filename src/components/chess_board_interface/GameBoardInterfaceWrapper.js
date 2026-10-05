@@ -41,6 +41,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 			game_end_text: "",
 			restart_button_confirmation_visibility: false,
 			radio_button_user_color: 0,
+			radio_button_opponent: "classic",
 		}
 		this.ShowEndGameMenuBar = this.ShowEndGameMenuBar.bind(this)
 		this.HideEndGameMenuBar = this.HideEndGameMenuBar.bind(this)
@@ -49,6 +50,7 @@ class GameBoardInterfaceWrapper extends React.Component {
 		this.ShowRestartGameConfirmation = this.ShowRestartGameConfirmation.bind(this)
 		this.HideRestartGameConfirmation = this.HideRestartGameConfirmation.bind(this)
 		this.RadioButtonChangeListener = this.RadioButtonChangeListener.bind(this)
+		this.OpponentRadioButtonChangeListener = this.OpponentRadioButtonChangeListener.bind(this)
 		this.RestartButtonHandler = this.RestartButtonHandler.bind(this)
 	}
 	/* constructor(props) */
@@ -147,6 +149,17 @@ class GameBoardInterfaceWrapper extends React.Component {
 						</div>
 					</div>
 
+					<div style= {{color:"grey", fontSize:"large"}}> <b> <u>Select Opponent</u> </b></div>
+					<div style= {{color: "grey", margin:"18%"}} onChange={this.OpponentRadioButtonChangeListener}>
+						<div>
+							<input type="radio" id="classic_ai_radio_id" name="opponent" value="classic" defaultChecked={this.props.GetOpponent() === "classic"}></input>
+							<label htmlFor="classic_ai_radio_id">Classic AI</label>
+						</div>
+						<div>
+							<input type="radio" id="neural_ai_radio_id" name="opponent" value="neural" defaultChecked={this.props.GetOpponent() === "neural"}></input>
+							<label htmlFor="neural_ai_radio_id">Neural Net</label>
+						</div>
+					</div>
 
 					<div style={{ width:"100%", textAlign:"center" }}>
 						<div className = {this.state.restart_button_confirmation_visibility ? "none_display" : ""}>
@@ -452,6 +465,37 @@ class GameBoardInterfaceWrapper extends React.Component {
 		this.setState(newState)
 	}
 	/* RadioButtonChangeListener(a_event) */
+
+
+
+
+	 /**/
+	/*
+	NAME : GameBoard.OpponentRadioButtonChangeListener() - Listens for a change in the opponent radio button.
+
+	SYNOPSIS : OpponentRadioButtonChangeListener(a_event)
+
+	DESCRIPTION
+				Sets the opponent ("classic" or "neural") chosen in the radio button
+				and notifies the parent component.
+
+	RETURNS : NOTHING
+
+	AUTHOR : Srijan Prasad Joshi
+
+	DATE : 10/04/2026
+
+	*/
+	/**/
+	OpponentRadioButtonChangeListener (a_event) {
+		const newState = {}
+		newState.radio_button_opponent = a_event.target.value
+		this.setState(newState)
+		if (this.props.CallbackSetOpponent) {
+			this.props.CallbackSetOpponent(a_event.target.value)
+		}
+	}
+	/* OpponentRadioButtonChangeListener(a_event) */
 
 }
 

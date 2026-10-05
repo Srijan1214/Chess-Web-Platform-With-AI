@@ -30,13 +30,53 @@ I used ReactJS as the framework for my web application. ReactJS is one of the mo
 
 # How to run the App
 
-First, You need to clone the image server repo that I have here: https://github.com/Srijan1214/Image-Server-Chess
+The app can play against the built-in alpha-beta AI or against a trained
+AlphaZero network. The network runs in Python and is served over HTTP by the
+sibling `Chess-Self-Play` project.
+
+## 1. Piece images (required)
+
+Clone the image server repo: https://github.com/Srijan1214/Image-Server-Chess
 <br>
-Then run `npm start` in the server's working directory.
+Then run `npm start` in the server's working directory (serves pieces on
+`http://localhost:3001`).
 
-After the image server is running, again run `npm start` in this projects directory.<br />
+## 2. Optional: the neural net server
 
-Then go to http://localhost:3000  to view the app in your browser.
+To use the **Neural Net** opponent, train a checkpoint and start the inference
+server from the `Chess-Self-Play` project:
+
+```sh
+# produce a first checkpoint (writes runs/quick/latest.pt)
+.venv/bin/python scripts/train.py --preset quick
+
+# serve it for the web app
+.venv/bin/python scripts/serve.py --checkpoint runs/quick/latest.pt --port 8000
+```
+
+## 3. The React app
+
+```sh
+npm install
+npm start
+```
+
+Then go to http://localhost:3000 to view the app in your browser. Pick a side
+and an opponent under **Select Opponent** ("Classic AI" or "Neural Net").
+
+The dependencies were modernized (React 18, `react-scripts` 5, current
+Testing Library) and verified on Node 18. `npm test` runs the engine/FEN tests;
+`npm run build` produces a production bundle.
+
+### Configuration
+
+Set these environment variables (e.g. in a `.env` file) to point at the
+servers if they run elsewhere:
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `REACT_APP_IMAGE_SERVER_URL` | `http://localhost:3001` | piece image server |
+| `REACT_APP_NEURAL_SERVER_URL` | `http://localhost:8000` | AlphaZero inference server |
 
 
 # How the AI works
